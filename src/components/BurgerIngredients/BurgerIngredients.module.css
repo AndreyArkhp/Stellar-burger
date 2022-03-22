@@ -1,8 +1,30 @@
-.ul_grid{
+.list_ingredients{
   display: grid;
   grid-template-columns: repeat(2,1fr);
+  list-style: none;
+  padding: 0;
 }
 
-.section{
+.content{
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.card{
+  display: flex;
+ flex-direction: column;
+  position: relative;
+}
+
+.card_image{
+ 
+}
+
+.card_price{
   
 }
+
+.card_title{
+  
+}
+

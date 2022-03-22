@@ -1,14 +1,16 @@
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients"
 import { data } from "../../utils/data"
+import styles from "./App.module.css"
 
 
 function App() {
   return (
     <>
       <AppHeader />
-      <h1 className="text text_type_main-large">Соберите бургер</h1>
-      <BurgerIngredients data={ data  }/>
+      <div className={styles.container}>
+        <BurgerIngredients data={data} />
+      </div>
     </>
   )
 }
