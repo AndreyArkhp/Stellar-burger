@@ -3,6 +3,7 @@ import styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 
 
@@ -31,8 +32,24 @@ function BurgerCard({ card }) {
       <p className={`${styles.card_title} text text_type_main-default mb-7`}>{card.name}</p>
      <Counter count={3} size="default"  className={ styles.card_counter}/>
    </li>
-    
   )
+}
+
+BurgerCard.propTypes = {
+  card: PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    price: PropTypes.number,
+    image: PropTypes.string,
+    image_mobile: PropTypes.string,
+    image_large: PropTypes.string,
+    __v: PropTypes.number,
+  })
 }
 
 function ListIngredients({ data,ingredient }) {
@@ -46,7 +63,12 @@ function ListIngredients({ data,ingredient }) {
           </ul>
        </article>
        )
-      }
+}
+      
+ListIngredients.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object),
+  ingredient:PropTypes.objectOf(PropTypes.string)
+}
       
     
   
@@ -65,6 +87,10 @@ function BurgerIngredients({ data }) {
     } </div>
       </section>
   );
+}
+
+BurgerIngredients.propTypes = {
+  data:PropTypes.arrayOf(PropTypes.object)
 }
 
 export default BurgerIngredients;

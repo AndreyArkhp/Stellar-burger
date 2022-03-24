@@ -3,6 +3,7 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 function Oder({ sum }) {
   return (
@@ -14,6 +15,11 @@ function Oder({ sum }) {
     </div>
   )
 }
+
+Oder.propTypes = {
+  sum: PropTypes.number,
+}
+
 
 function LockElement({ position }) {
   const text = {
@@ -31,6 +37,10 @@ function LockElement({ position }) {
       </div>
 }
 
+LockElement.propTypes = {
+  position: PropTypes.string,
+}
+
 function ListElement({card}) {
   return (
       card.type !=="bun" &&  <li className={`${styles.listElement} mb-4 `}>
@@ -45,6 +55,22 @@ function ListElement({card}) {
   )
 }
 
+ListElement.propTypes = {
+  card: PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    price: PropTypes.number,
+    image: PropTypes.string,
+    image_mobile: PropTypes.string,
+    image_large: PropTypes.string,
+    __v: PropTypes.number,
+  })
+}
 
 function BurgerConstructor({ data }) {
   let sum = 0;
@@ -61,6 +87,10 @@ function BurgerConstructor({ data }) {
       <Oder sum={sum}/>
     </section>
   );
+}
+
+BurgerConstructor.propTypes = {
+  data:PropTypes.arrayOf(PropTypes.object)
 }
 
 export default BurgerConstructor;
