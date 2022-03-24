@@ -4,14 +4,15 @@
   gap: 0 24px;
   list-style: none;
   padding: 0;
+ 
 }
 
 .ingredients_container{
-  max-height: 85vh;
-  overflow-y: scroll;
+  max-height: 83.5vh;
+  overflow: auto;
   scrollbar-color: #8585AD #2F2F37;
   scrollbar-width: thin;
-  
+ 
 }
 
 .ingredients_container::-webkit-scrollbar{
@@ -25,8 +26,8 @@
 }
 
 .content{
-  max-width: 1280px;
   margin: 0 auto;
+  max-width: 600px;
 }
 
 .card{

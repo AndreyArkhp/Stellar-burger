@@ -54,7 +54,7 @@ function ListIngredients({ data,ingredient }) {
 function BurgerIngredients({ data }) {
   const ingredients = [{ bun: "Булки" }, { sauce: "Соусы" }, { main: "Начинки" }]
   return (
-    <section className={`${styles.content} pl-5 pr-5`}>
+    <section className={`${styles.content} pl-5 `}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <BurgerTab />
       <div className={styles.ingredients_container}>
