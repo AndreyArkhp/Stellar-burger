@@ -77,13 +77,15 @@ ListElements.propTypes = {
 
 function BurgerConstructor({ data }) {
   let sum = 0;
+
   return (
     <section className={`${styles.section} mt-25 pr-4 pl-4 `}>
       <LockElement position={"top"}/>
        <ul className={`${styles.listElements} mt-4  pr-3`}>
-        {data.map((card, index) => {
+        {data.map((card) => {
+
           sum += card.price;
-        return <ListElements card={card} key={index} />
+        return <ListElements card={card} key={card._id} />
     })}
       </ul>
       <LockElement position={"bottom"} />

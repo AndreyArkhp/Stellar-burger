@@ -53,12 +53,17 @@ BurgerCard.propTypes = {
   })
 }
 
-function TypeIngredients({ data,ingredient }) {
+function TypeIngredients({ data, ingredient }) {
+  const translation = {
+    bun: "Булки",
+    sauce: "Соусы",
+    main:"Начинки"
+  }
        return (<article > 
-          <h2 className="text text_type_main-medium">{Object.values(ingredient)[0]}</h2>
+          <h2 className="text text_type_main-medium">{translation[ingredient]}</h2>
          <ul className={`${styles['list-ingredients']} mt-6 ml-4 mr-4 mb-9`}>
            {data.map((card) => {
-         return card.type === Object.keys(ingredient)[0]&&
+         return card.type === ingredient&&
              <BurgerCard card={card} key={card._id} /> 
           })}
           </ul>
@@ -75,15 +80,16 @@ TypeIngredients.propTypes = {
   
 
 function BurgerIngredients({ data }) {
-  const ingredients = [{ bun: "Булки",id:1 }, { sauce: "Соусы",id:2 }, { main: "Начинки",id:3 }]
+  const ingredients = [{ type: "bun",id:1 }, { type: "sauce",id:2 }, { type: "main",id:3 }]
   return (
     <section className={`${styles.section} pl-5 `}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <BurgerTab />
       <div className={styles['all-ingredients']}>
       {
-        ingredients.map((el) => {
-          return <TypeIngredients data={data} ingredient={el} key={ el.id}/>
+          ingredients.map((el) => {
+          console.log(el);
+          return <TypeIngredients data={data} ingredient={el.type} key={ el.id}/>
         })
     } </div>
       </section>
