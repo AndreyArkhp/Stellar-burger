@@ -9,16 +9,20 @@ import styles from "./BurgerIngredients.module.css";
 
 
 function BurgerTab() {
-  const [current, setCurrent] = React.useState("one");
+  const BUNS = "buns";
+  const SAUCES = "sauces";
+  const FILLING = "filling";
+  const [current, setCurrent] = React.useState(BUNS);
+  
   return (
     <div className={`${styles.tabs} mb-10`}>
-      <Tab value="one" active={current === "one"} onClick={setCurrent}>
+      <Tab value={BUNS} active={current === BUNS} onClick={setCurrent}>
         Булки
       </Tab>
-      <Tab value="two" active={current === "two"} onClick={setCurrent}>
+      <Tab value={SAUCES} active={current === SAUCES} onClick={setCurrent}>
         Соусы
       </Tab>
-      <Tab value="three" active={current === "three"} onClick={setCurrent}>
+      <Tab value={FILLING} active={current === FILLING} onClick={setCurrent}>
         Начинки
       </Tab>
     </div>
@@ -73,7 +77,7 @@ function TypeIngredients({ data, ingredient }) {
       
 TypeIngredients.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
-  ingredient:PropTypes.objectOf(PropTypes.string)
+  ingredient: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
       
     
@@ -88,7 +92,6 @@ function BurgerIngredients({ data }) {
       <div className={styles['all-ingredients']}>
       {
           ingredients.map((el) => {
-          console.log(el);
           return <TypeIngredients data={data} ingredient={el.type} key={ el.id}/>
         })
     } </div>
