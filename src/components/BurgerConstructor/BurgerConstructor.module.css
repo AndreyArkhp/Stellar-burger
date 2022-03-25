@@ -2,7 +2,7 @@
   max-width: 600px;
 }
 
-.listElements{
+.list-ingredients{
   list-style: none;
   padding-inline-start: 0;
   max-height: 45vh;
@@ -11,21 +11,25 @@
   scrollbar-width: thin;
 }
 
-.listElements::-webkit-scrollbar{
+.list-ingredients::-webkit-scrollbar{
   width: 8px;
   background-color: #2F2F37;
 }
 
-.listElements::-webkit-scrollbar-thumb{
+.list-ingredients::-webkit-scrollbar-thumb{
   background-color: #8585AD;
 }
 
-.listElements__item{
+.list-ingredients__item{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+.list-ingredients__icon{
+   width: 24px;
+   height: 24px;
+}
 
 
 .oder{
@@ -34,6 +38,6 @@
   align-items: center;
 }
 
-.lockElement{
+.lock-element{
   composes:oder;
 }
