@@ -1,0 +1,63 @@
+.section{
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.all-ingredients{
+  max-height: 83.5vh;
+  overflow: auto;
+  scrollbar-color: #8585AD #2F2F37;
+  scrollbar-width: thin;
+}
+
+.all-ingredients::-webkit-scrollbar{
+  width: 8px;
+  background-color:  #2F2F37;
+;
+}
+
+.all-ingredients::-webkit-scrollbar-thumb{
+  background-color: #8585AD;
+}
+
+
+.tabs{
+  display: flex;
+}
+
+.list-ingredients{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 0 24px;
+  list-style: none;
+  padding: 0;
+ 
+}
+
+.ingredient{
+  display: flex;
+ flex-direction: column;
+  position: relative;
+  min-height: 208px;
+}
+
+.ingredient__image{
+  cursor: pointer;
+} 
+
+.ingredient__price{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.ingredient__title{
+  text-align: center;
+}
+
+
+.ingredient__icon{
+  display: inline-block;
+  margin: auto;
+}
