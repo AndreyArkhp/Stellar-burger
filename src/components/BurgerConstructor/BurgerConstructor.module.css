@@ -2,7 +2,7 @@
   max-width: 600px;
 }
 
-.list{
+.listElements{
   list-style: none;
   padding-inline-start: 0;
   max-height: 45vh;
@@ -11,16 +11,16 @@
   scrollbar-width: thin;
 }
 
-.list::-webkit-scrollbar{
+.listElements::-webkit-scrollbar{
   width: 8px;
   background-color: #2F2F37;
 }
 
-.list::-webkit-scrollbar-thumb{
+.listElements::-webkit-scrollbar-thumb{
   background-color: #8585AD;
 }
 
-.listElement{
+.listElements__item{
     display: flex;
     justify-content: space-between;
     align-items: center;
