@@ -8,7 +8,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import styles from "./BurgerConstructor.module.css";
 
 function Oder({ ingredientsPrice, bunPrice }) {
-
+console.log();
   const totalPrice = ingredientsPrice.reduce((sum, price) => {
    return sum += price;
   }, bunPrice * 2)
@@ -85,6 +85,7 @@ ListIngredients.propTypes = {
 };
 
 function BurgerConstructor({ data }) {
+
   const ingredients = data.filter(element => {
     return element.type !== "bun"; 
   })
