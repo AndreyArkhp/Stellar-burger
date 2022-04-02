@@ -7,6 +7,7 @@ import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 import styles from "./BurgerIngredients.module.css";
+import { ingredientsPropTypes } from "../../utils/constants";
 
 function BurgerTab() {
   const BUNS = "buns";
@@ -57,20 +58,7 @@ function BurgerCard({ card }) {
 }
 
 BurgerCard.propTypes = {
-  card: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number,
-  }),
+  card: PropTypes.shape(ingredientsPropTypes),
 };
 
 function TypeIngredients({ data, ingredient }) {
@@ -92,22 +80,7 @@ function TypeIngredients({ data, ingredient }) {
 }
 
 TypeIngredients.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-      __v: PropTypes.number,
-    })
-  ),
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes)),
   ingredient: PropTypes.string,
 };
 
@@ -131,22 +104,7 @@ function BurgerIngredients({ data }) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-      __v: PropTypes.number,
-    })
-  ),
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes)),
 };
 
 export default BurgerIngredients;

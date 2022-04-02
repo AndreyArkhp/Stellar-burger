@@ -8,6 +8,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import OrderDetails from "../OrderDetails/OrderDetails";
 
 import styles from "./BurgerConstructor.module.css";
+import { ingredientsPropTypes } from "../../utils/constants";
 
 function Oder({ ingredientsPrice, bunPrice }) {
   const [active, setActive] = useState(false);
@@ -59,20 +60,7 @@ function LockElement({ position, bun }) {
 
 LockElement.propTypes = {
   position: PropTypes.string,
-  bun: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number,
-  }),
+  bun: PropTypes.shape(ingredientsPropTypes),
 };
 
 function ListIngredients({ ingredient }) {
@@ -92,20 +80,7 @@ function ListIngredients({ ingredient }) {
 }
 
 ListIngredients.propTypes = {
-  ingredient: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number,
-  }),
+  ingredient: PropTypes.shape(ingredientsPropTypes),
 };
 
 function BurgerConstructor({ data }) {
@@ -135,22 +110,7 @@ function BurgerConstructor({ data }) {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-      __v: PropTypes.number,
-    })
-  ),
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes)),
 };
 
 export default BurgerConstructor;
