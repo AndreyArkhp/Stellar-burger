@@ -42,9 +42,9 @@ function Modal({ children, active, setActive }) {
 }
 
 Modal.propTypes = {
-  children: PropTypes.node,
-  active: PropTypes.bool,
-  setActive: PropTypes.func,
+  children: PropTypes.node.isRequired,
+  active: PropTypes.bool.isRequired,
+  setActive: PropTypes.func.isRequired,
 };
 
 export default Modal;

@@ -58,7 +58,7 @@ function BurgerCard({ card }) {
 }
 
 BurgerCard.propTypes = {
-  card: PropTypes.shape(ingredientsPropTypes),
+  card: PropTypes.shape(ingredientsPropTypes).isRequired,
 };
 
 function TypeIngredients({ data, ingredient }) {
@@ -80,8 +80,8 @@ function TypeIngredients({ data, ingredient }) {
 }
 
 TypeIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes)),
-  ingredient: PropTypes.string,
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes).isRequired).isRequired,
+  ingredient: PropTypes.string.isRequired,
 };
 
 function BurgerIngredients({ data }) {
@@ -104,7 +104,7 @@ function BurgerIngredients({ data }) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes)),
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes).isRequired).isRequired,
 };
 
 export default BurgerIngredients;

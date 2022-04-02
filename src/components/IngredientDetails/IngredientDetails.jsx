@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Modal from "../Modal/Modal";
 
 import styles from "./IngredientDetails.module.css";
+import { ingredientsPropTypes } from "../../utils/constants";
 
 function IngredientDetails({ card, active, setActive }) {
   return (
@@ -40,23 +41,9 @@ function IngredientDetails({ card, active, setActive }) {
 }
 
 IngredientDetails.propTypes = {
-  card: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number,
-  }),
-
-  active: PropTypes.bool,
-  setActive: PropTypes.func,
+  card: PropTypes.shape(ingredientsPropTypes),
+  active: PropTypes.bool.isRequired,
+  setActive: PropTypes.func.isRequired,
 };
 
 export default IngredientDetails;

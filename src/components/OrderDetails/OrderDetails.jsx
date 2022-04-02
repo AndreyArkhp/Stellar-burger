@@ -26,8 +26,8 @@ function OrderDetails({ active, setActive }) {
 }
 
 OrderDetails.propTypes = {
-  active: PropTypes.bool,
-  setActive: PropTypes.func,
+  active: PropTypes.bool.isRequired,
+  setActive: PropTypes.func.isRequired,
 };
 
 export default OrderDetails;

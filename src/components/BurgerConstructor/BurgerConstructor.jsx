@@ -36,8 +36,8 @@ function Oder({ ingredientsPrice, bunPrice }) {
 }
 
 Oder.propTypes = {
-  ingredientsPrice: PropTypes.arrayOf(PropTypes.number),
-  bunPrice: PropTypes.number,
+  ingredientsPrice: PropTypes.arrayOf(PropTypes.number).isRequired,
+  bunPrice: PropTypes.number.isRequired,
 };
 
 function LockElement({ position, bun }) {
@@ -59,8 +59,8 @@ function LockElement({ position, bun }) {
 }
 
 LockElement.propTypes = {
-  position: PropTypes.string,
-  bun: PropTypes.shape(ingredientsPropTypes),
+  position: PropTypes.string.isRequired,
+  bun: PropTypes.shape(ingredientsPropTypes).isRequired,
 };
 
 function ListIngredients({ ingredient }) {
@@ -80,7 +80,7 @@ function ListIngredients({ ingredient }) {
 }
 
 ListIngredients.propTypes = {
-  ingredient: PropTypes.shape(ingredientsPropTypes),
+  ingredient: PropTypes.shape(ingredientsPropTypes).isRequired,
 };
 
 function BurgerConstructor({ data }) {
@@ -110,7 +110,7 @@ function BurgerConstructor({ data }) {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes)),
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes).isRequired).isRequired,
 };
 
 export default BurgerConstructor;
