@@ -10,6 +10,8 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import styles from "./BurgerConstructor.module.css";
 
 function Oder({ ingredientsPrice, bunPrice }) {
+  const [active, setActive] = useState(false);
+
   const totalPrice = useMemo(
     () =>
       ingredientsPrice.reduce((sum, price) => {
@@ -18,7 +20,6 @@ function Oder({ ingredientsPrice, bunPrice }) {
     [ingredientsPrice, bunPrice]
   );
 
-  const [active, setActive] = useState(false);
   return (
     <div className={`${styles.oder} mt-10 mr-5`}>
       <span className="text text_type_digits-medium mr-10">
