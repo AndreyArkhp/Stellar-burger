@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -10,9 +10,13 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import styles from "./BurgerConstructor.module.css";
 
 function Oder({ ingredientsPrice, bunPrice }) {
-  const totalPrice = ingredientsPrice.reduce((sum, price) => {
-    return (sum += price);
-  }, bunPrice * 2);
+  const totalPrice = useMemo(
+    () =>
+      ingredientsPrice.reduce((sum, price) => {
+        return (sum += price);
+      }, bunPrice * 2),
+    [ingredientsPrice, bunPrice]
+  );
 
   const [active, setActive] = useState(false);
   return (
