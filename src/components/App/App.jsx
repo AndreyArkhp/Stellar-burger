@@ -6,8 +6,7 @@ import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import { useState, useEffect } from "react";
 
 import styles from "./App.module.css";
-
-const INGRIDIENTS = "https://norma.nomoreparties.space/api/ingredients";
+const ingredientsUrl = "https://norma.nomoreparties.space/api/ingredients ";
 
 function App() {
   const [ingridients, setIngridients] = useState();
@@ -17,7 +16,7 @@ function App() {
   useEffect(() => {
     const getIngridients = async () => {
       try {
-        const res = await fetch(INGRIDIENTS);
+        const res = await fetch(ingredientsUrl);
         if (res.ok) {
           const data = await res.json();
           setIsLoaded(true);
