@@ -30,7 +30,7 @@ function Oder({ ingredientsPrice, bunPrice }) {
 }
 
 Oder.propTypes = {
-  ingredientsPrice: PropTypes.array,
+  ingredientsPrice: PropTypes.arrayOf(PropTypes.number),
   bunPrice: PropTypes.number,
 };
 
@@ -54,6 +54,20 @@ function LockElement({ position, bun }) {
 
 LockElement.propTypes = {
   position: PropTypes.string,
+  bun: PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    price: PropTypes.number,
+    image: PropTypes.string,
+    image_mobile: PropTypes.string,
+    image_large: PropTypes.string,
+    __v: PropTypes.number,
+  }),
 };
 
 function ListIngredients({ ingredient }) {
@@ -73,7 +87,7 @@ function ListIngredients({ ingredient }) {
 }
 
 ListIngredients.propTypes = {
-  card: PropTypes.shape({
+  ingredient: PropTypes.shape({
     _id: PropTypes.string,
     name: PropTypes.string,
     type: PropTypes.string,
@@ -116,7 +130,22 @@ function BurgerConstructor({ data }) {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string,
+      name: PropTypes.string,
+      type: PropTypes.string,
+      proteins: PropTypes.number,
+      fat: PropTypes.number,
+      carbohydrates: PropTypes.number,
+      calories: PropTypes.number,
+      price: PropTypes.number,
+      image: PropTypes.string,
+      image_mobile: PropTypes.string,
+      image_large: PropTypes.string,
+      __v: PropTypes.number,
+    })
+  ),
 };
 
 export default BurgerConstructor;

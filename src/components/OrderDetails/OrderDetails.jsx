@@ -1,9 +1,11 @@
+import PropTypes from "prop-types";
+
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 import styles from "./OrderDetails.module.css";
 const img = new URL("../../images/done.png", import.meta.url);
 
-function OrderDetails({ data, active, setActive }) {
+function OrderDetails({ active, setActive }) {
   return (
     active && (
       <ModalOverlay active={active} setActive={setActive}>
@@ -22,5 +24,10 @@ function OrderDetails({ data, active, setActive }) {
     )
   );
 }
+
+OrderDetails.propTypes = {
+  active: PropTypes.bool,
+  setActive: PropTypes.func,
+};
 
 export default OrderDetails;
