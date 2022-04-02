@@ -14,19 +14,19 @@ function IngredientDetails({ card, active, setActive }) {
           <img src={card.image_large} alt={card.name} className={`${styles.image} mb-4`} />
           <p className="text text_type_main-medium mb-8 pl-3 pr-3">{card.name}</p>
           <ul className={styles["list-ingredients"]}>
-            <li className={styles["list-item"]}>
+            <li className={`${styles["list-item"]} text_color_inactive`}>
               <p className="text text_type_main-default mb-2">Калории,ккал</p>
               <p className="text text_type_digits-default">{card.calories}</p>
             </li>
-            <li className={styles["list-item"]}>
+            <li className={`${styles["list-item"]} text_color_inactive`}>
               <p className="text text_type_main-default mb-2">Белки, г</p>
               <p className="text text_type_digits-default">{card.proteins}</p>
             </li>
-            <li className={styles["list-item"]}>
+            <li className={`${styles["list-item"]} text_color_inactive`}>
               <p className="text text_type_main-default mb-2">Жиры, г</p>
               <p className="text text_type_digits-default"> {card.fat}</p>
             </li>
-            <li className={styles["list-item"]}>
+            <li className={`${styles["list-item"]} text_color_inactive`}>
               <p className="text text_type_main-default mb-2">Углеводы, г</p>
               <p className="text text_type_digits-default">{card.carbohydrates}</p>
             </li>
