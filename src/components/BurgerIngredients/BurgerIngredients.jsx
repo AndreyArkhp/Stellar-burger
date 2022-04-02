@@ -41,8 +41,6 @@ function BurgerCard({ card }) {
     }
   }
 
-  useEffect(() => {}, [cardClicked]);
-
   return (
     <li className={styles.ingredient} onClick={handleClick}>
       <img src={card.image} className={" ml-4 mr-4 mb-2"}></img>
