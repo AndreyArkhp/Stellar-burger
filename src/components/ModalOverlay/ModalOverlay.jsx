@@ -29,8 +29,10 @@ function ModalOverlay({ children, active, setActive }) {
     Object.is(event.target, event.currentTarget) && setActive(false);
   }
 
-  function closeEsc() {
-    active && setActive(false);
+  function closeEsc(event) {
+    if (Object.is("Escape", event.key)) {
+      active && setActive(false);
+    }
   }
 
   return createPortal(modal, modalRoot);
