@@ -1,6 +1,7 @@
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 import { useState, useEffect } from "react";
 
@@ -36,13 +37,15 @@ function App() {
 
   return (
     <>
-      <AppHeader />
-      {ingridients && (
-        <main className={styles.main}>
-          <BurgerIngredients data={ingridients.data} />
-          <BurgerConstructor data={ingridients.data} />
-        </main>
-      )}
+      <ErrorBoundary>
+        <AppHeader />
+        {ingridients && (
+          <main className={styles.main}>
+            <BurgerIngredients data={ingridients.data} />
+            <BurgerConstructor data={ingridients.data} />
+          </main>
+        )}
+      </ErrorBoundary>
     </>
   );
 }
