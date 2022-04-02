@@ -9,18 +9,18 @@ import styles from "./App.module.css";
 const ingredientsUrl = "https://norma.nomoreparties.space/api/ingredients ";
 
 function App() {
-  const [ingridients, setIngridients] = useState();
+  const [ingredients, setIngredients] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getIngridients = async () => {
+    const getIngredients = async () => {
       try {
         const res = await fetch(ingredientsUrl);
         if (res.ok) {
           const data = await res.json();
           setIsLoaded(true);
-          setIngridients(data);
+          setIngredients(data);
         } else {
           const error = await res.json();
           throw new Error(error);
@@ -31,17 +31,17 @@ function App() {
         console.log(`Ошибка: ${error}`);
       }
     };
-    getIngridients();
+    getIngredients();
   }, []);
 
   return (
     <>
       <ErrorBoundary>
         <AppHeader />
-        {ingridients && (
+        {ingredients && (
           <main className={styles.main}>
-            <BurgerIngredients data={ingridients.data} />
-            <BurgerConstructor data={ingridients.data} />
+            <BurgerIngredients data={ingredients.data} />
+            <BurgerConstructor data={ingredients.data} />
           </main>
         )}
       </ErrorBoundary>
