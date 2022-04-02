@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import Modal from "../Modal/Modal";
 
 import styles from "./IngredientDetails.module.css";
 
 function IngredientDetails({ card, active, setActive }) {
   return (
     active && (
-      <ModalOverlay active={active} setActive={setActive}>
+      <Modal active={active} setActive={setActive}>
         <h2 className={`${styles.title} text text_type_main-large mt-10 mr-10 ml-10 pt-3 pb-3`}>
           Детали ингредиента
         </h2>
@@ -34,7 +34,7 @@ function IngredientDetails({ card, active, setActive }) {
             </li>
           </ul>
         </div>
-      </ModalOverlay>
+      </Modal>
     )
   );
 }
