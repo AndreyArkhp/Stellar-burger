@@ -31,7 +31,6 @@ function BurgerTab() {
 }
 
 function BurgerCard({ card }) {
-  const [cardClicked, setCardClicked] = useState(card);
   const [active, setActive] = useState(false);
 
   function handleClick() {
@@ -49,7 +48,7 @@ function BurgerCard({ card }) {
       </p>
       <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
       <Counter count={3} size="default" className={styles.ingredient__counter} />
-      <IngredientDetails card={cardClicked} active={active} setActive={setActive} />
+      <IngredientDetails card={card} active={active} setActive={setActive} />
     </li>
   );
 }
