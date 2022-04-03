@@ -41,7 +41,7 @@ function IngredientDetails({ card, active, setActive }) {
 }
 
 IngredientDetails.propTypes = {
-  card: PropTypes.shape(ingredientsPropTypes),
+  card: PropTypes.shape(ingredientsPropTypes).isRequired,
   active: PropTypes.bool.isRequired,
   setActive: PropTypes.func.isRequired,
 };

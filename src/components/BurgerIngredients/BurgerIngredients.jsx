@@ -31,12 +31,11 @@ function BurgerTab() {
 }
 
 function BurgerCard({ card }) {
-  const [cardClicked, setCardClicked] = useState(null);
+  const [cardClicked, setCardClicked] = useState(card);
   const [active, setActive] = useState(false);
 
   function handleClick() {
     if (!active) {
-      setCardClicked(card);
       setActive(true);
     }
   }
