@@ -1,19 +1,20 @@
-import React from "react";
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 import styles from "./BurgerIngredients.module.css";
-
+import { ingredientsPropTypes } from "../../utils/constants";
 
 function BurgerTab() {
   const BUNS = "buns";
   const SAUCES = "sauces";
   const FILLING = "filling";
   const [current, setCurrent] = React.useState(BUNS);
-  
+
   return (
     <div className={`${styles.tabs} mb-10`}>
       <Tab value={BUNS} active={current === BUNS} onClick={setCurrent}>
@@ -30,77 +31,76 @@ function BurgerTab() {
 }
 
 function BurgerCard({ card }) {
+  const [active, setActive] = useState(false);
+
+  function handleClick() {
+    if (!active) {
+      setActive(true);
+    }
+  }
+
   return (
-    <li className={styles.ingredient}>
-      <img src={card.image} className={`${styles.ingredient__image} ml-4 mr-4 mb-2`}></img>
-      <p className={`${styles.ingredient__price} text text_type_digits-default mb-2`}>{card.price }<CurrencyIcon type="primary"/></p>
+    <li className={styles.ingredient} onClick={handleClick}>
+      <img src={card.image} className={" ml-4 mr-4 mb-2"}></img>
+      <p className={`${styles.ingredient__price} text text_type_digits-default mb-2`}>
+        {card.price}
+        <CurrencyIcon type="primary" />
+      </p>
       <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
-     <Counter count={3} size="default"  className={ styles.ingredient__counter}/>
-   </li>
-  )
+      <Counter count={3} size="default" className={styles.ingredient__counter} />
+      <IngredientDetails card={card} active={active} setActive={setActive} />
+    </li>
+  );
 }
 
 BurgerCard.propTypes = {
-  card: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number,
-  })
-}
+  card: PropTypes.shape(ingredientsPropTypes).isRequired,
+};
 
 function TypeIngredients({ data, ingredient }) {
   const translation = {
     bun: "Булки",
     sauce: "Соусы",
-    main:"Начинки"
-  }
-       return (<article > 
-          <h2 className="text text_type_main-medium">{translation[ingredient]}</h2>
-         <ul className={`${styles['list-ingredients']} mt-6 ml-4 mr-4 mb-9`}>
-           {data.map((card) => {
-         return card.type === ingredient&&
-             <BurgerCard card={card} key={card._id} /> 
-          })}
-          </ul>
-       </article>
-       )
+    main: "Начинки",
+  };
+  return (
+    <article>
+      <h2 className="text text_type_main-medium">{translation[ingredient]}</h2>
+      <ul className={`${styles["list-ingredients"]} mt-6 ml-4 mr-4 mb-9`}>
+        {data.map((card) => {
+          return card.type === ingredient && <BurgerCard card={card} key={card._id} />;
+        })}
+      </ul>
+    </article>
+  );
 }
-      
+
 TypeIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
-  ingredient: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-}
-      
-    
-  
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes).isRequired).isRequired,
+  ingredient: PropTypes.string.isRequired,
+};
 
 function BurgerIngredients({ data }) {
-  const ingredients = [{ type: "bun",id:1 }, { type: "sauce",id:2 }, { type: "main",id:3 }]
+  const ingredients = [
+    { type: "bun", id: 1 },
+    { type: "sauce", id: 2 },
+    { type: "main", id: 3 },
+  ];
   return (
     <section className={`${styles.section} pl-5 `}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <BurgerTab />
-      <div className={styles['all-ingredients']}>
-      {
-          ingredients.map((el) => {
-          return <TypeIngredients data={data} ingredient={el.type} key={ el.id}/>
-        })
-    } </div>
-      </section>
+      <div className={styles["all-ingredients"]}>
+        {ingredients.map((el) => {
+          return <TypeIngredients data={data} ingredient={el.type} key={el.id} />;
+        })}{" "}
+      </div>
+    </section>
   );
 }
 
 BurgerIngredients.propTypes = {
-  data:PropTypes.arrayOf(PropTypes.object)
-}
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes).isRequired).isRequired,
+};
 
 export default BurgerIngredients;
