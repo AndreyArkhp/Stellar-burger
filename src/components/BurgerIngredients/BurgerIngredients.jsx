@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -41,7 +41,7 @@ function BurgerCard({ card }) {
 
   return (
     <li className={styles.ingredient} onClick={handleClick}>
-      <img src={card.image} className={" ml-4 mr-4 mb-2"}></img>
+      <img src={card.image} className={" ml-4 mr-4 mb-2"} alt={card.name}></img>
       <p className={`${styles.ingredient__price} text text_type_digits-default mb-2`}>
         {card.price}
         <CurrencyIcon type="primary" />
