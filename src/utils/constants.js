@@ -14,3 +14,5 @@ export const ingredientsPropTypes = {
   image_large: PropTypes.string.isRequired,
   __v: PropTypes.number,
 };
+
+export const baseUrl = "https://norma.nomoreparties.space/api/";

@@ -9,10 +9,9 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import { DataBurgersContext } from "../../services/dataBurgersContext";
 
 import styles from "./BurgerConstructor.module.css";
-import { ingredientsPropTypes } from "../../utils/constants";
+import { ingredientsPropTypes, baseUrl } from "../../utils/constants";
 
 function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
-  const baseUrlOder = "https://norma.nomoreparties.space/api/orders";
   const [active, setActive] = useState(false);
   const [dataOrder, setDataOrder] = useState({});
 
@@ -26,7 +25,7 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
 
   const handleOrder = async () => {
     try {
-      const res = await fetch(baseUrlOder, {
+      const res = await fetch(`${baseUrl}orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

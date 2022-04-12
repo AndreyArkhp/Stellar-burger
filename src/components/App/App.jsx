@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { DataBurgersContext } from "../../services/dataBurgersContext";
 
 import styles from "./App.module.css";
-const ingredientsUrl = "https://norma.nomoreparties.space/api/ingredients ";
+import { baseUrl } from "../../utils/constants";
 
 function App() {
   const [ingredients, setIngredients] = useState();
@@ -17,7 +17,7 @@ function App() {
   useEffect(() => {
     const getIngredients = async () => {
       try {
-        const res = await fetch(ingredientsUrl);
+        const res = await fetch(`${baseUrl}ingredients`);
         if (res.ok) {
           const data = await res.json();
           setIsLoaded(true);
