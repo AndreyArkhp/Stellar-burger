@@ -2,8 +2,9 @@ import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
-
 import { useState, useEffect } from "react";
+
+import { DataBurgersContext } from "../../services/dataBurgersContext";
 
 import styles from "./App.module.css";
 const ingredientsUrl = "https://norma.nomoreparties.space/api/ingredients ";
@@ -20,7 +21,7 @@ function App() {
         if (res.ok) {
           const data = await res.json();
           setIsLoaded(true);
-          setIngredients(data);
+          setIngredients(data.data);
         } else {
           const error = await res.json();
           throw new Error(error);
@@ -40,8 +41,10 @@ function App() {
         <AppHeader />
         {ingredients && (
           <main className={styles.main}>
-            <BurgerIngredients data={ingredients.data} />
-            <BurgerConstructor data={ingredients.data} />
+            <DataBurgersContext.Provider value={ingredients}>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </DataBurgersContext.Provider>
           </main>
         )}
       </ErrorBoundary>

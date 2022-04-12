@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
-
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import { DataBurgersContext } from "../../services/dataBurgersContext";
 
 import styles from "./BurgerIngredients.module.css";
 import { ingredientsPropTypes } from "../../utils/constants";
@@ -57,7 +58,8 @@ BurgerCard.propTypes = {
   card: PropTypes.shape(ingredientsPropTypes).isRequired,
 };
 
-function TypeIngredients({ data, ingredient }) {
+function TypeIngredients({ ingredient }) {
+  const data = useContext(DataBurgersContext);
   const translation = {
     bun: "Булки",
     sauce: "Соусы",
@@ -76,11 +78,10 @@ function TypeIngredients({ data, ingredient }) {
 }
 
 TypeIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes).isRequired).isRequired,
   ingredient: PropTypes.string.isRequired,
 };
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients() {
   const ingredients = [
     { type: "bun", id: 1 },
     { type: "sauce", id: 2 },
@@ -92,15 +93,11 @@ function BurgerIngredients({ data }) {
       <BurgerTab />
       <div className={styles["all-ingredients"]}>
         {ingredients.map((el) => {
-          return <TypeIngredients data={data} ingredient={el.type} key={el.id} />;
+          return <TypeIngredients ingredient={el.type} key={el.id} />;
         })}{" "}
       </div>
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes).isRequired).isRequired,
-};
 
 export default BurgerIngredients;
