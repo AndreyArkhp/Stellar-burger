@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
-
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import { DataBurgersContext } from "../../services/dataBurgersContext";
+import Modal from "../Modal/Modal";
 
 import styles from "./BurgerIngredients.module.css";
 import { ingredientsPropTypes } from "../../utils/constants";
@@ -38,7 +40,6 @@ function BurgerCard({ card }) {
       setActive(true);
     }
   }
-
   return (
     <li className={styles.ingredient} onClick={handleClick}>
       <img src={card.image} className={" ml-4 mr-4 mb-2"} alt={card.name}></img>
@@ -48,7 +49,11 @@ function BurgerCard({ card }) {
       </p>
       <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
       <Counter count={3} size="default" className={styles.ingredient__counter} />
-      <IngredientDetails card={card} active={active} setActive={setActive} />
+      {active && (
+        <Modal active={active} setActive={setActive}>
+          <IngredientDetails card={card} />
+        </Modal>
+      )}
     </li>
   );
 }
@@ -57,7 +62,8 @@ BurgerCard.propTypes = {
   card: PropTypes.shape(ingredientsPropTypes).isRequired,
 };
 
-function TypeIngredients({ data, ingredient }) {
+function TypeIngredients({ ingredient }) {
+  const data = useContext(DataBurgersContext);
   const translation = {
     bun: "Булки",
     sauce: "Соусы",
@@ -76,11 +82,10 @@ function TypeIngredients({ data, ingredient }) {
 }
 
 TypeIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes).isRequired).isRequired,
   ingredient: PropTypes.string.isRequired,
 };
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients() {
   const ingredients = [
     { type: "bun", id: 1 },
     { type: "sauce", id: 2 },
@@ -92,15 +97,11 @@ function BurgerIngredients({ data }) {
       <BurgerTab />
       <div className={styles["all-ingredients"]}>
         {ingredients.map((el) => {
-          return <TypeIngredients data={data} ingredient={el.type} key={el.id} />;
+          return <TypeIngredients ingredient={el.type} key={el.id} />;
         })}{" "}
       </div>
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes).isRequired).isRequired,
-};
 
 export default BurgerIngredients;
