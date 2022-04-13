@@ -1,18 +1,15 @@
 import PropTypes from "prop-types";
 
-import Modal from "../Modal/Modal";
-
 import styles from "./IngredientDetails.module.css";
 import { ingredientsPropTypes } from "../../utils/constants";
 
-function IngredientDetails({ card, active, setActive }) {
+function IngredientDetails({ card, active }) {
   return (
     active && (
-      <Modal active={active} setActive={setActive}>
+      <>
         <h2 className={`${styles.title} text text_type_main-large mt-10 mr-10 ml-10 pt-3 pb-3`}>
           Детали ингредиента
         </h2>
-
         <div className={`${styles.content} ml-25 mr-25 mb-15`}>
           <img src={card.image_large} alt={card.name} className={`${styles.image} mb-4`} />
           <p className="text text_type_main-medium mb-8 pl-3 pr-3">{card.name}</p>
@@ -35,7 +32,7 @@ function IngredientDetails({ card, active, setActive }) {
             </li>
           </ul>
         </div>
-      </Modal>
+      </>
     )
   );
 }
@@ -43,7 +40,6 @@ function IngredientDetails({ card, active, setActive }) {
 IngredientDetails.propTypes = {
   card: PropTypes.shape(ingredientsPropTypes).isRequired,
   active: PropTypes.bool.isRequired,
-  setActive: PropTypes.func.isRequired,
 };
 
 export default IngredientDetails;

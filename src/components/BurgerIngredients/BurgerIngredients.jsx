@@ -6,6 +6,7 @@ import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { DataBurgersContext } from "../../services/dataBurgersContext";
+import Modal from "../Modal/Modal";
 
 import styles from "./BurgerIngredients.module.css";
 import { ingredientsPropTypes } from "../../utils/constants";
@@ -49,7 +50,9 @@ function BurgerCard({ card }) {
       </p>
       <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
       <Counter count={3} size="default" className={styles.ingredient__counter} />
-      <IngredientDetails card={card} active={active} setActive={setActive} />
+      <Modal active={active} setActive={setActive}>
+        <IngredientDetails card={card} active={active} />
+      </Modal>
     </li>
   );
 }

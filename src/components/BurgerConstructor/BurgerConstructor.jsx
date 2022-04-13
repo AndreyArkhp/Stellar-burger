@@ -5,8 +5,10 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { DataBurgersContext } from "../../services/dataBurgersContext";
+import Modal from "../Modal/Modal";
 
 import styles from "./BurgerConstructor.module.css";
 import { ingredientsPropTypes, baseUrl } from "../../utils/constants";
@@ -62,7 +64,9 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
       >
         Оформить заказ
       </Button>
-      <OrderDetails active={active} setActive={setActive} dataOrder={dataOrder} />
+      <Modal active={active} setActive={setActive}>
+        <OrderDetails active={active} dataOrder={dataOrder} />
+      </Modal>
     </div>
   );
 }
