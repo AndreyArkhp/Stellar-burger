@@ -40,7 +40,6 @@ function BurgerCard({ card }) {
       setActive(true);
     }
   }
-
   return (
     <li className={styles.ingredient} onClick={handleClick}>
       <img src={card.image} className={" ml-4 mr-4 mb-2"} alt={card.name}></img>
@@ -50,9 +49,11 @@ function BurgerCard({ card }) {
       </p>
       <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
       <Counter count={3} size="default" className={styles.ingredient__counter} />
-      <Modal active={active} setActive={setActive}>
-        <IngredientDetails card={card} active={active} />
-      </Modal>
+      {active && (
+        <Modal active={active} setActive={setActive}>
+          <IngredientDetails card={card} />
+        </Modal>
+      )}
     </li>
   );
 }
