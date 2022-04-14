@@ -50,7 +50,7 @@ function BurgerCard({ card }) {
       <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
       <Counter count={3} size="default" className={styles.ingredient__counter} />
       {active && (
-        <Modal active={active} setActive={setActive}>
+        <Modal setActive={setActive}>
           <IngredientDetails card={card} />
         </Modal>
       )}
