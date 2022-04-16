@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -11,11 +12,12 @@ import Modal from "../Modal/Modal";
 
 import styles from "./BurgerConstructor.module.css";
 import { ingredientsPropTypes, baseUrl } from "../../utils/constants";
-import { useSelector } from "react-redux";
+import { OPEN_MODAL_ORDER } from "../../services/actions/modal";
 
 function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
-  const [active, setActive] = useState(false);
   const [dataOrder, setDataOrder] = useState({});
+  const { orderOpen, data } = useSelector((store) => store.modal);
+  const dispatch = useDispatch();
 
   const totalPrice = useMemo(
     () =>
@@ -39,7 +41,7 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
       if (res.ok) {
         const data = await res.json();
         setDataOrder(data);
-        setActive(true);
+        dispatch({ type: OPEN_MODAL_ORDER, data: data });
       } else {
         const error = await res.json();
         throw new Error(error);
@@ -64,9 +66,9 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
       >
         Оформить заказ
       </Button>
-      {active && (
-        <Modal setActive={setActive}>
-          <OrderDetails dataOrder={dataOrder} />
+      {orderOpen && (
+        <Modal>
+          <OrderDetails dataOrder={data} />
         </Modal>
       )}
     </div>

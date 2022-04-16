@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { ingredientsPropTypes } from "../../utils/constants";
+
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
+import { OPEN_MODAL_INGREDIENT } from "../../services/actions/modal";
 
 import styles from "./BurgerIngredients.module.css";
-import { ingredientsPropTypes } from "../../utils/constants";
-import { useSelector } from "react-redux";
 
 function BurgerTab() {
   const BUNS = "buns";
@@ -33,11 +35,12 @@ function BurgerTab() {
 }
 
 function BurgerCard({ card }) {
-  const [active, setActive] = useState(false);
+  const { ingredientOpen, data } = useSelector((store) => store.modal);
+  const dispatch = useDispatch();
 
   function handleClick() {
-    if (!active) {
-      setActive(true);
+    if (!ingredientOpen) {
+      dispatch({ type: OPEN_MODAL_INGREDIENT, data: card });
     }
   }
   return (
@@ -49,9 +52,9 @@ function BurgerCard({ card }) {
       </p>
       <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
       <Counter count={3} size="default" className={styles.ingredient__counter} />
-      {active && (
-        <Modal setActive={setActive}>
-          <IngredientDetails card={card} />
+      {ingredientOpen && (
+        <Modal>
+          <IngredientDetails card={data} />
         </Modal>
       )}
     </li>
