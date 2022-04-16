@@ -10,7 +10,6 @@ export const getIngridients = () => async (dispatch) => {
     const res = await fetch(`${baseUrl}ingredients`);
     if (res.ok) {
       const ingredients = await res.json();
-      console.log(ingredients);
       dispatch({ type: GET_INGREDIENTS_SUCCESS, ingredients });
     } else {
       const error = await res.json();

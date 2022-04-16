@@ -63,7 +63,7 @@ BurgerCard.propTypes = {
 };
 
 function TypeIngredients({ ingredient }) {
-  const data = useSelector((store) => store.ingredients);
+  const data = useSelector((store) => store.ingredients.data);
   const translation = {
     bun: "Булки",
     sauce: "Соусы",

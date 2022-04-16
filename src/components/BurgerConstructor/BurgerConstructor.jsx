@@ -123,7 +123,7 @@ ListIngredients.propTypes = {
 };
 
 function BurgerConstructor() {
-  const data = useSelector((store) => store.ingredients);
+  const data = useSelector((store) => store.ingredients.data);
   const ingredients = data.filter((element) => {
     return element.type !== "bun";
   });
