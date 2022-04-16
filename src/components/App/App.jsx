@@ -1,50 +1,34 @@
+import { useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
-import { useState, useEffect } from "react";
-
-import { DataBurgersContext } from "../../services/dataBurgersContext";
 
 import styles from "./App.module.css";
-import { baseUrl } from "../../utils/constants";
+import { getIngridients } from "../../services/actions/ingredients";
 
 function App() {
-  const [ingredients, setIngredients] = useState();
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const isLoaded = useSelector((store) => {
+    console.log(store);
+    return store.ingredients.isLoaded;
+  });
 
   useEffect(() => {
-    const getIngredients = async () => {
-      try {
-        const res = await fetch(`${baseUrl}ingredients`);
-        if (res.ok) {
-          const data = await res.json();
-          setIsLoaded(true);
-          setIngredients(data.data);
-        } else {
-          const error = await res.json();
-          throw new Error(error);
-        }
-      } catch (error) {
-        setIsLoaded(true);
-        setError(error);
-        console.log(`Ошибка: ${error}`);
-      }
-    };
-    getIngredients();
+    dispatch(getIngridients());
   }, []);
 
   return (
     <>
       <ErrorBoundary>
         <AppHeader />
-        {ingredients && (
+        {isLoaded && (
           <main className={styles.main}>
-            <DataBurgersContext.Provider value={ingredients}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </DataBurgersContext.Provider>
+            <BurgerIngredients />
+            <BurgerConstructor />
           </main>
         )}
       </ErrorBoundary>

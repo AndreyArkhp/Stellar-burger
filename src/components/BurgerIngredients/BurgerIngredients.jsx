@@ -1,15 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import { DataBurgersContext } from "../../services/dataBurgersContext";
 import Modal from "../Modal/Modal";
 
 import styles from "./BurgerIngredients.module.css";
 import { ingredientsPropTypes } from "../../utils/constants";
+import { useSelector } from "react-redux";
 
 function BurgerTab() {
   const BUNS = "buns";
@@ -63,7 +63,7 @@ BurgerCard.propTypes = {
 };
 
 function TypeIngredients({ ingredient }) {
-  const data = useContext(DataBurgersContext);
+  const data = useSelector((store) => store.ingredients);
   const translation = {
     bun: "Булки",
     sauce: "Соусы",

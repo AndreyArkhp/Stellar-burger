@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useMemo, useContext } from "react";
+import { useState, useMemo } from "react";
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -7,11 +7,11 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import OrderDetails from "../OrderDetails/OrderDetails";
-import { DataBurgersContext } from "../../services/dataBurgersContext";
 import Modal from "../Modal/Modal";
 
 import styles from "./BurgerConstructor.module.css";
 import { ingredientsPropTypes, baseUrl } from "../../utils/constants";
+import { useSelector } from "react-redux";
 
 function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
   const [active, setActive] = useState(false);
@@ -123,7 +123,7 @@ ListIngredients.propTypes = {
 };
 
 function BurgerConstructor() {
-  const data = useContext(DataBurgersContext);
+  const data = useSelector((store) => store.ingredients);
   const ingredients = data.filter((element) => {
     return element.type !== "bun";
   });
