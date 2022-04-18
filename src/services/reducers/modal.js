@@ -1,33 +1,52 @@
-import { OPEN_MODAL_ORDER, OPEN_MODAL_INGREDIENT, CLOSE_MODAL } from "../actions/modal";
+import {
+  OPEN_MODAL_ORDER,
+  OPEN_MODAL_INGREDIENT,
+  CLOSE_MODAL,
+  GET_ORDER_REQUEST,
+  GET_ORDER_SUCCESS,
+  GET_ORDER_FAILED,
+} from "../actions/modal";
 
 const initialState = {
-  orderOpen: false,
+  isLoaded: false,
+  error: false,
   ingredientOpen: false,
-  data: {},
+  modalData: {},
 };
 
 export const modalReducer = (state = initialState, action) => {
   switch (action.type) {
-    case OPEN_MODAL_ORDER:
+    case GET_ORDER_FAILED:
       return {
         ...state,
-        ingredientOpen: false,
-        orderOpen: true,
-        data: action.data,
+        error: true,
+        isLoaded: true,
+      };
+    case GET_ORDER_REQUEST:
+      return {
+        ...state,
+        error: false,
+        isLoaded: false,
+      };
+    case GET_ORDER_SUCCESS:
+      return {
+        ...state,
+        modalData: action.data,
+        isLoaded: true,
       };
     case OPEN_MODAL_INGREDIENT:
       return {
         ...state,
-        orderOpen: false,
         ingredientOpen: true,
-        data: action.data,
+        modalData: action.data,
       };
     case CLOSE_MODAL:
       return {
         ...state,
         orderOpen: false,
         ingredientOpen: false,
-        data: {},
+        isLoaded: false,
+        modalData: {},
       };
     default:
       return state;

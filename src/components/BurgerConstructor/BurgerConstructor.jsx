@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -12,11 +12,10 @@ import Modal from "../Modal/Modal";
 
 import styles from "./BurgerConstructor.module.css";
 import { ingredientsPropTypes, baseUrl } from "../../utils/constants";
-import { OPEN_MODAL_ORDER } from "../../services/actions/modal";
+import { getOrder } from "../../services/actions/modal";
 
 function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
-  const [dataOrder, setDataOrder] = useState({});
-  const { orderOpen, data } = useSelector((store) => store.modal);
+  const { modalData, isLoaded, error } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
 
   const totalPrice = useMemo(
@@ -27,29 +26,7 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
     [ingredientsPrice, bunPrice]
   );
 
-  const handleOrder = async () => {
-    try {
-      const res = await fetch(`${baseUrl}orders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ingredients: ingredientsOder,
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setDataOrder(data);
-        dispatch({ type: OPEN_MODAL_ORDER, data: data });
-      } else {
-        const error = await res.json();
-        throw new Error(error);
-      }
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-    }
-  };
+  const handleOrder = () => dispatch(getOrder(baseUrl, ingredientsOder));
 
   return (
     <div className={`${styles.oder} mt-10 mr-5`}>
@@ -57,18 +34,12 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
         {`${totalPrice}`}
         <CurrencyIcon />
       </span>
-      <Button
-        type="primary"
-        size="large"
-        onClick={() => {
-          handleOrder();
-        }}
-      >
+      <Button type="primary" size="large" onClick={handleOrder}>
         Оформить заказ
       </Button>
-      {orderOpen && (
+      {isLoaded && !error && (
         <Modal>
-          <OrderDetails dataOrder={data} />
+          <OrderDetails dataOrder={modalData} />
         </Modal>
       )}
     </div>

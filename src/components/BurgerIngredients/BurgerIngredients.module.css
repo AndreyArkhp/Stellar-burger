@@ -6,6 +6,7 @@
 .all-ingredients {
   max-height: 83.5vh;
   overflow: auto;
+  position: relative;
   scrollbar-color: #8585ad #2f2f37;
   scrollbar-width: thin;
 }

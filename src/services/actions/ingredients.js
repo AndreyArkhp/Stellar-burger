@@ -7,15 +7,18 @@ export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
 export const getIngridients = () => async (dispatch) => {
   dispatch({ type: GET_INGREDIENTS_REQUEST });
   try {
-    const res = await fetch(`${baseUrl}ingredients`);
+    const res = await fetch(`${baseUrl}ingredients`, {
+      headers: { "Content-Type": "application/json" },
+    });
     if (res.ok) {
       const ingredients = await res.json();
       dispatch({ type: GET_INGREDIENTS_SUCCESS, ingredients });
     } else {
       const error = await res.json();
+      dispatch({ type: GET_INGREDIENTS_FAILED });
       throw new Error(error);
     }
   } catch (error) {
-    dispatch({ type: GET_INGREDIENTS_FAILED });
+    console.log(`Ошибка: ${error}`);
   }
 };

@@ -13,7 +13,6 @@ import { getIngridients } from "../../services/actions/ingredients";
 function App() {
   const dispatch = useDispatch();
   const isLoaded = useSelector((store) => {
-    console.log(store);
     return store.ingredients.isLoaded;
   });
 
