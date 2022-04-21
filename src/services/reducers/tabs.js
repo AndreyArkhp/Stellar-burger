@@ -1,8 +1,8 @@
 import { SWITCH_TAB, SCROLL_INGREDIENTS } from "../actions/tabs";
 
 const initialState = {
-  activeTab: "buns",
-  scroll: false,
+  activeTab: "bun",
+  scroll: null,
 };
 
 export const tabsReduser = (state = initialState, action) => {
@@ -10,8 +10,7 @@ export const tabsReduser = (state = initialState, action) => {
     case SCROLL_INGREDIENTS:
       return {
         ...state,
-        activeTab: action.activeTab,
-        scroll: true,
+        scroll: action.scroll,
       };
     case SWITCH_TAB:
       return {

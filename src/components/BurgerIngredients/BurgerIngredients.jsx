@@ -15,14 +15,14 @@ import styles from "./BurgerIngredients.module.css";
 import { SCROLL_INGREDIENTS, SWITCH_TAB } from "../../services/actions/tabs";
 
 function BurgerTab() {
-  const BUNS = "buns";
-  const SAUCES = "sauces";
-  const FILLING = "filling";
+  const BUNS = "bun";
+  const SAUCES = "sauce";
+  const FILLING = "main";
 
   const dispatch = useDispatch();
   const current = useSelector((store) => store.tabs.activeTab);
   const setActiveTab = (tab) => {
-    dispatch({ type: SCROLL_INGREDIENTS, activeTab: tab });
+    dispatch({ type: SCROLL_INGREDIENTS, scroll: tab });
   };
   return (
     <div className={`${styles.tabs} mb-10`}>
@@ -80,7 +80,9 @@ function TypeIngredients({ ingredient }) {
 
   return (
     <article>
-      <h2 className="text text_type_main-medium tab-header">{translation[ingredient]}</h2>
+      <h2 className="text text_type_main-medium tab-header" id={ingredient}>
+        {translation[ingredient]}
+      </h2>
       <ul className={`${styles["list-ingredients"]} mt-6 ml-4 mr-4 mb-9`}>
         {data.map((card) => {
           return card.type === ingredient && <BurgerCard card={card} key={card._id} />;
@@ -100,49 +102,55 @@ function BurgerIngredients() {
     { type: "sauce", id: 2 },
     { type: "main", id: 3 },
   ];
-  let currentTab = useSelector((store) => store.tabs.activeTab);
-  const scroll = useSelector((store) => store.tabs.scroll);
+  const scrollTo = useSelector((store) => store.tabs.scroll);
   const dispatch = useDispatch();
-  const tabsContainer = useRef();
-  const headers = {};
+  const tabsContainerRef = useRef();
 
-  const getActiveTab = (event, headers) => {
-    const containerOffset = event.target.offsetTop;
+  const getActiveTab = (headers) => {
+    const containerOffset = tabsContainerRef.current.offsetTop;
     const offsetFormula = (el) =>
-      Math.abs(Math.round(el.getBoundingClientRect().y - containerOffset));
+      Math.abs(Math.round(el.getBoundingClientRect().y)) - containerOffset;
     const tabs = [];
     for (let key in headers) {
-      tabs.push({ value: offsetFormula(headers[key]), tab: key });
+      tabs.push({
+        value: offsetFormula(headers[key]),
+        tab: headers[key].id,
+      });
     }
-    return tabs.reduce((res, el) => {
-      return res.value < el.value ? res : el;
-    }).tab;
+    if (tabs.length > 0) {
+      return tabs.reduce((res, el) => {
+        return res.value < el.value ? res : el;
+      }).tab;
+    }
   };
 
   useEffect(() => {
+    const headers = {};
     const [buns, sauces, filling] = Array.from(
-      tabsContainer.current.querySelectorAll(".tab-header")
+      tabsContainerRef.current.querySelectorAll(".tab-header")
     );
-    headers.buns = buns;
-    headers.sauces = sauces;
-    headers.filling = filling;
+    headers.bun = buns;
+    headers.sauce = sauces;
+    headers.main = filling;
 
-    function xxx(event) {
-      const activeTab = getActiveTab(event, headers);
-      
-      if () {
+    scrollTo && headers[scrollTo].scrollIntoView();
+
+    let currentTab = getActiveTab(headers);
+
+    tabsContainerRef.current.addEventListener("scroll", () => {
+      const activeTab = getActiveTab(headers);
+      if (!Object.is(currentTab, activeTab)) {
         dispatch({ type: SWITCH_TAB, activeTab: activeTab });
+        currentTab = activeTab;
       }
-    }
-
-    tabsContainer.current.addEventListener("scroll", xxx);
-  }, [currentTab]);
+    });
+  }, [scrollTo, dispatch]);
 
   return (
     <section className={`${styles.section} pl-5 `}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <BurgerTab />
-      <div ref={tabsContainer} className={styles["all-ingredients"]}>
+      <div ref={tabsContainerRef} className={styles["all-ingredients"]}>
         {ingredients.map((el) => {
           return <TypeIngredients ingredient={el.type} key={el.id} />;
         })}
