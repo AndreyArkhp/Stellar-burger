@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
@@ -12,9 +14,7 @@ import { getIngridients } from "../../services/actions/ingredients";
 
 function App() {
   const dispatch = useDispatch();
-  const isLoaded = useSelector((store) => {
-    return store.ingredientsList.isLoaded;
-  });
+  const isLoaded = useSelector((store) => store.ingredientsList.isLoaded);
 
   useEffect(() => {
     dispatch(getIngridients());
@@ -25,10 +25,12 @@ function App() {
       <ErrorBoundary>
         <AppHeader />
         {isLoaded && (
-          <main className={styles.main}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </main>
+          <DndProvider backend={HTML5Backend}>
+            <main className={styles.main}>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </main>
+          </DndProvider>
         )}
       </ErrorBoundary>
     </>

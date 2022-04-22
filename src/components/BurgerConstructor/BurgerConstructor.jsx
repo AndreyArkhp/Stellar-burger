@@ -13,6 +13,7 @@ import Modal from "../Modal/Modal";
 import styles from "./BurgerConstructor.module.css";
 import { ingredientsPropTypes, baseUrl } from "../../utils/constants";
 import { getOrder } from "../../services/actions/modal";
+import { ADD_DEFAULT_BUN } from "../../services/actions/constructor";
 
 function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
   const { modalData, isLoaded, error } = useSelector((store) => store.modal);
@@ -72,7 +73,7 @@ function LockElement({ position, bun }) {
 
 LockElement.propTypes = {
   position: PropTypes.string.isRequired,
-  bun: PropTypes.shape(ingredientsPropTypes).isRequired,
+  bun: PropTypes.shape(ingredientsPropTypes),
 };
 
 function ListIngredients({ ingredient }) {
@@ -96,20 +97,17 @@ ListIngredients.propTypes = {
 };
 
 function BurgerConstructor() {
-  const data = useSelector((store) => store.ingredientsList.ingredients);
-  const ingredients = data.filter((element) => {
-    return element.type !== "bun";
-  });
+  const bunDefault = useSelector((store) => store.ingredientsList.bunPreview);
+  const constructorState = useSelector((store) => store.constructorIngredientsList);
+  const ingredients = constructorState.ingredients;
+  const bun = constructorState.bun || bunDefault;
 
-  const buns = data.filter((bun) => {
-    return bun.type === "bun";
-  });
   const ingredientsPrice = [];
-  const ingredientsOder = [buns[0]._id];
+  const ingredientsOder = [bun._id];
 
   return (
     <section className={`${styles.section} mt-25 pr-4 pl-4 `}>
-      <LockElement position={"top"} bun={buns[0]} />
+      <LockElement position={"top"} bun={bun} />
       <ul className={`${styles["list-ingredients"]} mt-4  pr-3`}>
         {ingredients.map((ingredient) => {
           ingredientsPrice.push(ingredient.price);
@@ -117,10 +115,11 @@ function BurgerConstructor() {
           return <ListIngredients ingredient={ingredient} key={ingredient._id} />;
         })}
       </ul>
-      <LockElement position={"bottom"} bun={buns[0]} />
+      <LockElement position={"bottom"} bun={bun} />
+
       <Order
         ingredientsPrice={ingredientsPrice}
-        bunPrice={buns[0].price}
+        bunPrice={bun.price}
         ingredientsOder={ingredientsOder}
       />
     </section>

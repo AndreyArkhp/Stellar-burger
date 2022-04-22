@@ -1,43 +1,46 @@
-.section{
+.section {
   max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.list-ingredients{
+.list-ingredients {
   list-style: none;
   padding-inline-start: 0;
   max-height: 45vh;
-  overflow:auto;
-  scrollbar-color: #8585AD #2F2F37;
+  min-height: 30px;
+  overflow: auto;
+  scrollbar-color: #8585ad #2f2f37;
   scrollbar-width: thin;
 }
 
-.list-ingredients::-webkit-scrollbar{
+.list-ingredients::-webkit-scrollbar {
   width: 8px;
-  background-color: #2F2F37;
+  background-color: #2f2f37;
 }
 
-.list-ingredients::-webkit-scrollbar-thumb{
-  background-color: #8585AD;
+.list-ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
 }
 
-.list-ingredients__item{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.list-ingredients__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.list-ingredients__icon{
-   width: 24px;
-   height: 24px;
+.list-ingredients__icon {
+  width: 24px;
+  height: 24px;
 }
 
-
-.oder{
+.oder {
   display: flex;
   justify-content: end;
   align-items: center;
 }
 
-.lock-element{
-  composes:oder;
+.lock-element {
+  composes: oder;
 }
