@@ -4,7 +4,7 @@ import { modalReducer } from "./modal";
 import { tabsReduser } from "./tabs";
 
 export const rootReducer = combineReducers({
-  ingredients: ingredientsReducer,
+  ingredientsList: ingredientsReducer,
   modal: modalReducer,
   tabs: tabsReduser,
 });
