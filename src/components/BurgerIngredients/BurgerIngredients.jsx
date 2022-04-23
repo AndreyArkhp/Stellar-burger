@@ -13,6 +13,7 @@ import { OPEN_MODAL_INGREDIENT } from "../../services/actions/modal";
 
 import styles from "./BurgerIngredients.module.css";
 import { SCROLL_INGREDIENTS, SWITCH_TAB } from "../../services/actions/tabs";
+import { useDrag } from "react-dnd";
 
 function BurgerTab() {
   const BUNS = "bun";
@@ -42,6 +43,19 @@ function BurgerTab() {
 function BurgerCard({ card }) {
   const { ingredientOpen, modalData } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
+  const [{ ingredientAdded, typeee }, cardRef] = useDrag(
+    {
+      type: "ingredient",
+      item: card,
+      collect: (monitor) => ({
+        ingredientAdded: monitor.didDrop(),
+        typeee: monitor.getItem(),
+      }),
+    },
+    [card]
+  );
+  const x = ingredientAdded && card._id === typeee.id && card.price;
+  console.log(x);
 
   function handleClick() {
     if (!ingredientOpen) {
@@ -49,7 +63,7 @@ function BurgerCard({ card }) {
     }
   }
   return (
-    <li className={styles.ingredient} onClick={handleClick}>
+    <li className={styles.ingredient} onClick={handleClick} ref={cardRef}>
       <img src={card.image} className={" ml-4 mr-4 mb-2"} alt={card.name}></img>
       <p className={`${styles.ingredient__price} text text_type_digits-default mb-2`}>
         {card.price}

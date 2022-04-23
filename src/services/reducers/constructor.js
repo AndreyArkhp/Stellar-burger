@@ -8,10 +8,17 @@ const initialState = {
 export const constructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT:
-      return {
-        ...state,
-        ingredients: [...state.ingredients, ...action.ingredients],
-      };
+      if (action.ingredients.type !== "bun") {
+        return {
+          ...state,
+          ingredients: [...state.ingredients, action.ingredients],
+        };
+      } else {
+        return {
+          ...state,
+          bun: action.ingredients,
+        };
+      }
     default:
       return state;
   }

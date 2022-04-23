@@ -8,6 +8,7 @@
 .list-ingredients {
   list-style: none;
   padding-inline-start: 0;
+  margin: 0;
   max-height: 45vh;
   min-height: 30px;
   overflow: auto;

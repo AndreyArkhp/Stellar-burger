@@ -13,7 +13,8 @@ import Modal from "../Modal/Modal";
 import styles from "./BurgerConstructor.module.css";
 import { ingredientsPropTypes, baseUrl } from "../../utils/constants";
 import { getOrder } from "../../services/actions/modal";
-import { ADD_DEFAULT_BUN } from "../../services/actions/constructor";
+import { ADD_DEFAULT_BUN, ADD_INGREDIENT } from "../../services/actions/constructor";
+import { useDrop } from "react-dnd";
 
 function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
   const { modalData, isLoaded, error } = useSelector((store) => store.modal);
@@ -78,7 +79,7 @@ LockElement.propTypes = {
 
 function ListIngredients({ ingredient }) {
   return (
-    <li className={`${styles["list-ingredients__item"]} mb-4 `}>
+    <li className={`${styles["list-ingredients__item"]} mt-4 mb-4 `}>
       <div className={`${styles["list-ingridients__icon"]} ml-2`}>
         <DragIcon type="primary" />
       </div>
@@ -99,14 +100,28 @@ ListIngredients.propTypes = {
 function BurgerConstructor() {
   const bunDefault = useSelector((store) => store.ingredientsList.bunPreview);
   const constructorState = useSelector((store) => store.constructorIngredientsList);
+  console.log(constructorState);
   const ingredients = constructorState.ingredients;
   const bun = constructorState.bun || bunDefault;
+  const dispatch = useDispatch();
+
+  const onDropHandler = (item) => {
+    console.log(item);
+    dispatch({ type: ADD_INGREDIENT, ingredients: item });
+  };
+
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      onDropHandler(item);
+    },
+  });
 
   const ingredientsPrice = [];
   const ingredientsOder = [bun._id];
 
   return (
-    <section className={`${styles.section} mt-25 pr-4 pl-4 `}>
+    <section className={`${styles.section} mt-25 pr-4 pl-4 `} ref={dropTarget}>
       <LockElement position={"top"} bun={bun} />
       <ul className={`${styles["list-ingredients"]} mt-4  pr-3`}>
         {ingredients.map((ingredient) => {
