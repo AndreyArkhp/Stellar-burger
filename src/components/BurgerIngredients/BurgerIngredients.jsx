@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { ingredientsPropTypes } from "../../utils/constants";
@@ -42,11 +42,17 @@ function BurgerTab() {
 
 function BurgerCard({ card }) {
   const { ingredientOpen, modalData } = useSelector((store) => store.modal);
+  const { constructorList } = useSelector((store) => store.constructorIngredients);
+  const [count, setCount] = useState(0);
+
   const dispatch = useDispatch();
+
+  console.log(count);
+
   const [{ ingredientAdded, typeee }, cardRef] = useDrag(
     {
       type: "ingredient",
-      item: card,
+      item: { id: card._id },
       collect: (monitor) => ({
         ingredientAdded: monitor.didDrop(),
         typeee: monitor.getItem(),
@@ -54,8 +60,6 @@ function BurgerCard({ card }) {
     },
     [card]
   );
-  const x = ingredientAdded && card._id === typeee.id && card.price;
-  console.log(x);
 
   function handleClick() {
     if (!ingredientOpen) {
@@ -70,7 +74,7 @@ function BurgerCard({ card }) {
         <CurrencyIcon type="primary" />
       </p>
       <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
-      <Counter count={3} size="default" className={styles.ingredient__counter} />
+      <Counter count={count} size="default" className={styles.ingredient__counter} />
       {ingredientOpen && (
         <Modal>
           <IngredientDetails card={modalData} />

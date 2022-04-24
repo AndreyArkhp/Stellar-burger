@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -13,13 +13,12 @@ import Modal from "../Modal/Modal";
 import styles from "./BurgerConstructor.module.css";
 import { ingredientsPropTypes, baseUrl } from "../../utils/constants";
 import { getOrder } from "../../services/actions/modal";
-import { ADD_DEFAULT_BUN, ADD_INGREDIENT } from "../../services/actions/constructor";
 import { useDrop } from "react-dnd";
+import { ADD_INGREDIENT, DELETE_INGREDIENT } from "../../services/actions/constructor";
 
-function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
+function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
   const { modalData, isLoaded, error } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
-
   const totalPrice = useMemo(
     () =>
       ingredientsPrice.reduce((sum, price) => {
@@ -28,7 +27,7 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
     [ingredientsPrice, bunPrice]
   );
 
-  const handleOrder = () => dispatch(getOrder(baseUrl, ingredientsOder));
+  const handleOrder = () => dispatch(getOrder(baseUrl, ingredientsOrder));
 
   return (
     <div className={`${styles.oder} mt-10 mr-5`}>
@@ -51,7 +50,7 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOder }) {
 Order.propTypes = {
   ingredientsPrice: PropTypes.arrayOf(PropTypes.number).isRequired,
   bunPrice: PropTypes.number.isRequired,
-  ingredientsOder: PropTypes.arrayOf(PropTypes.string).isRequired,
+  ingredientsOrder: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 function LockElement({ position, bun }) {
@@ -77,7 +76,7 @@ LockElement.propTypes = {
   bun: PropTypes.shape(ingredientsPropTypes),
 };
 
-function ListIngredients({ ingredient }) {
+function ListIngredients({ ingredient, onClick }) {
   return (
     <li className={`${styles["list-ingredients__item"]} mt-4 mb-4 `}>
       <div className={`${styles["list-ingridients__icon"]} ml-2`}>
@@ -88,6 +87,7 @@ function ListIngredients({ ingredient }) {
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}
+        handleClose={onClick}
       />
     </li>
   );
@@ -98,17 +98,25 @@ ListIngredients.propTypes = {
 };
 
 function BurgerConstructor() {
-  const bunDefault = useSelector((store) => store.ingredientsList.bunPreview);
-  const constructorState = useSelector((store) => store.constructorIngredientsList);
-  console.log(constructorState);
-  const ingredients = constructorState.ingredients;
-  const bun = constructorState.bun || bunDefault;
+  const ingredientsList = useSelector((store) => store.ingredientsList.ingredients);
+  const { constructorList } = useSelector((store) => store.constructorIngredients);
+  const [bun, setBun] = useState(ingredientsList.find((bun) => bun.type === "bun"));
+  const [ingredientsOrder, setIngredientsOrder] = useState([bun._id]);
   const dispatch = useDispatch();
 
-  const onDropHandler = (item) => {
-    console.log(item);
-    dispatch({ type: ADD_INGREDIENT, ingredients: item });
+  const ingredientsPrice = [];
+
+  const onDropHandler = ({ id }) => {
+    setIngredientsOrder([...ingredientsOrder, id]);
+    ingredientsList.forEach((ingredient) => {
+      ingredient._id === id &&
+        (ingredient.type !== "bun"
+          ? dispatch({ type: ADD_INGREDIENT, ingredient: ingredient })
+          : setBun(ingredient));
+    });
   };
+
+  const handleClickDelete = () => dispatch({ type: DELETE_INGREDIENT });
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
@@ -117,25 +125,28 @@ function BurgerConstructor() {
     },
   });
 
-  const ingredientsPrice = [];
-  const ingredientsOder = [bun._id];
-
   return (
     <section className={`${styles.section} mt-25 pr-4 pl-4 `} ref={dropTarget}>
       <LockElement position={"top"} bun={bun} />
       <ul className={`${styles["list-ingredients"]} mt-4  pr-3`}>
-        {ingredients.map((ingredient) => {
-          ingredientsPrice.push(ingredient.price);
-          ingredientsOder.push(ingredient._id);
-          return <ListIngredients ingredient={ingredient} key={ingredient._id} />;
-        })}
+        {constructorList.length &&
+          constructorList.map((ingredient) => {
+            ingredientsPrice.push(ingredient.price);
+            return (
+              <ListIngredients
+                ingredient={ingredient}
+                key={ingredient._id + Math.random() * 100}
+                onClick={handleClickDelete}
+              />
+            );
+          })}
       </ul>
       <LockElement position={"bottom"} bun={bun} />
 
       <Order
         ingredientsPrice={ingredientsPrice}
         bunPrice={bun.price}
-        ingredientsOder={ingredientsOder}
+        ingredientsOrder={ingredientsOrder}
       />
     </section>
   );

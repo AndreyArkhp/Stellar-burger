@@ -8,7 +8,6 @@ const initialState = {
   isLoaded: false,
   error: false,
   ingredients: [],
-  bunPreview: {},
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -24,7 +23,6 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         isLoaded: true,
         ingredients: action.ingredients.data,
-        bunPreview: action.ingredients.data.find((bun) => bun.type === "bun"),
       };
     case GET_INGREDIENTS_FAILED:
       return {
