@@ -43,14 +43,9 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
       <Button type="primary" size="large" onClick={handleOrder}>
         Оформить заказ
       </Button>
-      {isLoaded && !error && active && (
+      {active && (
         <Modal active={active} setActive={setActive}>
-          <OrderDetails dataOrder={modalData} />
-        </Modal>
-      )}
-      {!isLoaded && active && (
-        <Modal>
-          <div className={styles.loading}>ЗАГРУЗКА...</div>
+          <OrderDetails dataOrder={modalData} isLoaded={isLoaded} />
         </Modal>
       )}
     </div>
@@ -117,7 +112,7 @@ function ListIngredients({ ingredient, onClick, sortIngredients }) {
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}
-        handleClose={() => onClick(ingredient._id)}
+        handleClose={() => onClick(ingredient.uuid)}
       />
     </li>
   );
@@ -132,7 +127,6 @@ ListIngredients.propTypes = {
 function BurgerConstructor() {
   const { ingredientsList } = useSelector((store) => store.ingredients);
   const [constructorIngredients, setConstructorIngredients] = useState([]);
-
   const [bun, setBun] = useState(null);
   const [ingredientsOrder, setIngredientsOrder] = useState(null);
   const dispatch = useDispatch();
@@ -142,6 +136,11 @@ function BurgerConstructor() {
     ingredient: id,
     bun: bun || null,
   });
+  const titlePreview =
+    (!bun &&
+      !ingredientsOrder &&
+      "Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа") ||
+    (!bun && "Пожалуйста, перенесите сюда булку  для создания заказа");
   const getRandomId = (id) => {
     let randomNumb = Math.round(Math.random() * 10000);
     if (randomNumb < 1000) {
@@ -192,6 +191,7 @@ function BurgerConstructor() {
   };
 
   const handleClickDelete = (id) => {
+    console.log(constructorIngredients, id);
     setConstructorIngredients(constructorIngredients.filter((el) => el.uuid !== id));
     dispatch({ type: DELETE_INGREDIENT, ingredient: id });
   };
@@ -202,15 +202,11 @@ function BurgerConstructor() {
       onDropHandler(item);
     },
   });
-  console.log(!ingredientsOrder);
+
   return (
     <section className={`${styles.section} mt-25 pr-4 pl-4 `} ref={dropTarget}>
-      {!bun && !ingredientsOrder && (
-        <h2>Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа</h2>
-      )}
-      {!bun && ingredientsOrder && <h2>Пожалуйста, перенесите сюда булку для создания заказа</h2>}
+      <h2 className="text text_type_main-medium mb-5">{titlePreview}</h2>
       {bun && <LockElement position={"top"} bun={bun} />}
-
       <ul className={`${styles["list-ingredients"]} mt-4  pr-3`}>
         {constructorIngredients.length > 0 &&
           constructorIngredients.map((ingredient) => {

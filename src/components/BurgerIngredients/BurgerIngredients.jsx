@@ -42,15 +42,14 @@ function BurgerTab() {
 function BurgerCard({ card }) {
   const { initialBun } = useSelector((store) => store.ingredients);
   const counts = useSelector((store) => store.constructorIngredients);
-  // const initialBunCount = initialBun._id === card._id && 1;
   const [active, setActive] = useState(false);
   let count;
 
-  // if (card.type === "bun") {
-  //   count = counts.bunCount ? card._id === counts.bunCount && 1 : initialBunCount;
-  // } else {
-  //   count = counts.ingredientsCount[card._id] ? counts.ingredientsCount[card._id] : 0;
-  // }
+  if (card.type === "bun") {
+    count = counts.bunCount ? card._id === counts.bunCount && 1 : 0;
+  } else {
+    count = counts.ingredientsCount[card._id] ? counts.ingredientsCount[card._id] : 0;
+  }
 
   const [, cardRef] = useDrag(
     {
