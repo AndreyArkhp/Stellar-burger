@@ -12,7 +12,8 @@ export const getIngridients = () => async (dispatch) => {
     });
     if (res.ok) {
       const ingredients = await res.json();
-      dispatch({ type: GET_INGREDIENTS_SUCCESS, ingredients });
+      const initialBun = ingredients.data.find((bun) => bun.type === "bun");
+      dispatch({ type: GET_INGREDIENTS_SUCCESS, ingredients, initialBun });
     } else {
       const error = await res.json();
       dispatch({ type: GET_INGREDIENTS_FAILED });

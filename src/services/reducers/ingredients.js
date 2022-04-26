@@ -7,7 +7,8 @@ import {
 const initialState = {
   isLoaded: false,
   error: false,
-  ingredients: [],
+  ingredientsList: [],
+  initialBun: "",
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -22,7 +23,8 @@ export const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoaded: true,
-        ingredients: action.ingredients.data,
+        ingredientsList: action.ingredients.data,
+        initialBun: action.initialBun,
       };
     case GET_INGREDIENTS_FAILED:
       return {

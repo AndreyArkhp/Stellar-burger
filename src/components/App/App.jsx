@@ -14,7 +14,7 @@ import { getIngridients } from "../../services/actions/ingredients";
 
 function App() {
   const dispatch = useDispatch();
-  const isLoaded = useSelector((store) => store.ingredientsList.isLoaded);
+  const { isLoaded } = useSelector((store) => store.ingredients);
 
   useEffect(() => {
     dispatch(getIngridients());

@@ -1,15 +1,12 @@
 .section {
   max-width: 600px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .list-ingredients {
   list-style: none;
   padding-inline-start: 0;
   margin: 0;
-  max-height: 45vh;
+  max-height: 55vh;
   min-height: 30px;
   overflow: auto;
   scrollbar-color: #8585ad #2f2f37;

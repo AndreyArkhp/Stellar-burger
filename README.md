@@ -19,5 +19,10 @@
   - Использован Webpack
 - React
   - Функциональные компоненты
+  - Context
+  - Hooks
   - JSX
+- Redux
+- Drad and Drop
+  - react-dnd
 - [Stellar Burgers](https://andreyarkhp.github.io)

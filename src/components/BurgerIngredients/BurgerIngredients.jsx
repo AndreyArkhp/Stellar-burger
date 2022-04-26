@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { ingredientsPropTypes } from "../../utils/constants";
@@ -13,7 +13,7 @@ import { OPEN_MODAL_INGREDIENT } from "../../services/actions/modal";
 
 import styles from "./BurgerIngredients.module.css";
 import { SCROLL_INGREDIENTS, SWITCH_TAB } from "../../services/actions/tabs";
-import { useDrag } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 
 function BurgerTab() {
   const BUNS = "bun";
@@ -42,12 +42,17 @@ function BurgerTab() {
 
 function BurgerCard({ card }) {
   const { ingredientOpen, modalData } = useSelector((store) => store.modal);
-  const { constructorList } = useSelector((store) => store.constructorIngredients);
-  const [count, setCount] = useState(0);
+  const { initialBun } = useSelector((store) => store.ingredients);
+  const counts = useSelector((store) => store.constructorIngredients);
+  const initialBunCount = initialBun._id === card._id && 1;
+  let count;
 
+  if (card.type === "bun") {
+    count = counts.bunCount ? card._id === counts.bunCount && 1 : initialBunCount;
+  } else {
+    count = counts.ingredientsCount[card._id] ? counts.ingredientsCount[card._id] : 0;
+  }
   const dispatch = useDispatch();
-
-  console.log(count);
 
   const [{ ingredientAdded, typeee }, cardRef] = useDrag(
     {
@@ -74,7 +79,7 @@ function BurgerCard({ card }) {
         <CurrencyIcon type="primary" />
       </p>
       <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
-      <Counter count={count} size="default" className={styles.ingredient__counter} />
+      <Counter count={count || 0} size="default" className={styles.ingredient__counter} />
       {ingredientOpen && (
         <Modal>
           <IngredientDetails card={modalData} />
@@ -89,7 +94,7 @@ BurgerCard.propTypes = {
 };
 
 function TypeIngredients({ ingredient }) {
-  const data = useSelector((store) => store.ingredientsList.ingredients);
+  const { ingredientsList } = useSelector((store) => store.ingredients);
   const translation = {
     bun: "Булки",
     sauce: "Соусы",
@@ -102,7 +107,7 @@ function TypeIngredients({ ingredient }) {
         {translation[ingredient]}
       </h2>
       <ul className={`${styles["list-ingredients"]} mt-6 ml-4 mr-4 mb-9`}>
-        {data.map((card) => {
+        {ingredientsList.map((card) => {
           return card.type === ingredient && <BurgerCard card={card} key={card._id} />;
         })}
       </ul>
