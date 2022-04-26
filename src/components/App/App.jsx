@@ -21,19 +21,17 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
-      <ErrorBoundary>
-        <AppHeader />
-        {isLoaded && (
-          <DndProvider backend={HTML5Backend}>
-            <main className={styles.main}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </main>
-          </DndProvider>
-        )}
-      </ErrorBoundary>
-    </>
+    <ErrorBoundary>
+      <AppHeader />
+      {isLoaded && (
+        <DndProvider backend={HTML5Backend}>
+          <main className={styles.main}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </main>
+        </DndProvider>
+      )}
+    </ErrorBoundary>
   );
 }
 

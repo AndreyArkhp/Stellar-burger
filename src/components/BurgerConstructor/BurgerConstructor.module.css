@@ -42,3 +42,13 @@
 .lock-element {
   composes: oder;
 }
+
+.loading {
+  width: 50vw;
+  height: 50vw;
+  font-size: 80px;
+  line-height: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

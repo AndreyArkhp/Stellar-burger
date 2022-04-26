@@ -15,4 +15,4 @@ export const ingredientsPropTypes = {
   __v: PropTypes.number,
 };
 
-export const baseUrl = "https://norma.nomoreparties.space/api/";
+export const baseUrl = "http://norma.nomoreparties.space/api/";

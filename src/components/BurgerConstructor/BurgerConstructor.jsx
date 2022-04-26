@@ -19,6 +19,8 @@ import { ADD_INGREDIENT, DELETE_INGREDIENT } from "../../services/actions/constr
 function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
   const { modalData, isLoaded, error } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
+  const [active, setActive] = useState(false);
+
   const totalPrice = useMemo(
     () =>
       ingredientsPrice.reduce((sum, price) => {
@@ -27,7 +29,10 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
     [ingredientsPrice, bunPrice]
   );
 
-  const handleOrder = () => dispatch(getOrder(baseUrl, ingredientsOrder));
+  const handleOrder = () => {
+    setActive(true);
+    dispatch(getOrder(baseUrl, ingredientsOrder));
+  };
 
   return (
     <div className={`${styles.oder} mt-10 mr-5`}>
@@ -38,9 +43,14 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
       <Button type="primary" size="large" onClick={handleOrder}>
         Оформить заказ
       </Button>
-      {isLoaded && !error && (
-        <Modal>
+      {isLoaded && !error && active && (
+        <Modal active={active} setActive={setActive}>
           <OrderDetails dataOrder={modalData} />
+        </Modal>
+      )}
+      {!isLoaded && active && (
+        <Modal>
+          <div className={styles.loading}>ЗАГРУЗКА...</div>
         </Modal>
       )}
     </div>
@@ -80,7 +90,7 @@ function ListIngredients({ ingredient, onClick, sortIngredients }) {
   const ref = useRef();
   const [, dragRef] = useDrag({
     type: "constructorIngredient",
-    item: { id: ingredient._id },
+    item: { id: ingredient.uuid },
   });
 
   const [, dropRef] = useDrop({
@@ -91,7 +101,7 @@ function ListIngredients({ ingredient, onClick, sortIngredients }) {
       const topElementPart =
         (topBoundinClientRect.bottom - topBoundinClientRect.top) / offsetFactor;
       const offsetActualY = monitor.getClientOffset().y - topBoundinClientRect.top;
-      sortIngredients(item.id, ingredient._id, topElementPart, offsetActualY, offsetFactor);
+      sortIngredients(item.id, ingredient.uuid, topElementPart, offsetActualY, offsetFactor);
     },
   });
 
@@ -120,12 +130,18 @@ ListIngredients.propTypes = {
 };
 
 function BurgerConstructor() {
-  const { ingredientsList, initialBun } = useSelector((store) => store.ingredients);
+  const { ingredientsList } = useSelector((store) => store.ingredients);
   const [constructorIngredients, setConstructorIngredients] = useState([]);
-  const [bun, setBun] = useState(initialBun);
-  const [ingredientsOrder, setIngredientsOrder] = useState([bun._id]);
+
+  const [bun, setBun] = useState(null);
+  const [ingredientsOrder, setIngredientsOrder] = useState(null);
   const dispatch = useDispatch();
   const ingredientsPrice = [];
+  const addIngredientAction = (id, bun) => ({
+    type: ADD_INGREDIENT,
+    ingredient: id,
+    bun: bun || null,
+  });
   const getRandomId = (id) => {
     let randomNumb = Math.round(Math.random() * 10000);
     if (randomNumb < 1000) {
@@ -139,8 +155,8 @@ function BurgerConstructor() {
   const sortIngredients = useCallback(
     (topId, bottomId, topElementPart, offsetActualY, offsetFactor) => {
       if (topId !== bottomId) {
-        const topIndex = constructorIngredients.findIndex((el) => el._id === topId);
-        const bottomIndex = constructorIngredients.findIndex((el) => el._id === bottomId);
+        const topIndex = constructorIngredients.findIndex((el) => el.uuid === topId);
+        const bottomIndex = constructorIngredients.findIndex((el) => el.uuid === bottomId);
 
         if (topIndex < bottomIndex && offsetActualY < topElementPart) return;
         if (topIndex > bottomIndex && offsetActualY > topElementPart * offsetFactor - 1) return;
@@ -158,25 +174,25 @@ function BurgerConstructor() {
   );
 
   const onDropHandler = ({ id }) => {
-    setIngredientsOrder([...ingredientsOrder, id]);
+    ingredientsOrder ? setIngredientsOrder([...ingredientsOrder, id]) : setIngredientsOrder([id]);
     ingredientsList.forEach((ingredient) => {
       if (ingredient._id === id) {
         if (ingredient.type !== "bun") {
           setConstructorIngredients([
             ...constructorIngredients,
-            { ...ingredient, _id: getRandomId(ingredient._id) },
+            { ...ingredient, uuid: getRandomId(ingredient._id) },
           ]);
-          dispatch({ type: ADD_INGREDIENT, ingredient: id });
+          dispatch(addIngredientAction(id));
         } else {
           setBun(ingredient);
-          dispatch({ type: ADD_INGREDIENT, ingredient: id, bun: true });
+          dispatch(addIngredientAction(id, true));
         }
       }
     });
   };
 
   const handleClickDelete = (id) => {
-    setConstructorIngredients(constructorIngredients.filter((el) => el._id !== id));
+    setConstructorIngredients(constructorIngredients.filter((el) => el.uuid !== id));
     dispatch({ type: DELETE_INGREDIENT, ingredient: id });
   };
 
@@ -186,9 +202,15 @@ function BurgerConstructor() {
       onDropHandler(item);
     },
   });
+  console.log(!ingredientsOrder);
   return (
     <section className={`${styles.section} mt-25 pr-4 pl-4 `} ref={dropTarget}>
-      <LockElement position={"top"} bun={bun} />
+      {!bun && !ingredientsOrder && (
+        <h2>Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа</h2>
+      )}
+      {!bun && ingredientsOrder && <h2>Пожалуйста, перенесите сюда булку для создания заказа</h2>}
+      {bun && <LockElement position={"top"} bun={bun} />}
+
       <ul className={`${styles["list-ingredients"]} mt-4  pr-3`}>
         {constructorIngredients.length > 0 &&
           constructorIngredients.map((ingredient) => {
@@ -196,20 +218,23 @@ function BurgerConstructor() {
             return (
               <ListIngredients
                 ingredient={ingredient}
-                key={ingredient._id}
+                key={ingredient.uuid}
                 onClick={handleClickDelete}
                 sortIngredients={sortIngredients}
               />
             );
           })}
       </ul>
-      <LockElement position={"bottom"} bun={bun} />
-
-      <Order
-        ingredientsPrice={ingredientsPrice}
-        bunPrice={bun.price}
-        ingredientsOrder={ingredientsOrder}
-      />
+      {bun && (
+        <>
+          <LockElement position={"bottom"} bun={bun} />
+          <Order
+            ingredientsPrice={ingredientsPrice}
+            bunPrice={bun.price}
+            ingredientsOrder={ingredientsOrder}
+          />
+        </>
+      )}
     </section>
   );
 }

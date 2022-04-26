@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { ingredientsPropTypes } from "../../utils/constants";
@@ -9,11 +9,10 @@ import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
-import { OPEN_MODAL_INGREDIENT } from "../../services/actions/modal";
 
 import styles from "./BurgerIngredients.module.css";
 import { SCROLL_INGREDIENTS, SWITCH_TAB } from "../../services/actions/tabs";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag } from "react-dnd";
 
 function BurgerTab() {
   const BUNS = "bun";
@@ -41,20 +40,19 @@ function BurgerTab() {
 }
 
 function BurgerCard({ card }) {
-  const { ingredientOpen, modalData } = useSelector((store) => store.modal);
   const { initialBun } = useSelector((store) => store.ingredients);
   const counts = useSelector((store) => store.constructorIngredients);
-  const initialBunCount = initialBun._id === card._id && 1;
+  // const initialBunCount = initialBun._id === card._id && 1;
+  const [active, setActive] = useState(false);
   let count;
 
-  if (card.type === "bun") {
-    count = counts.bunCount ? card._id === counts.bunCount && 1 : initialBunCount;
-  } else {
-    count = counts.ingredientsCount[card._id] ? counts.ingredientsCount[card._id] : 0;
-  }
-  const dispatch = useDispatch();
+  // if (card.type === "bun") {
+  //   count = counts.bunCount ? card._id === counts.bunCount && 1 : initialBunCount;
+  // } else {
+  //   count = counts.ingredientsCount[card._id] ? counts.ingredientsCount[card._id] : 0;
+  // }
 
-  const [{ ingredientAdded, typeee }, cardRef] = useDrag(
+  const [, cardRef] = useDrag(
     {
       type: "ingredient",
       item: { id: card._id },
@@ -67,8 +65,8 @@ function BurgerCard({ card }) {
   );
 
   function handleClick() {
-    if (!ingredientOpen) {
-      dispatch({ type: OPEN_MODAL_INGREDIENT, data: card });
+    if (!active) {
+      setActive(true);
     }
   }
   return (
@@ -80,9 +78,9 @@ function BurgerCard({ card }) {
       </p>
       <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
       <Counter count={count || 0} size="default" className={styles.ingredient__counter} />
-      {ingredientOpen && (
-        <Modal>
-          <IngredientDetails card={modalData} />
+      {active && (
+        <Modal active={active} setActive={setActive}>
+          <IngredientDetails card={card} />
         </Modal>
       )}
     </li>
