@@ -1,8 +1,14 @@
-import { ADD_INGREDIENT, DELETE_INGREDIENT } from "../actions/constructor";
+import {
+  ADD_INGREDIENT,
+  DELETE_INGREDIENT,
+  RESET_CONSTRUCTOR,
+  RESET_CONSTRUCTOR_SUCCESS,
+} from "../actions/constructor";
 
 const initialState = {
   ingredientsCount: {},
   bunCount: "",
+  reset: false,
 };
 
 export const constructorReducer = (state = initialState, action) => {
@@ -40,6 +46,18 @@ export const constructorReducer = (state = initialState, action) => {
         },
       };
     }
+    case RESET_CONSTRUCTOR:
+      return {
+        ...state,
+        ingredientsCount: {},
+        bunCount: "",
+        reset: true,
+      };
+    case RESET_CONSTRUCTOR_SUCCESS:
+      return {
+        ...state,
+        reset: false,
+      };
     default:
       return state;
   }

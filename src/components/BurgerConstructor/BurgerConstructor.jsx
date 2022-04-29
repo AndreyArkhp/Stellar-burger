@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useDrag, useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -13,11 +13,15 @@ import Modal from "../Modal/Modal";
 import styles from "./BurgerConstructor.module.css";
 import { ingredientsPropTypes, baseUrl } from "../../utils/constants";
 import { getOrder } from "../../services/actions/modal";
-import { useDrag, useDrop } from "react-dnd";
-import { ADD_INGREDIENT, DELETE_INGREDIENT } from "../../services/actions/constructor";
+import {
+  ADD_INGREDIENT,
+  DELETE_INGREDIENT,
+  RESET_CONSTRUCTOR,
+  RESET_CONSTRUCTOR_SUCCESS,
+} from "../../services/actions/constructor";
 
 function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
-  const { modalData, isLoaded, error } = useSelector((store) => store.modal);
+  const { modalData, isLoaded } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
 
@@ -34,6 +38,8 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
     dispatch(getOrder(baseUrl, ingredientsOrder));
   };
 
+  const clearConstructor = () => dispatch({ type: RESET_CONSTRUCTOR });
+
   return (
     <div className={`${styles.oder} mt-10 mr-5`}>
       <span className="text text_type_digits-medium mr-10">
@@ -44,7 +50,7 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
         Оформить заказ
       </Button>
       {active && (
-        <Modal active={active} setActive={setActive}>
+        <Modal active={active} setActive={setActive} clearConstructor={clearConstructor}>
           <OrderDetails dataOrder={modalData} isLoaded={isLoaded} />
         </Modal>
       )}
@@ -126,6 +132,7 @@ ListIngredients.propTypes = {
 
 function BurgerConstructor() {
   const { ingredientsList } = useSelector((store) => store.ingredients);
+  const { reset } = useSelector((store) => store.constructorIngredients);
   const [constructorIngredients, setConstructorIngredients] = useState([]);
   const [bun, setBun] = useState(null);
   const [ingredientsOrder, setIngredientsOrder] = useState(null);
@@ -202,6 +209,13 @@ function BurgerConstructor() {
       onDropHandler(item);
     },
   });
+
+  useEffect(() => {
+    setConstructorIngredients([]);
+    setIngredientsOrder(null);
+    setBun(null);
+    dispatch({ type: RESET_CONSTRUCTOR_SUCCESS });
+  }, [reset, dispatch]);
 
   return (
     <section className={`${styles.section} mt-25 pr-4 pl-4 `} ref={dropTarget}>

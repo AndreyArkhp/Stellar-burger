@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import { useDrag } from "react-dnd";
 import { ingredientsPropTypes } from "../../utils/constants";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -9,10 +10,8 @@ import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
-
 import styles from "./BurgerIngredients.module.css";
 import { SCROLL_INGREDIENTS, SWITCH_TAB } from "../../services/actions/tabs";
-import { useDrag } from "react-dnd";
 
 function BurgerTab() {
   const BUNS = "bun";
@@ -40,7 +39,6 @@ function BurgerTab() {
 }
 
 function BurgerCard({ card }) {
-  const { initialBun } = useSelector((store) => store.ingredients);
   const counts = useSelector((store) => store.constructorIngredients);
   const [active, setActive] = useState(false);
   let count;
