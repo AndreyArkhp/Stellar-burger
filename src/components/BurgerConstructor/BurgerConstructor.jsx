@@ -24,6 +24,7 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
   const { modalData, isLoaded } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
+  const [isOrder, setIsOrder] = useState(false);
 
   const totalPrice = useMemo(
     () =>
@@ -38,7 +39,15 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
     dispatch(getOrder(baseUrl, ingredientsOrder));
   };
 
-  const clearConstructor = () => dispatch({ type: RESET_CONSTRUCTOR });
+  useEffect(() => {
+    if (isLoaded && active) {
+      setIsOrder(true);
+    }
+    if (isOrder && !active) {
+      dispatch({ type: RESET_CONSTRUCTOR });
+      setIsOrder(false);
+    }
+  }, [dispatch, isLoaded, active, isOrder]);
 
   return (
     <div className={`${styles.oder} mt-10 mr-5`}>
@@ -50,7 +59,7 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
         Оформить заказ
       </Button>
       {active && (
-        <Modal active={active} setActive={setActive} clearConstructor={clearConstructor}>
+        <Modal active={active} setActive={setActive}>
           <OrderDetails dataOrder={modalData} isLoaded={isLoaded} />
         </Modal>
       )}

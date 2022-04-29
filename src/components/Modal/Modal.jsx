@@ -6,7 +6,7 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
-function Modal({ children, setActive, clearConstructor }) {
+function Modal({ children, setActive }) {
   const modalRoot = document.getElementById("modal-root");
 
   const modal = (
@@ -16,7 +16,6 @@ function Modal({ children, setActive, clearConstructor }) {
           className={`${styles["close-icon"]} mt-15 mr-10`}
           onClick={() => {
             setActive(false);
-            clearConstructor();
           }}
         >
           <CloseIcon type="primary" />
