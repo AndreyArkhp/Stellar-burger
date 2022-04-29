@@ -135,7 +135,7 @@ function BurgerConstructor() {
   const { reset } = useSelector((store) => store.constructorIngredients);
   const [constructorIngredients, setConstructorIngredients] = useState([]);
   const [bun, setBun] = useState(null);
-  const [ingredientsOrder, setIngredientsOrder] = useState(null);
+  const [ingredientsOrder, setIngredientsOrder] = useState([]);
   const dispatch = useDispatch();
   const ingredientsPrice = [];
   const addIngredientAction = (id, bun) => ({
@@ -145,7 +145,7 @@ function BurgerConstructor() {
   });
   const titlePreview =
     (!bun &&
-      !ingredientsOrder &&
+      ingredientsOrder.length === 0 &&
       "Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа") ||
     (!bun && "Пожалуйста, перенесите сюда булку  для создания заказа");
   const getRandomId = (id) => {
@@ -180,7 +180,9 @@ function BurgerConstructor() {
   );
 
   const onDropHandler = ({ id }) => {
-    ingredientsOrder ? setIngredientsOrder([...ingredientsOrder, id]) : setIngredientsOrder([id]);
+    ingredientsOrder.length > 0
+      ? setIngredientsOrder([...ingredientsOrder, id])
+      : setIngredientsOrder([id]);
     ingredientsList.forEach((ingredient) => {
       if (ingredient._id === id) {
         if (ingredient.type !== "bun") {
@@ -198,8 +200,8 @@ function BurgerConstructor() {
   };
 
   const handleClickDelete = (id) => {
-    console.log(constructorIngredients, id);
     setConstructorIngredients(constructorIngredients.filter((el) => el.uuid !== id));
+    setIngredientsOrder(ingredientsOrder.filter((el) => el !== id.slice(0, -4)));
     dispatch({ type: DELETE_INGREDIENT, ingredient: id });
   };
 
@@ -212,7 +214,7 @@ function BurgerConstructor() {
 
   useEffect(() => {
     setConstructorIngredients([]);
-    setIngredientsOrder(null);
+    setIngredientsOrder([]);
     setBun(null);
     dispatch({ type: RESET_CONSTRUCTOR_SUCCESS });
   }, [reset, dispatch]);
