@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/react-gh-pages/static/css/main.c9802580.css",
+    "main.js": "/react-gh-pages/static/js/main.5dabefa2.js",
+    "static/media/JetBrainsMono-Bold.woff": "/react-gh-pages/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
+    "static/media/JetBrainsMono-Regular.woff": "/react-gh-pages/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
+    "static/media/JetBrainsMono-Bold.woff2": "/react-gh-pages/static/media/JetBrainsMono-Bold.c232d532ea5a5189a278.woff2",
+    "static/media/JetBrainsMono-Regular.woff2": "/react-gh-pages/static/media/JetBrainsMono-Regular.b60380891bcf2eb241ca.woff2",
+    "static/media/iceland.woff": "/react-gh-pages/static/media/iceland.77ad7fc2baffd9305538.woff",
+    "static/media/iceland.woff2": "/react-gh-pages/static/media/iceland.4ae67a017a5ff82bbbb7.woff2",
+    "static/media/done.png": "/react-gh-pages/static/media/done.4a4af5d2ffc6b5660797.png",
+    "index.html": "/react-gh-pages/index.html",
+    "main.c9802580.css.map": "/react-gh-pages/static/css/main.c9802580.css.map",
+    "main.5dabefa2.js.map": "/react-gh-pages/static/js/main.5dabefa2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c9802580.css",
+    "static/js/main.5dabefa2.js"
+  ]
+}
