@@ -1,0 +1,2 @@
+export const SWITCH_TAB = "SWITCH_TAB";
+export const SCROLL_INGREDIENTS = "SCROLL_INGREDIENTS";

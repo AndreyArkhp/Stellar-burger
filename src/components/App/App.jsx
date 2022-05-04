@@ -1,54 +1,37 @@
+import { useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
-import { useState, useEffect } from "react";
-
-import { DataBurgersContext } from "../../services/dataBurgersContext";
 
 import styles from "./App.module.css";
-import { baseUrl } from "../../utils/constants";
+import { getIngridients } from "../../services/actions/ingredients";
 
 function App() {
-  const [ingredients, setIngredients] = useState();
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { isLoaded } = useSelector((store) => store.ingredients);
 
   useEffect(() => {
-    const getIngredients = async () => {
-      try {
-        const res = await fetch(`${baseUrl}ingredients`);
-        if (res.ok) {
-          const data = await res.json();
-          setIsLoaded(true);
-          setIngredients(data.data);
-        } else {
-          const error = await res.json();
-          throw new Error(error);
-        }
-      } catch (error) {
-        setIsLoaded(true);
-        setError(error);
-        console.log(`Ошибка: ${error}`);
-      }
-    };
-    getIngredients();
-  }, []);
+    dispatch(getIngridients());
+  }, [dispatch]);
 
   return (
-    <>
-      <ErrorBoundary>
-        <AppHeader />
-        {ingredients && (
+    <ErrorBoundary>
+      <AppHeader />
+      {isLoaded && (
+        <DndProvider backend={HTML5Backend}>
           <main className={styles.main}>
-            <DataBurgersContext.Provider value={ingredients}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </DataBurgersContext.Provider>
+            <BurgerIngredients />
+            <BurgerConstructor />
           </main>
-        )}
-      </ErrorBoundary>
-    </>
+        </DndProvider>
+      )}
+    </ErrorBoundary>
   );
 }
 

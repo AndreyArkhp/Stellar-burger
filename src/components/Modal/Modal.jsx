@@ -1,19 +1,23 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
-
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
-function Modal({ children, active, setActive }) {
+function Modal({ children, setActive }) {
   const modalRoot = document.getElementById("modal-root");
 
-  const modal = active && (
+  const modal = (
     <ModalOverlay handleClickOverlay={handleClickOverlay}>
       <div className={styles.modal__container}>
-        <span className={`${styles["close-icon"]} mt-15 mr-10`} onClick={() => setActive(false)}>
+        <span
+          className={`${styles["close-icon"]} mt-15 mr-10`}
+          onClick={() => {
+            setActive(false);
+          }}
+        >
           <CloseIcon type="primary" />
         </span>
         {children}
@@ -34,7 +38,7 @@ function Modal({ children, active, setActive }) {
 
   function closeEsc(event) {
     if (Object.is("Escape", event.key)) {
-      active && setActive(false);
+      setActive(false);
     }
   }
 
@@ -43,8 +47,6 @@ function Modal({ children, active, setActive }) {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  active: PropTypes.bool.isRequired,
-  setActive: PropTypes.func.isRequired,
 };
 
 export default Modal;
