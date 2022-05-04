@@ -26,4 +26,4 @@
 - Redux
 - Drad and Drop
   - react-dnd
-- [Stellar Burgers](https://andreyarkhp.github.io)
+- [Stellar Burgers](https://andreyarkhp.github.io/Stellar-burger/)
