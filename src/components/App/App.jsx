@@ -1,36 +1,30 @@
-import { useEffect } from "react";
-
-import { useDispatch, useSelector } from "react-redux";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
+import HomePage from "../../pages/home";
 
-import styles from "./App.module.css";
-import { getIngridients } from "../../services/actions/ingredients";
+import Login from "../../pages/login";
 
 function App() {
-  const dispatch = useDispatch();
-  const { isLoaded } = useSelector((store) => store.ingredients);
-
-  useEffect(() => {
-    dispatch(getIngridients());
-  }, [dispatch]);
-
   return (
     <ErrorBoundary>
-      <AppHeader />
-      {isLoaded && (
-        <DndProvider backend={HTML5Backend}>
-          <main className={styles.main}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </main>
-        </DndProvider>
-      )}
+      <Router>
+        <Routes>
+          <Route path="/" element={<AppHeader />}>
+            <Route index element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+          </Route>
+          <Route
+            path="*"
+            element={
+              <main style={{padding: "1rem"}}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Routes>
+      </Router>
     </ErrorBoundary>
   );
 }
