@@ -5,6 +5,9 @@ import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import HomePage from "../../pages/home";
 
 import Login from "../../pages/login";
+import Registration from "../../pages/register";
+import ForgotPassword from "../../pages/forgotPassword";
+import ResetPassword from "../../pages/resetPassword";
 
 function App() {
   return (
@@ -14,6 +17,9 @@ function App() {
           <Route path="/" element={<AppHeader />}>
             <Route index element={<HomePage />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Registration />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
           </Route>
           <Route
             path="*"
