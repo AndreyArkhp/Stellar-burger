@@ -2,22 +2,30 @@ import {useState} from "react";
 import {
   Button,
   EmailInput,
+  Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 
-import styles from "./forgotPassword.module.css";
+import styles from "./forms.module.css";
 
-export default function ForgotPassword() {
+export default function ResetPassword() {
   return (
     <main className={styles.main}>
       <form name="login" className={`${styles.form} mb-20`}>
         <h2 className={`text text_type_main-medium ${styles.form__title}`}>
           Восстановление пароля
         </h2>
-        <EmailInput name={"e-mail"} size="default" />
+        <PasswordInput value="test test test" />
+        <Input
+          name={"password"}
+          type={"password"}
+          placeholder={"Введите новый пароль"}
+          icon={"ShowIcon"}
+        />
+        <Input placeholder={"Введите код из письма"} name={"code"} />
         <Button type="primary" size="medium">
-          Восстановить
+          Сохранить
         </Button>
       </form>
       <p className="text text_type_main-default mb-4">

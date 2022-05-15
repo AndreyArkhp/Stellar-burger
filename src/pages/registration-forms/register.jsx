@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 
-import styles from "./register.module.css";
+import styles from "./forms.module.css";
 
 export default function Registration() {
   return (

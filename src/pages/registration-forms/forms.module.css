@@ -1,3 +1,7 @@
+form > div > div:only-child {
+  width: 480px;
+}
+
 .main {
   display: flex;
   justify-content: center;
@@ -9,10 +13,9 @@
 .form {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 24px;
   align-items: center;
   min-width: 25vw;
-  min-height: 286px;
 }
 
 .form__title {
