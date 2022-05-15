@@ -2,7 +2,7 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 import AppHeader from "../AppHeader/AppHeader";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
-import HomePage from "../../pages/registration-forms/home";
+import HomePage from "../../pages/home";
 
 import Login from "../../pages/registration-forms/login";
 import Registration from "../../pages/registration-forms/register";

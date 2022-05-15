@@ -1,5 +1,5 @@
 import {useState, useRef} from "react";
-import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 
 import styles from "./forms.module.css";
