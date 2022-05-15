@@ -1,0 +1,30 @@
+.form > div > div {
+  width: 480px;
+}
+
+.main {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  padding-block-start: 14vh;
+  gap: 60px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.links {
+  width: 320px;
+}
+
+.links__item {
+  text-decoration: none;
+  transition: color 0.2s linear;
+}
+
+.links__item:hover {
+  color: #f2f2f3;
+}

@@ -8,6 +8,7 @@ import Login from "../../pages/registration-forms/login";
 import Registration from "../../pages/registration-forms/register";
 import ForgotPassword from "../../pages/registration-forms/forgotPassword";
 import ResetPassword from "../../pages/registration-forms/resetPassword";
+import Profile from "../../pages/profile";
 
 function App() {
   return (
@@ -16,10 +17,11 @@ function App() {
         <Routes>
           <Route path="/" element={<AppHeader />}>
             <Route index element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Registration />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Registration />} />
+            <Route path="forgotpassword" element={<ForgotPassword />} />
+            <Route path="resetpassword" element={<ResetPassword />} />
+            <Route path="profile" element={<Profile />}></Route>
           </Route>
           <Route
             path="*"

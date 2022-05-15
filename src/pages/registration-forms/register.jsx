@@ -30,7 +30,6 @@ export default function Registration() {
           value={valueEmail}
         />
         <PasswordInput
-          placeholder={"Пароль"}
           name={"password"}
           onChange={(e) => setValuePassword(e.target.value)}
           value={valuePassword}

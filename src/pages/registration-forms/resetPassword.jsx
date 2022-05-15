@@ -30,8 +30,8 @@ export default function ResetPassword() {
         </h2>
         <Input
           onChange={(e) => setValuePassword(e.target.value)}
-          onFocus={(e) => setFocesed(true)}
-          onBlur={(e) => {
+          onFocus={() => setFocesed(true)}
+          onBlur={() => {
             setFocesed(false);
             setShowPassword(false);
           }}
@@ -42,7 +42,7 @@ export default function ResetPassword() {
           onIconClick={onIconClick}
           ref={inputRef}
           error={error}
-          errorText={"test"}
+          errorText={"Некорректный пароль"}
           value={valuePassword}
         />
         <Input

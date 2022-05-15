@@ -4,7 +4,7 @@
 }
 
 .all-ingredients {
-  max-height: 83.5vh;
+  max-height: 55vh;
   overflow: auto;
   position: relative;
   scrollbar-color: #8585ad #2f2f37;
