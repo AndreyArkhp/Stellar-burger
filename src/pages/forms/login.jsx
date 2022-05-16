@@ -6,7 +6,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 
-import styles from "./forms.module.css";
+import styles from "./registrationForms.module.css";
+import Form from "../../components/Form/Form";
 
 export default function Login() {
   const [valueEmail, setValueEmail] = useState("");
@@ -14,8 +15,7 @@ export default function Login() {
 
   return (
     <main className={styles.main}>
-      <form name="login" className={`${styles.form} mb-20`}>
-        <h2 className={`text text_type_main-medium ${styles.form__title}`}>Вход</h2>
+      <Form name={"login"} title={"Вход"}>
         <EmailInput
           name={"e-mail"}
           size="default"
@@ -31,7 +31,7 @@ export default function Login() {
         <Button type="primary" size="medium">
           Войти
         </Button>
-      </form>
+      </Form>
       <p className="text text_type_main-default mb-4">
         Вы — новый пользователь?{" "}
         <Link to={"/register"} className={styles.link}>

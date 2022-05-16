@@ -2,16 +2,14 @@ import {useState} from "react";
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 
-import styles from "./forms.module.css";
+import styles from "./registrationForms.module.css";
+import Form from "../../components/Form/Form";
 
 export default function ForgotPassword() {
   const [value, setValue] = useState("");
   return (
     <main className={styles.main}>
-      <form name="login" className={`${styles.form} mb-20`}>
-        <h2 className={`text text_type_main-medium ${styles.form__title}`}>
-          Восстановление пароля
-        </h2>
+      <Form name={"password-reset"} title={"Восстановление пароля"}>
         <EmailInput
           name={"e-mail"}
           size="default"
@@ -21,7 +19,7 @@ export default function ForgotPassword() {
         <Button type="primary" size="medium">
           Восстановить
         </Button>
-      </form>
+      </Form>
       <p className="text text_type_main-default mb-4">
         Вспомнили пароль?{" "}
         <Link to={"/login"} className={styles.link}>

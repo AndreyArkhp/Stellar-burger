@@ -7,7 +7,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 
-import styles from "./forms.module.css";
+import styles from "./registrationForms.module.css";
+import Form from "../../components/Form/Form";
 
 export default function Registration() {
   const [valueName, setValueName] = useState("");
@@ -15,8 +16,7 @@ export default function Registration() {
   const [valuePassword, setValuePassword] = useState("");
   return (
     <main className={styles.main}>
-      <form name="register" className={`${styles.form} mb-20`}>
-        <h2 className={`text text_type_main-medium ${styles.form__title}`}>Регистрация</h2>
+      <Form name={"register"} title={"Регистрация"}>
         <Input
           placeholder={"Имя"}
           name={"name"}
@@ -37,7 +37,7 @@ export default function Registration() {
         <Button type="primary" size="medium">
           Зарегистрироваться
         </Button>
-      </form>
+      </Form>
       <p className="text text_type_main-default mb-4">
         Уже зарегистрированы?{" "}
         <Link to={"/login"} className={styles.link}>

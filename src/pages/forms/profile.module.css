@@ -1,19 +1,9 @@
-.form > div > div {
-  width: 480px;
-}
-
 .main {
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
   padding-block-start: 14vh;
   gap: 60px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
 }
 
 .links {

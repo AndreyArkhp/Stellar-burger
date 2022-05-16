@@ -2,14 +2,6 @@
   width: 480px;
 }
 
-.main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding-block-start: 20vh;
-}
-
 .form {
   display: flex;
   flex-direction: column;

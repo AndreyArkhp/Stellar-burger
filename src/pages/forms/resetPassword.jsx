@@ -2,7 +2,8 @@ import {useState, useRef} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 
-import styles from "./forms.module.css";
+import styles from "./registrationForms.module.css";
+import Form from "../../components/Form/Form";
 
 export default function ResetPassword() {
   const [valuePassword, setValuePassword] = useState("");
@@ -24,10 +25,7 @@ export default function ResetPassword() {
 
   return (
     <main className={styles.main}>
-      <form name="login" className={`${styles.form} mb-20`}>
-        <h2 className={`text text_type_main-medium ${styles.form__title}`}>
-          Восстановление пароля
-        </h2>
+      <Form name={"password-new"} title={"Восстановление пароля"}>
         <Input
           onChange={(e) => setValuePassword(e.target.value)}
           onFocus={() => setFocesed(true)}
@@ -54,7 +52,7 @@ export default function ResetPassword() {
         <Button type="primary" size="medium">
           Сохранить
         </Button>
-      </form>
+      </Form>
       <p className="text text_type_main-default mb-4">
         Вспомнили пароль?{" "}
         <Link to={"/login"} className={styles.link}>

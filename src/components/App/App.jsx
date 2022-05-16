@@ -4,11 +4,11 @@ import AppHeader from "../AppHeader/AppHeader";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import HomePage from "../../pages/home";
 
-import Login from "../../pages/registration-forms/login";
-import Registration from "../../pages/registration-forms/register";
-import ForgotPassword from "../../pages/registration-forms/forgotPassword";
-import ResetPassword from "../../pages/registration-forms/resetPassword";
-import Profile from "../../pages/profile";
+import Login from "../../pages/forms/login";
+import Registration from "../../pages/forms/register";
+import ForgotPassword from "../../pages/forms/forgotPassword";
+import ResetPassword from "../../pages/forms/resetPassword";
+import Profile from "../../pages/forms/profile";
 
 function App() {
   return (

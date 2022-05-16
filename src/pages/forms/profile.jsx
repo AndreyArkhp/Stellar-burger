@@ -1,8 +1,9 @@
 import {useState, useRef} from "react";
-import {Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 
 import styles from "./profile.module.css";
+import Form from "../../components/Form/Form";
 
 export default function Profile() {
   const [valueName, setValueName] = useState("");
@@ -51,7 +52,7 @@ export default function Profile() {
           В&nbsp;этом разделе вы&nbsp;можете изменить свои персональные данные
         </p>
       </nav>
-      <form className={styles.form}>
+      <Form name={"profile"}>
         <Input
           name={"name"}
           value={valueName}
@@ -101,7 +102,7 @@ export default function Profile() {
           errorText={"Некорректный пароль"}
           value={valuePassword}
         />
-      </form>
+      </Form>
     </main>
   );
 }
