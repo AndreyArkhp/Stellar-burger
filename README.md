@@ -18,6 +18,7 @@
   - Добавление интерактивности
   - Модули
   - Использован Webpack
+- JSDoc
 - React
   - Функциональные компоненты
   - Context
@@ -26,4 +27,6 @@
 - Redux
 - Drad and Drop
   - react-dnd
-- [Stellar Burgers](https://andreyarkhp.github.io/Stellar-burger/)
+- React Router
+
+[Stellar Burgers](https://andreyarkhp.github.io/Stellar-burger/)
