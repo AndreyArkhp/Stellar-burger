@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { useDrag } from "react-dnd";
-import { ingredientsPropTypes } from "../../utils/constants";
+import {useDispatch, useSelector} from "react-redux";
+import {useDrag} from "react-dnd";
+import {ingredientsPropTypes} from "../../utils/constants";
 
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
-import { SCROLL_INGREDIENTS, SWITCH_TAB } from "../../services/actions/tabs";
+import {SCROLL_INGREDIENTS, SWITCH_TAB} from "../../services/actions/tabs";
 
 function BurgerTab() {
   const BUNS = "bun";
@@ -21,7 +21,7 @@ function BurgerTab() {
   const dispatch = useDispatch();
   const current = useSelector((store) => store.tabs.activeTab);
   const setActiveTab = (tab) => {
-    dispatch({ type: SCROLL_INGREDIENTS, scroll: tab });
+    dispatch({type: SCROLL_INGREDIENTS, scroll: tab});
   };
   return (
     <div className={`${styles.tabs} mb-10`}>
@@ -38,7 +38,7 @@ function BurgerTab() {
   );
 }
 
-function BurgerCard({ card }) {
+function BurgerCard({card}) {
   const counts = useSelector((store) => store.constructorIngredients);
   const [active, setActive] = useState(false);
   let count;
@@ -52,7 +52,7 @@ function BurgerCard({ card }) {
   const [, cardRef] = useDrag(
     {
       type: "ingredient",
-      item: { id: card._id },
+      item: {id: card._id},
       collect: (monitor) => ({
         ingredientAdded: monitor.didDrop(),
         typeee: monitor.getItem(),
@@ -88,8 +88,8 @@ BurgerCard.propTypes = {
   card: PropTypes.shape(ingredientsPropTypes).isRequired,
 };
 
-function TypeIngredients({ ingredient }) {
-  const { ingredientsList } = useSelector((store) => store.ingredients);
+function TypeIngredients({ingredient}) {
+  const {ingredientsList} = useSelector((store) => store.ingredients);
   const translation = {
     bun: "Булки",
     sauce: "Соусы",
@@ -116,9 +116,9 @@ TypeIngredients.propTypes = {
 
 function BurgerIngredients() {
   const ingredients = [
-    { type: "bun", id: 1 },
-    { type: "sauce", id: 2 },
-    { type: "main", id: 3 },
+    {type: "bun", id: 1},
+    {type: "sauce", id: 2},
+    {type: "main", id: 3},
   ];
   const scrollTo = useSelector((store) => store.tabs.scroll);
   const dispatch = useDispatch();
@@ -158,7 +158,7 @@ function BurgerIngredients() {
     tabsContainerRef.current.addEventListener("scroll", () => {
       const activeTab = getActiveTab(headers);
       if (!Object.is(currentTab, activeTab)) {
-        dispatch({ type: SWITCH_TAB, activeTab: activeTab });
+        dispatch({type: SWITCH_TAB, activeTab: activeTab});
         currentTab = activeTab;
       }
     });

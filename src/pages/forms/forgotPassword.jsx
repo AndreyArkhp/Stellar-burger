@@ -1,10 +1,11 @@
-import {useState, useRef, useEffect, useCallback} from "react";
+import {useState, useRef, useEffect} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
 
 import styles from "./registrationForms.module.css";
 import Form from "../../components/Form/Form";
 import {baseUrl} from "../../utils/constants";
+import {checkEmail} from "../../utils/functions";
 
 export default function ForgotPassword() {
   const [value, setValue] = useState("");
@@ -13,18 +14,12 @@ export default function ForgotPassword() {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
-  const checkEmail = useCallback(() => {
-    return value && /^\w+@[a-z]+\.[a-z]+$/.test(value) ? true : false;
-  }, [value]);
-
   function showErorEmail() {
-    console.log(checkEmail());
-    !value ? setError(false) : setError(!checkEmail());
+    !value ? setError(false) : setError(!checkEmail(value));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(value);
     fetch(`${baseUrl}password-reset`, {
       method: "POST",
       headers: {
@@ -33,7 +28,7 @@ export default function ForgotPassword() {
       body: JSON.stringify({email: value}),
     }).then((res) => {
       if (res.ok) {
-        navigate("/resetpassword");
+        navigate("/resetpassword", {replace: true});
       } else {
         const error = new Error("Ошибка, попробуйте еще раз");
         throw error;
@@ -42,8 +37,8 @@ export default function ForgotPassword() {
   }
 
   useEffect(() => {
-    checkEmail() ? setBtnDisabled(false) : setBtnDisabled(true);
-  }, [value, checkEmail]);
+    checkEmail(value) ? setBtnDisabled(false) : setBtnDisabled(true);
+  }, [value]);
 
   return (
     <main className={styles.main}>

@@ -11,14 +11,14 @@ import BurgerIngredients from "../components/BurgerIngredients/BurgerIngredients
 
 export default function HomePage() {
   const dispatch = useDispatch();
-  const {isLoaded} = useSelector((store) => store.ingredients);
+  const {isLoade} = useSelector((store) => store.ingredients);
 
   useEffect(() => {
     dispatch(getIngridients());
   }, [dispatch]);
 
   return (
-    isLoaded && (
+    isLoade && (
       <DndProvider backend={HTML5Backend}>
         <main className={styles.main}>
           <BurgerIngredients />
