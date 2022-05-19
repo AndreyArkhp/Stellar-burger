@@ -6,17 +6,23 @@ import styles from "./registrationForms.module.css";
 import Form from "../../components/Form/Form";
 import {baseUrl} from "../../utils/constants";
 import {checkEmail} from "../../utils/functions";
+import {useSelector} from "react-redux";
 
 export default function ForgotPassword() {
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
+  const {isAuth} = useSelector((store) => store.dataUser);
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
   function showErorEmail() {
     !value ? setError(false) : setError(!checkEmail(value));
   }
+
+  useEffect(() => {
+    isAuth && navigate("/", {replace: true});
+  }, [isAuth, navigate]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -28,7 +34,7 @@ export default function ForgotPassword() {
       body: JSON.stringify({email: value}),
     }).then((res) => {
       if (res.ok) {
-        navigate("/resetpassword", {replace: true});
+        navigate("/resetpassword", {replace: true, state: "/forgotpassword"});
       } else {
         const error = new Error("Ошибка, попробуйте еще раз");
         throw error;

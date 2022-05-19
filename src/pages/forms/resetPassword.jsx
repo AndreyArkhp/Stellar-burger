@@ -1,6 +1,7 @@
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 import styles from "./registrationForms.module.css";
 import Form from "../../components/Form/Form";
@@ -10,6 +11,15 @@ export default function ResetPassword() {
   const [valueCode, setValueCode] = useState("");
   const [focused, setFocesed] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const {isAuth} = useSelector((store) => store.dataUser);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    isAuth
+      ? navigate("/", {replace: true})
+      : location.state !== "/forgotpassword" && navigate("/forgotpassword", {replace: true});
+  }, [isAuth, navigate, location]);
 
   const inputRef = useRef(null);
 
