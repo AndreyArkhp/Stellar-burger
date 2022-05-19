@@ -9,8 +9,16 @@ import Registration from "../../pages/forms/register";
 import ForgotPassword from "../../pages/forms/forgotPassword";
 import ResetPassword from "../../pages/forms/resetPassword";
 import Profile from "../../pages/forms/profile";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {getUserInfo} from "../../services/actions/authorization";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    localStorage.refreshToken && dispatch(getUserInfo());
+  }, [dispatch]);
   return (
     <ErrorBoundary>
       <Router>
@@ -21,7 +29,9 @@ function App() {
             <Route path="register" element={<Registration />} />
             <Route path="forgotpassword" element={<ForgotPassword />} />
             <Route path="resetpassword" element={<ResetPassword />} />
-            <Route path="profile" element={<Profile />}></Route>
+            <Route element={<ProtectedRoute />}>
+              <Route path="profile" element={<Profile />} />
+            </Route>
           </Route>
           <Route
             path="*"

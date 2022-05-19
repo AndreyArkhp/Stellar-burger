@@ -1,11 +1,14 @@
-import {useState, useRef} from "react";
-import {Input} from "@ya.praktikum/react-developer-burger-ui-components";
+import {useState, useRef, useEffect} from "react";
+import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 
 import styles from "./profile.module.css";
 import Form from "../../components/Form/Form";
+import {useDispatch, useSelector} from "react-redux";
+import {logout, setUserInfo} from "../../services/actions/authorization";
 
 export default function Profile() {
+  const {user} = useSelector((state) => state.dataUser);
   const [valueName, setValueName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
@@ -16,6 +19,7 @@ export default function Profile() {
   const inputNameRef = useRef(null);
   const inputLoginRef = useRef(null);
   const inputPasswordRef = useRef(null);
+  const dispatch = useDispatch();
 
   const icon = (showPassword && "HideIcon") || "ShowIcon";
   const type = (showPassword && "text") || "password";
@@ -30,6 +34,22 @@ export default function Profile() {
     setTimeout(() => !showPassword && inputPasswordRef.current.focus(), 0);
     setShowPassword(!showPassword);
   };
+  const cancelEdit = (e) => {
+    e.preventDefault();
+    setValueName(user.name);
+    setValueEmail(user.email);
+  };
+
+  const editUserInfo = (e) => {
+    e.preventDefault();
+    dispatch(setUserInfo(valueName, valueEmail, valuePassword));
+  };
+
+  useEffect(() => {
+    setValueEmail(user.email);
+    setValueName(user.name);
+  }, [user]);
+
   return (
     <main className={`${styles.main} pl-10`}>
       <nav className={styles.links}>
@@ -44,7 +64,11 @@ export default function Profile() {
           </Link>
         </p>
         <p className="text text_type_main-medium pt-4 pb-4 ">
-          <Link to={"#"} className={`${styles.links__item} text_color_inactive`}>
+          <Link
+            to={""}
+            className={`${styles.links__item} text_color_inactive`}
+            onClick={() => dispatch(logout())}
+          >
             Выход
           </Link>
         </p>
@@ -92,7 +116,7 @@ export default function Profile() {
             setinputPasswordFocused(false);
             setShowPassword(false);
           }}
-          name={"password"}
+          name={"new-password"}
           type={type}
           placeholder={"Введите новый пароль"}
           icon={icon}
@@ -102,6 +126,14 @@ export default function Profile() {
           errorText={"Некорректный пароль"}
           value={valuePassword}
         />
+        <div className={styles.buttons_field}>
+          <Button type="secondary" size="medium" onClick={cancelEdit}>
+            Отмена
+          </Button>
+          <Button type="primary" size="medium" onClick={editUserInfo}>
+            Сохранить
+          </Button>
+        </div>
       </Form>
     </main>
   );
