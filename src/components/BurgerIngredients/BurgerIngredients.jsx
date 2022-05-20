@@ -39,14 +39,14 @@ function BurgerTab() {
 }
 
 function BurgerCard({card}) {
-  const counts = useSelector((store) => store.constructorIngredients);
+  const {bun, constructorIngredients} = useSelector((store) => store.constructorIngredients);
   const [active, setActive] = useState(false);
   let count;
 
   if (card.type === "bun") {
-    count = counts.bunCount ? card._id === counts.bunCount && 1 : 0;
+    count = bun ? card._id === bun._id && 1 : 0;
   } else {
-    count = counts.ingredientsCount[card._id] ? counts.ingredientsCount[card._id] : 0;
+    count = constructorIngredients.filter((el) => el._id === card._id).length;
   }
 
   const [, cardRef] = useDrag(

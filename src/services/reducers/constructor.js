@@ -3,55 +3,46 @@ import {
   DELETE_INGREDIENT,
   RESET_CONSTRUCTOR,
   RESET_CONSTRUCTOR_SUCCESS,
+  UPDATE_INGREDIENTS,
 } from "../actions/constructor";
 
 const initialState = {
-  ingredientsCount: {},
-  bunCount: "",
-  ingredients: [],
+  bun: "",
+  constructorIngredients: [],
   reset: false,
 };
 
 export const constructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
-      const key = action.ingredient;
       return action.bun
         ? {
             ...state,
-            bunCount: action.ingredient,
-          }
-        : state.ingredientsCount[key]
-        ? {
-            ...state,
-            ingredientsCount: {
-              ...state.ingredientsCount,
-              [key]: (state.ingredientsCount[key] += 1),
-            },
+            bun: action.ingredient,
           }
         : {
             ...state,
-            ingredientsCount: {
-              ...state.ingredientsCount,
-              [key]: 1,
-            },
+            constructorIngredients: [...state.constructorIngredients, action.ingredient],
           };
     }
-    case DELETE_INGREDIENT: {
-      const key = action.ingredient.slice(0, -4);
+    case UPDATE_INGREDIENTS:
       return {
         ...state,
-        ingredientsCount: {
-          ...state.ingredientsCount,
-          [key]: (state.ingredientsCount[key] -= 1),
-        },
+        constructorIngredients: [...action.updateIngredients],
+      };
+    case DELETE_INGREDIENT: {
+      return {
+        ...state,
+        constructorIngredients: [
+          ...state.constructorIngredients.filter((el) => el.uuid !== action.uuid),
+        ],
       };
     }
     case RESET_CONSTRUCTOR:
       return {
         ...state,
-        ingredientsCount: {},
-        bunCount: "",
+        constructorIngredients: [],
+        bun: "",
         reset: true,
       };
     case RESET_CONSTRUCTOR_SUCCESS:

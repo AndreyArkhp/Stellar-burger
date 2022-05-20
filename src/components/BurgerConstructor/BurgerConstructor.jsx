@@ -16,6 +16,7 @@ import {ingredientsPropTypes, baseUrl} from "../../utils/constants";
 import {getOrder} from "../../services/actions/modal";
 import {
   ADD_INGREDIENT,
+  UPDATE_INGREDIENTS,
   DELETE_INGREDIENT,
   RESET_CONSTRUCTOR,
   RESET_CONSTRUCTOR_SUCCESS,
@@ -149,20 +150,17 @@ ListIngredients.propTypes = {
 
 function BurgerConstructor() {
   const {ingredientsList} = useSelector((store) => store.ingredients);
-  const {reset} = useSelector((store) => store.constructorIngredients);
-  const [constructorIngredients, setConstructorIngredients] = useState([]);
-  const [bun, setBun] = useState(null);
-  const [ingredientsOrder, setIngredientsOrder] = useState([]);
+  const {reset, bun, constructorIngredients} = useSelector((store) => store.constructorIngredients);
   const dispatch = useDispatch();
   const ingredientsPrice = [];
-  const addIngredientAction = (id, bun) => ({
+  const addIngredientAction = (ingredient, bun) => ({
     type: ADD_INGREDIENT,
-    ingredient: id,
+    ingredient,
     bun: bun || null,
   });
   const titlePreview =
     (!bun &&
-      ingredientsOrder.length === 0 &&
+      constructorIngredients.length === 0 &&
       "Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа") ||
     (!bun && "Пожалуйста, перенесите сюда булку  для создания заказа");
   const getRandomId = (id) => {
@@ -175,6 +173,17 @@ function BurgerConstructor() {
     }
   };
 
+  const setIngredientsOrder = (constructorIngredients) => {
+    return [
+      bun._id,
+      ...constructorIngredients.map((ingredient) => {
+        return ingredient._id;
+      }),
+
+      bun._id,
+    ];
+  };
+
   const sortIngredients = useCallback(
     (topId, bottomId, topElementPart, offsetActualY, offsetFactor) => {
       if (topId !== bottomId) {
@@ -183,43 +192,37 @@ function BurgerConstructor() {
 
         if (topIndex < bottomIndex && offsetActualY < topElementPart) return;
         if (topIndex > bottomIndex && offsetActualY > topElementPart * offsetFactor - 1) return;
-        setConstructorIngredients((ingredients) => {
-          const updateIngridients = [...ingredients];
+        const updateIngridients = (constructorIngredients) => {
+          const updateIngridients = [...constructorIngredients];
           [updateIngridients[topIndex], updateIngridients[bottomIndex]] = [
             updateIngridients[bottomIndex],
             updateIngridients[topIndex],
           ];
           return updateIngridients;
+        };
+        dispatch({
+          type: UPDATE_INGREDIENTS,
+          updateIngredients: updateIngridients(constructorIngredients),
         });
       }
     },
-    [constructorIngredients]
+    [constructorIngredients, dispatch]
   );
 
   const onDropHandler = ({id}) => {
-    ingredientsOrder.length > 0
-      ? setIngredientsOrder([...ingredientsOrder, id])
-      : setIngredientsOrder([id]);
     ingredientsList.forEach((ingredient) => {
       if (ingredient._id === id) {
         if (ingredient.type !== "bun") {
-          setConstructorIngredients([
-            ...constructorIngredients,
-            {...ingredient, uuid: getRandomId(ingredient._id)},
-          ]);
-          dispatch(addIngredientAction(id));
+          dispatch(addIngredientAction({...ingredient, uuid: getRandomId(ingredient._id)}));
         } else {
-          setBun(ingredient);
-          dispatch(addIngredientAction(id, true));
+          dispatch(addIngredientAction(ingredient, true));
         }
       }
     });
   };
 
-  const handleClickDelete = (id) => {
-    setConstructorIngredients(constructorIngredients.filter((el) => el.uuid !== id));
-    setIngredientsOrder(ingredientsOrder.filter((el) => el !== id.slice(0, -4)));
-    dispatch({type: DELETE_INGREDIENT, ingredient: id});
+  const handleClickDelete = (uuid) => {
+    dispatch({type: DELETE_INGREDIENT, uuid});
   };
 
   const [, dropTarget] = useDrop({
@@ -230,9 +233,6 @@ function BurgerConstructor() {
   });
 
   useEffect(() => {
-    setConstructorIngredients([]);
-    setIngredientsOrder([]);
-    setBun(null);
     dispatch({type: RESET_CONSTRUCTOR_SUCCESS});
   }, [reset, dispatch]);
 
@@ -260,7 +260,7 @@ function BurgerConstructor() {
           <Order
             ingredientsPrice={ingredientsPrice}
             bunPrice={bun.price}
-            ingredientsOrder={ingredientsOrder}
+            ingredientsOrder={setIngredientsOrder(constructorIngredients)}
           />
         </>
       )}
