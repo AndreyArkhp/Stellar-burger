@@ -2,7 +2,7 @@ import {Logo} from "@ya.praktikum/react-developer-burger-ui-components";
 import {BurgerIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ListIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {Link, Outlet, useLocation} from "react-router-dom";
 import styles from "./AppHeader.module.css";
 
@@ -14,12 +14,12 @@ function AppHeader() {
     const link = [...document.querySelectorAll(".link")].find((link) =>
       Object.is(link.getAttribute("href"), location.pathname)
     );
-    if (activeLink && !Object.is(activeLink, link)) {
+    if (activeLink && !Object.is(activeLink, link) && link) {
       activeLink.classList.remove(`${styles["header__link_active"]}`);
       link.classList.add(`${styles["header__link_active"]}`);
       setActiveLink(link);
     }
-    if (!activeLink) {
+    if (!activeLink && link) {
       link.classList.add(`${styles["header__link_active"]}`);
       setActiveLink(link);
     }

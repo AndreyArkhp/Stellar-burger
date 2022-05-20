@@ -1,18 +1,19 @@
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useDrag, useDrop } from "react-dnd";
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useDrag, useDrop} from "react-dnd";
+import {useLocation, useNavigate} from "react-router-dom";
+import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
+import {DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
 
 import styles from "./BurgerConstructor.module.css";
-import { ingredientsPropTypes, baseUrl } from "../../utils/constants";
-import { getOrder } from "../../services/actions/modal";
+import {ingredientsPropTypes, baseUrl} from "../../utils/constants";
+import {getOrder} from "../../services/actions/modal";
 import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
@@ -20,11 +21,14 @@ import {
   RESET_CONSTRUCTOR_SUCCESS,
 } from "../../services/actions/constructor";
 
-function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
-  const { modalData, isLoaded } = useSelector((store) => store.modal);
-  const dispatch = useDispatch();
+function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
+  const {modalData, isLoaded} = useSelector((store) => store.modal);
+  const {isAuth} = useSelector((store) => store.dataUser);
   const [active, setActive] = useState(false);
   const [isOrder, setIsOrder] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const totalPrice = useMemo(
     () =>
@@ -35,8 +39,12 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
   );
 
   const handleOrder = () => {
-    setActive(true);
-    dispatch(getOrder(baseUrl, ingredientsOrder));
+    if (isAuth) {
+      setActive(true);
+      dispatch(getOrder(baseUrl, ingredientsOrder));
+    } else {
+      navigate("/login", {state: location.pathname});
+    }
   };
 
   useEffect(() => {
@@ -44,7 +52,7 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }) {
       setIsOrder(true);
     }
     if (isOrder && !active) {
-      dispatch({ type: RESET_CONSTRUCTOR });
+      dispatch({type: RESET_CONSTRUCTOR});
       setIsOrder(false);
     }
   }, [dispatch, isLoaded, active, isOrder]);
@@ -73,7 +81,7 @@ Order.propTypes = {
   ingredientsOrder: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-function LockElement({ position, bun }) {
+function LockElement({position, bun}) {
   const text = {
     top: "верх",
     bottom: "низ",
@@ -96,11 +104,11 @@ LockElement.propTypes = {
   bun: PropTypes.shape(ingredientsPropTypes),
 };
 
-function ListIngredients({ ingredient, onClick, sortIngredients }) {
+function ListIngredients({ingredient, onClick, sortIngredients}) {
   const ref = useRef();
   const [, dragRef] = useDrag({
     type: "constructorIngredient",
-    item: { id: ingredient.uuid },
+    item: {id: ingredient.uuid},
   });
 
   const [, dropRef] = useDrop({
@@ -140,8 +148,8 @@ ListIngredients.propTypes = {
 };
 
 function BurgerConstructor() {
-  const { ingredientsList } = useSelector((store) => store.ingredients);
-  const { reset } = useSelector((store) => store.constructorIngredients);
+  const {ingredientsList} = useSelector((store) => store.ingredients);
+  const {reset} = useSelector((store) => store.constructorIngredients);
   const [constructorIngredients, setConstructorIngredients] = useState([]);
   const [bun, setBun] = useState(null);
   const [ingredientsOrder, setIngredientsOrder] = useState([]);
@@ -188,7 +196,7 @@ function BurgerConstructor() {
     [constructorIngredients]
   );
 
-  const onDropHandler = ({ id }) => {
+  const onDropHandler = ({id}) => {
     ingredientsOrder.length > 0
       ? setIngredientsOrder([...ingredientsOrder, id])
       : setIngredientsOrder([id]);
@@ -197,7 +205,7 @@ function BurgerConstructor() {
         if (ingredient.type !== "bun") {
           setConstructorIngredients([
             ...constructorIngredients,
-            { ...ingredient, uuid: getRandomId(ingredient._id) },
+            {...ingredient, uuid: getRandomId(ingredient._id)},
           ]);
           dispatch(addIngredientAction(id));
         } else {
@@ -211,7 +219,7 @@ function BurgerConstructor() {
   const handleClickDelete = (id) => {
     setConstructorIngredients(constructorIngredients.filter((el) => el.uuid !== id));
     setIngredientsOrder(ingredientsOrder.filter((el) => el !== id.slice(0, -4)));
-    dispatch({ type: DELETE_INGREDIENT, ingredient: id });
+    dispatch({type: DELETE_INGREDIENT, ingredient: id});
   };
 
   const [, dropTarget] = useDrop({
@@ -225,7 +233,7 @@ function BurgerConstructor() {
     setConstructorIngredients([]);
     setIngredientsOrder([]);
     setBun(null);
-    dispatch({ type: RESET_CONSTRUCTOR_SUCCESS });
+    dispatch({type: RESET_CONSTRUCTOR_SUCCESS});
   }, [reset, dispatch]);
 
   return (

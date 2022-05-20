@@ -8,6 +8,7 @@ import {
 const initialState = {
   ingredientsCount: {},
   bunCount: "",
+  ingredients: [],
   reset: false,
 };
 
