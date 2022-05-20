@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 
 import styles from "./registrationForms.module.css";
 import Form from "../../components/Form/Form";
+import {baseUrl} from "../../utils/constants";
 
 export default function ResetPassword() {
   const [valuePassword, setValuePassword] = useState("");
@@ -33,6 +34,24 @@ export default function ResetPassword() {
     setShowPassword(!showPassword);
   };
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    fetch(`${baseUrl}password-reset/reset`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({password: valuePassword, token: valueCode}),
+    }).then((res) => {
+      if (res.ok) {
+        navigate("/login", {replace: true});
+      } else {
+        const error = new Error("Ошибка, попробуйте еще раз");
+        throw error;
+      }
+    });
+  }
+
   return (
     <main className={styles.main}>
       <Form name={"password-new"} title={"Восстановление пароля"}>
@@ -59,7 +78,7 @@ export default function ResetPassword() {
           value={valueCode}
           onChange={(e) => setValueCode(e.target.value)}
         />
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" onClick={handleSubmit}>
           Сохранить
         </Button>
       </Form>

@@ -1,4 +1,10 @@
-import { GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED } from "../actions/modal";
+import {
+  GET_ORDER_REQUEST,
+  GET_ORDER_SUCCESS,
+  GET_ORDER_FAILED,
+  OPEN_INGREDIENT_MODAL,
+  CLOSE_INGREDIENT_MODAL,
+} from "../actions/modal";
 
 const initialState = {
   isLoaded: false,
@@ -26,6 +32,16 @@ export const modalReducer = (state = initialState, action) => {
         ...state,
         modalData: action.data,
         isLoaded: true,
+      };
+    case OPEN_INGREDIENT_MODAL:
+      return {
+        ...state,
+        ingredientOpen: true,
+      };
+    case CLOSE_INGREDIENT_MODAL:
+      return {
+        ...state,
+        ingredientOpen: false,
       };
     default:
       return state;

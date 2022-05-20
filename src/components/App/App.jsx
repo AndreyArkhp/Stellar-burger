@@ -13,6 +13,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {getUserInfo} from "../../services/actions/authorization";
+import IngredientPage from "../../pages/ingredient";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
             <Route path="register" element={<Registration />} />
             <Route path="forgotpassword" element={<ForgotPassword />} />
             <Route path="resetpassword" element={<ResetPassword />} />
+            <Route path="ingredients/:ingredientId" element={<IngredientPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path="profile" element={<Profile />} />
             </Route>

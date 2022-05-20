@@ -12,6 +12,8 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
 import {SCROLL_INGREDIENTS, SWITCH_TAB} from "../../services/actions/tabs";
+import {Link} from "react-router-dom";
+import {CLOSE_INGREDIENT_MODAL, OPEN_INGREDIENT_MODAL} from "../../services/actions/modal";
 
 function BurgerTab() {
   const BUNS = "bun";
@@ -40,7 +42,7 @@ function BurgerTab() {
 
 function BurgerCard({card}) {
   const {bun, constructorIngredients} = useSelector((store) => store.constructorIngredients);
-  const [active, setActive] = useState(false);
+  const dispatch = useDispatch();
   let count;
 
   if (card.type === "bun") {
@@ -62,24 +64,27 @@ function BurgerCard({card}) {
   );
 
   function handleClick() {
-    if (!active) {
-      setActive(true);
-    }
+    dispatch({type: OPEN_INGREDIENT_MODAL});
   }
+
   return (
     <li className={styles.ingredient} onClick={handleClick} ref={cardRef}>
-      <img src={card.image} className={" ml-4 mr-4 mb-2"} alt={card.name}></img>
-      <p className={`${styles.ingredient__price} text text_type_digits-default mb-2`}>
-        {card.price}
-        <CurrencyIcon type="primary" />
-      </p>
-      <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
-      <Counter count={count || 0} size="default" className={styles.ingredient__counter} />
-      {active && (
-        <Modal active={active} setActive={setActive}>
-          <IngredientDetails card={card} />
-        </Modal>
-      )}
+      <Link to={`ingredients/${card._id}`} className={styles.ingredient__link}>
+        <img src={card.image} className={" ml-4 mr-4 mb-2"} alt={card.name}></img>
+        <p className={`${styles.ingredient__price} text text_type_digits-default mb-2`}>
+          {card.price}
+          <CurrencyIcon type="primary" />
+        </p>
+        <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>
+          {card.name}
+        </p>
+        <Counter count={count || 0} size="default" className={styles.ingredient__counter} />
+        {/* {active && (
+          <Modal active={active} setActive={setActive}>
+            <IngredientDetails card={card} />
+          </Modal>
+        )} */}
+      </Link>
     </li>
   );
 }

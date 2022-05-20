@@ -2,8 +2,7 @@ import {Logo} from "@ya.praktikum/react-developer-burger-ui-components";
 import {BurgerIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ListIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useEffect, useState} from "react";
-import {Link, NavLink, Outlet, useLocation} from "react-router-dom";
+import {NavLink, Outlet} from "react-router-dom";
 import styles from "./AppHeader.module.css";
 
 function AppHeader() {
