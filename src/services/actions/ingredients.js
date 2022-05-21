@@ -1,24 +1,20 @@
-import { baseUrl } from "../../utils/constants";
+import {baseUrl} from "../../utils/constants";
+import {checkResponse} from "../../utils/functions";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
 export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
 
 export const getIngridients = () => async (dispatch) => {
-  dispatch({ type: GET_INGREDIENTS_REQUEST });
+  dispatch({type: GET_INGREDIENTS_REQUEST});
   try {
     const res = await fetch(`${baseUrl}ingredients`, {
-      headers: { "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json"},
     });
-    if (res.ok) {
-      const ingredients = await res.json();
-      dispatch({ type: GET_INGREDIENTS_SUCCESS, ingredients });
-    } else {
-      const error = await res.json();
-      dispatch({ type: GET_INGREDIENTS_FAILED });
-      throw new Error(error);
-    }
+    const ingredients = await checkResponse(res);
+    dispatch({type: GET_INGREDIENTS_SUCCESS, ingredients});
   } catch (error) {
-    console.log(`Ошибка: ${error}`);
+    console.log(error);
+    dispatch({type: GET_INGREDIENTS_FAILED});
   }
 };

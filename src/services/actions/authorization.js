@@ -1,5 +1,5 @@
 import {baseUrl} from "../../utils/constants";
-import {fetchWithAuth, getToken, removeToken, setToken} from "../../utils/functions";
+import {fetchWithAuth, getToken, removeToken, setToken, checkResponse} from "../../utils/functions";
 
 export const REGISTRATION_REQUEST = "REGISTRATION_REQUEST";
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
@@ -38,19 +38,13 @@ export const registration = (name, email, password) => async (dispatch) => {
         password,
       }),
     });
-    if (res.ok) {
-      const data = await res.json();
-      localStorage.setItem("refreshToken", data.refreshToken);
-      const authToken = data.accessToken.split("Bearer ")[1];
-      setToken(authToken, 1200);
-      dispatch({type: REGISTRATION_SUCCESS, user: data.user});
-    } else {
-      const error = await res.json();
-      dispatch({type: REGISTRATION_FAILED});
-      throw new Error(error.message);
-    }
+    const data = await checkResponse(res);
+    localStorage.setItem("refreshToken", data.refreshToken);
+    const authToken = data.accessToken.split("Bearer ")[1];
+    setToken(authToken, 1200);
+    dispatch({type: REGISTRATION_SUCCESS, user: data.user});
   } catch (error) {
-    console.log(`Ошибка: ${error}`);
+    console.log(error);
     dispatch({type: REGISTRATION_FAILED});
   }
 };
@@ -65,16 +59,11 @@ export const getUserInfo = () => async (dispatch) => {
       method: "GET",
       headers: {"Content-Type": "application/json; charset=utf-8"},
     });
-    if (res.ok) {
-      const data = await res.json();
-      dispatch({type: GET_USER_INFO_SUCCESS, user: data.user});
-    } else {
-      const error = await res.json();
-      dispatch({type: GET_USER_INFO_FAILED, error: error.message});
-      throw new Error(error.message);
-    }
+    const data = await checkResponse(res);
+    dispatch({type: GET_USER_INFO_SUCCESS, user: data.user});
   } catch (error) {
     console.log(error);
+    dispatch({type: GET_USER_INFO_FAILED, error: error.message});
   }
 };
 
@@ -90,18 +79,11 @@ export const setUserInfo = (name, email, password) => async (dispatch) => {
         password,
       }),
     });
-    if (res.ok) {
-      const data = await res.json();
-      console.log("set");
-      console.log(data);
-      dispatch({type: SET_USER_INFO_SUCCESS, user: data.user});
-    } else {
-      const error = await res.json();
-      dispatch({type: SET_USER_INFO_FAILED, error: error.message});
-      throw new Error(error.message);
-    }
+    const data = await checkResponse(res);
+    dispatch({type: SET_USER_INFO_SUCCESS, user: data.user});
   } catch (error) {
     console.log(error);
+    dispatch({type: SET_USER_INFO_FAILED, error: error.message});
   }
 };
 
@@ -119,19 +101,14 @@ export const login = (email, password) => async (dispatch) => {
         password,
       }),
     });
-    if (res.ok) {
-      const data = await res.json();
-      localStorage.setItem("refreshToken", data.refreshToken);
-      const authToken = data.accessToken.split("Bearer ")[1];
-      setToken(authToken, 1200);
-      dispatch({type: LOGIN_SUCCESS, user: data.user});
-    } else {
-      const error = await res.json();
-      dispatch({type: LOGIN_FAILED, error: error.message});
-      throw new Error(error.message);
-    }
+    const data = await checkResponse(res);
+    localStorage.setItem("refreshToken", data.refreshToken);
+    const authToken = data.accessToken.split("Bearer ")[1];
+    setToken(authToken, 1200);
+    dispatch({type: LOGIN_SUCCESS, user: data.user});
   } catch (error) {
     console.log(error);
+    dispatch({type: LOGIN_FAILED, error: error.message});
   }
 };
 
@@ -147,16 +124,12 @@ export const logout = () => async (dispatch) => {
         token: localStorage.getItem("refreshToken"),
       }),
     });
-    if (res.ok) {
-      dispatch({type: LOGOUT_SUCCESS});
-      localStorage.removeItem("refreshToken");
-      removeToken(getToken());
-    } else {
-      const error = res.json();
-      dispatch({type: LOGOUT_FAILED});
-      throw new Error(error.message);
-    }
+    await checkResponse(res);
+    dispatch({type: LOGOUT_SUCCESS});
+    localStorage.removeItem("refreshToken");
+    removeToken(getToken());
   } catch (error) {
     console.log(error);
+    dispatch({type: LOGOUT_FAILED});
   }
 };

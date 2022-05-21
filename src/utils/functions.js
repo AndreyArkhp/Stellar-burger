@@ -57,6 +57,12 @@ export async function refreshToken() {
   }
 }
 
+/**
+ * Функция проверяет наличие токена, если его нет то обновляет, затем делает запрос с существующим или обновленным токеном.
+ * @param {string} url - Адресс запроса
+ * @param {object} options - дополнительные параметры запроса
+ * @returns Возвращает fetch с токеном или перенаправляет на /login
+ */
 export async function fetchWithAuth(url, options) {
   const loginUrl = "/login";
   let tokenData = null;
@@ -83,5 +89,15 @@ export async function fetchWithAuth(url, options) {
     options.headers.Authorization = `Bearer ${tokenData}`;
 
     return fetch(url, options);
+  }
+}
+
+export function checkResponse(res) {
+  if (res.ok) {
+    const data = res.json();
+    return data;
+  } else {
+    const error = res.json();
+    throw new Error(error);
   }
 }

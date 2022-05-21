@@ -6,6 +6,7 @@ import {useSelector} from "react-redux";
 import styles from "./registrationForms.module.css";
 import Form from "../../components/Form/Form";
 import {baseUrl} from "../../utils/constants";
+import {checkResponse} from "../../utils/functions";
 
 export default function ResetPassword() {
   const [valuePassword, setValuePassword] = useState("");
@@ -34,22 +35,21 @@ export default function ResetPassword() {
     setShowPassword(!showPassword);
   };
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    fetch(`${baseUrl}password-reset/reset`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({password: valuePassword, token: valueCode}),
-    }).then((res) => {
-      if (res.ok) {
-        navigate("/login", {replace: true});
-      } else {
-        const error = new Error("Ошибка, попробуйте еще раз");
-        throw error;
-      }
-    });
+    try {
+      const res = await fetch(`${baseUrl}password-reset/reset`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify({password: valuePassword, token: valueCode}),
+      });
+      await checkResponse(res);
+      navigate("/login", {replace: true});
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

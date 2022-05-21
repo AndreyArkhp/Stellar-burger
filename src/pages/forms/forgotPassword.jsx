@@ -5,7 +5,7 @@ import {Link, useNavigate} from "react-router-dom";
 import styles from "./registrationForms.module.css";
 import Form from "../../components/Form/Form";
 import {baseUrl} from "../../utils/constants";
-import {checkEmail} from "../../utils/functions";
+import {checkEmail, checkResponse} from "../../utils/functions";
 import {useSelector} from "react-redux";
 
 export default function ForgotPassword() {
@@ -24,22 +24,21 @@ export default function ForgotPassword() {
     isAuth && navigate("/", {replace: true});
   }, [isAuth, navigate]);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    fetch(`${baseUrl}password-reset`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({email: value}),
-    }).then((res) => {
-      if (res.ok) {
-        navigate("/resetpassword", {replace: true, state: "/forgotpassword"});
-      } else {
-        const error = new Error("Ошибка, попробуйте еще раз");
-        throw error;
-      }
-    });
+    try {
+      const res = await fetch(`${baseUrl}password-reset`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify({email: value}),
+      });
+      await checkResponse(res);
+      navigate("/resetpassword", {replace: true, state: "/forgotpassword"});
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
