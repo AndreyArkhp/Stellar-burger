@@ -11,9 +11,9 @@ import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
-import {SCROLL_INGREDIENTS, SWITCH_TAB} from "../../services/actions/tabs";
+import {scrollIngredients, switchTab} from "../../services/actions/tabs";
 import {Link} from "react-router-dom";
-import {CLOSE_INGREDIENT_MODAL, OPEN_INGREDIENT_MODAL} from "../../services/actions/modal";
+import {openIngredientModal} from "../../services/actions/modal";
 
 function BurgerTab() {
   const BUNS = "bun";
@@ -23,7 +23,7 @@ function BurgerTab() {
   const dispatch = useDispatch();
   const current = useSelector((store) => store.tabs.activeTab);
   const setActiveTab = (tab) => {
-    dispatch({type: SCROLL_INGREDIENTS, scroll: tab});
+    dispatch(scrollIngredients(tab));
   };
   return (
     <div className={`${styles.tabs} mb-10`}>
@@ -64,7 +64,7 @@ function BurgerCard({card}) {
   );
 
   function handleClick() {
-    dispatch({type: OPEN_INGREDIENT_MODAL});
+    dispatch(openIngredientModal());
   }
 
   return (
@@ -163,7 +163,7 @@ function BurgerIngredients() {
     tabsContainerRef.current.addEventListener("scroll", () => {
       const activeTab = getActiveTab(headers);
       if (!Object.is(currentTab, activeTab)) {
-        dispatch({type: SWITCH_TAB, activeTab: activeTab});
+        dispatch(switchTab(activeTab));
         currentTab = activeTab;
       }
     });

@@ -15,11 +15,11 @@ import styles from "./BurgerConstructor.module.css";
 import {ingredientsPropTypes, baseUrl} from "../../utils/constants";
 import {getOrder} from "../../services/actions/modal";
 import {
-  ADD_INGREDIENT,
-  UPDATE_INGREDIENTS,
-  DELETE_INGREDIENT,
-  RESET_CONSTRUCTOR,
-  RESET_CONSTRUCTOR_SUCCESS,
+  resetConstructor,
+  resetConstructorSuccess,
+  updateIngredients,
+  addIngredient,
+  deleteIngredient,
 } from "../../services/actions/constructor";
 
 function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
@@ -53,7 +53,7 @@ function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
       setIsOrder(true);
     }
     if (isOrder && !active) {
-      dispatch({type: RESET_CONSTRUCTOR});
+      dispatch(resetConstructor());
       setIsOrder(false);
     }
   }, [dispatch, isLoaded, active, isOrder]);
@@ -153,11 +153,7 @@ function BurgerConstructor() {
   const {reset, bun, constructorIngredients} = useSelector((store) => store.constructorIngredients);
   const dispatch = useDispatch();
   const ingredientsPrice = [];
-  const addIngredientAction = (ingredient, bun) => ({
-    type: ADD_INGREDIENT,
-    ingredient,
-    bun: bun || null,
-  });
+
   const titlePreview =
     (!bun &&
       constructorIngredients.length === 0 &&
@@ -192,7 +188,7 @@ function BurgerConstructor() {
 
         if (topIndex < bottomIndex && offsetActualY < topElementPart) return;
         if (topIndex > bottomIndex && offsetActualY > topElementPart * offsetFactor - 1) return;
-        const updateIngridients = (constructorIngredients) => {
+        const changeOrderIngredients = (constructorIngredients) => {
           const updateIngridients = [...constructorIngredients];
           [updateIngridients[topIndex], updateIngridients[bottomIndex]] = [
             updateIngridients[bottomIndex],
@@ -200,10 +196,7 @@ function BurgerConstructor() {
           ];
           return updateIngridients;
         };
-        dispatch({
-          type: UPDATE_INGREDIENTS,
-          updateIngredients: updateIngridients(constructorIngredients),
-        });
+        dispatch(updateIngredients(changeOrderIngredients(constructorIngredients)));
       }
     },
     [constructorIngredients, dispatch]
@@ -213,16 +206,16 @@ function BurgerConstructor() {
     ingredientsList.forEach((ingredient) => {
       if (ingredient._id === id) {
         if (ingredient.type !== "bun") {
-          dispatch(addIngredientAction({...ingredient, uuid: getRandomId(ingredient._id)}));
+          dispatch(addIngredient({...ingredient, uuid: getRandomId(ingredient._id)}));
         } else {
-          dispatch(addIngredientAction(ingredient, true));
+          dispatch(addIngredient(ingredient, true));
         }
       }
     });
   };
 
   const handleClickDelete = (uuid) => {
-    dispatch({type: DELETE_INGREDIENT, uuid});
+    dispatch(deleteIngredient(uuid));
   };
 
   const [, dropTarget] = useDrop({
@@ -233,7 +226,7 @@ function BurgerConstructor() {
   });
 
   useEffect(() => {
-    dispatch({type: RESET_CONSTRUCTOR_SUCCESS});
+    dispatch(resetConstructorSuccess());
   }, [reset, dispatch]);
 
   return (

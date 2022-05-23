@@ -5,7 +5,7 @@ import {useEffect} from "react";
 import styles from "./ingredient.module.css";
 import IngredientDetails from "../components/IngredientDetails/IngredientDetails";
 import Modal from "../components/Modal/Modal";
-import {CLOSE_INGREDIENT_MODAL} from "../services/actions/modal";
+import {closeIngredientModal} from "../services/actions/modal";
 import {getIngridients} from "../services/actions/ingredients";
 
 export default function IngredientPage() {
@@ -22,7 +22,7 @@ export default function IngredientPage() {
 
   const setActive = (bool) => {
     if (!bool) {
-      dispatch({type: CLOSE_INGREDIENT_MODAL});
+      dispatch(closeIngredientModal());
       navigate("/");
     }
   };
