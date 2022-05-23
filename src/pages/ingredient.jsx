@@ -32,7 +32,7 @@ export default function IngredientPage() {
   }, [modalOpen, isAuth, navigate, location]);
 
   return (
-    <main className={`${styles.ingredient} mt-20`}>
+    <main className={styles.ingredient}>
       {modalOpen && (
         <Modal setActive={setActive}>
           <IngredientDetails card={ingredient} />

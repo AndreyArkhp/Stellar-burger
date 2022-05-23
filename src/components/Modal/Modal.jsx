@@ -5,12 +5,9 @@ import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import {useDispatch} from "react-redux";
-import {CLOSE_INGREDIENT_MODAL} from "../../services/actions/modal";
 
 function Modal({children, setActive}) {
   const modalRoot = document.getElementById("modal-root");
-  const dispatch = useDispatch();
 
   const modal = (
     <ModalOverlay handleClickOverlay={handleClickOverlay}>
