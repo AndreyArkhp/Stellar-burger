@@ -40,7 +40,7 @@ export default function Profile() {
     setValueEmail(user.email);
   };
 
-  const editUserInfo = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(setUserInfo(valueName, valueEmail, valuePassword));
   };
@@ -76,7 +76,7 @@ export default function Profile() {
           В&nbsp;этом разделе вы&nbsp;можете изменить свои персональные данные
         </p>
       </nav>
-      <Form name={"profile"}>
+      <Form name={"profile"} handleSubmit={handleSubmit}>
         <Input
           name={"name"}
           value={valueName}
@@ -127,10 +127,10 @@ export default function Profile() {
           value={valuePassword}
         />
         <div className={styles.buttons_field}>
-          <Button type="secondary" size="medium" onClick={cancelEdit}>
+          <Button type="secondary" size="medium" onClick={cancelEdit} htmlType={"button"}>
             Отмена
           </Button>
-          <Button type="primary" size="medium" onClick={editUserInfo}>
+          <Button type="primary" size="medium" htmlType={"submit"}>
             Сохранить
           </Button>
         </div>

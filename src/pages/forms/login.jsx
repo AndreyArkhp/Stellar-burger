@@ -42,7 +42,7 @@ export default function Login() {
   return (
     !isAuth && (
       <main className={styles.main}>
-        <Form name={"login"} title={"Вход"} error={errorMessage}>
+        <Form name={"login"} title={"Вход"} error={errorMessage} handleSubmit={handleSubmit}>
           <EmailInput
             name={"e-mail"}
             size="default"
@@ -55,7 +55,7 @@ export default function Login() {
             onChange={(e) => setValuePassword(e.target.value)}
             value={valuePassword}
           />
-          <Button type="primary" size="medium" onClick={handleSubmit} disabled={btnDisabled}>
+          <Button type="primary" size="medium" disabled={btnDisabled} htmlType="submit">
             Войти
           </Button>
         </Form>

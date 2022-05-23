@@ -54,7 +54,7 @@ export default function ResetPassword() {
 
   return (
     <main className={styles.main}>
-      <Form name={"password-new"} title={"Восстановление пароля"}>
+      <Form name={"password-new"} title={"Восстановление пароля"} handleSubmit={handleSubmit}>
         <Input
           onChange={(e) => setValuePassword(e.target.value)}
           onFocus={() => setFocesed(true)}
@@ -78,7 +78,7 @@ export default function ResetPassword() {
           value={valueCode}
           onChange={(e) => setValueCode(e.target.value)}
         />
-        <Button type="primary" size="medium" onClick={handleSubmit}>
+        <Button type="primary" size="medium" htmlType={"submit"}>
           Сохранить
         </Button>
       </Form>

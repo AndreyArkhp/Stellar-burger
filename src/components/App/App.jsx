@@ -14,6 +14,7 @@ import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {getUserInfo} from "../../services/actions/authorization";
 import IngredientPage from "../../pages/ingredient";
+import NotFound from "../NotFound/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,14 +36,7 @@ function App() {
               <Route path="profile" element={<Profile />} />
             </Route>
           </Route>
-          <Route
-            path="*"
-            element={
-              <main style={{padding: "1rem"}}>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </ErrorBoundary>

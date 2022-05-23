@@ -43,7 +43,7 @@ export default function Registration() {
   return (
     !isAuth && (
       <main className={styles.main}>
-        <Form name={"register"} title={"Регистрация"} error={errorMessage}>
+        <Form name={"register"} title={"Регистрация"} error={errorMessage} handleSubmit={handleSubmit}>
           <Input
             placeholder={"Имя"}
             name={"name"}
@@ -61,7 +61,7 @@ export default function Registration() {
             onChange={(e) => setValuePassword(e.target.value)}
             value={valuePassword}
           />
-          <Button type="primary" size="medium" onClick={handleSubmit} disabled={btnDisabled}>
+          <Button type="primary" size="medium" disabled={btnDisabled} htmlType={"submit"}>
             Зарегистрироваться
           </Button>
         </Form>

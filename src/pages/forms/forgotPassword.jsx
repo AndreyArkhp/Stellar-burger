@@ -47,7 +47,7 @@ export default function ForgotPassword() {
 
   return (
     <main className={styles.main}>
-      <Form name={"password-reset"} title={"Восстановление пароля"}>
+      <Form name={"password-reset"} title={"Восстановление пароля"} handleSubmit={handleSubmit}>
         <Input
           name="email"
           onChange={(e) => setValue(e.target.value)}
@@ -60,7 +60,7 @@ export default function ForgotPassword() {
           errorText={"Некоректный email"}
           error={error}
         />
-        <Button type="primary" size="medium" onClick={handleSubmit} disabled={btnDisabled}>
+        <Button type="primary" size="medium" disabled={btnDisabled}>
           Восстановить
         </Button>
       </Form>
