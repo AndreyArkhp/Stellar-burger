@@ -6,16 +6,20 @@ import styles from "./profile.module.css";
 import Form from "../../components/Form/Form";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, setUserInfo} from "../../services/actions/authorization";
+import {checkEmail} from "../../utils/functions";
 
 export default function Profile() {
   const {user} = useSelector((state) => state.dataUser);
   const [valueName, setValueName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
+  const [errorEmail, setErrorEmail] = useState(false);
   const [valuePassword, setValuePassword] = useState("");
   const [inputNameEdit, setInputNameEdit] = useState(false);
-  const [inputLoginEdit, setinputLoginEdit] = useState(false);
+  const [inputLoginEdit, setInputLoginEdit] = useState(false);
   const [inputPasswordFocused, setinputPasswordFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showBtns, setShowBtns] = useState(false);
+  const [btnDisabled, setBtnDisabled] = useState(true);
   const inputNameRef = useRef(null);
   const inputLoginRef = useRef(null);
   const inputPasswordRef = useRef(null);
@@ -23,7 +27,7 @@ export default function Profile() {
 
   const icon = (showPassword && "HideIcon") || "ShowIcon";
   const type = (showPassword && "text") || "password";
-  const error =
+  const errorPassword =
     valuePassword.length > 5
       ? false
       : !inputPasswordFocused && valuePassword.length > 0
@@ -34,10 +38,16 @@ export default function Profile() {
     setTimeout(() => !showPassword && inputPasswordRef.current.focus(), 0);
     setShowPassword(!showPassword);
   };
+
+  function showErorEmail() {
+    !valueEmail ? setErrorEmail(false) : setErrorEmail(!checkEmail(valueEmail));
+  }
+
   const cancelEdit = (e) => {
     e.preventDefault();
     setValueName(user.name);
     setValueEmail(user.email);
+    setValuePassword("");
   };
 
   const handleSubmit = (e) => {
@@ -49,6 +59,22 @@ export default function Profile() {
     setValueEmail(user.email);
     setValueName(user.name);
   }, [user]);
+
+  useEffect(() => {
+    if (valuePassword) {
+      setShowBtns(true);
+    } else {
+      setShowBtns(false);
+    }
+  }, [valueEmail, valueName, valuePassword, user]);
+
+  useEffect(() => {
+    if (checkEmail(valueEmail) && valuePassword.length > 5) {
+      setBtnDisabled(false);
+    } else {
+      setBtnDisabled(true);
+    }
+  }, [valueEmail, valuePassword]);
 
   return (
     <main className={`${styles.main} pl-10`}>
@@ -101,13 +127,18 @@ export default function Profile() {
           icon={"EditIcon"}
           onIconClick={() => {
             setTimeout(() => inputLoginRef.current.focus(), 0);
-            setinputLoginEdit(true);
+            setInputLoginEdit(true);
           }}
-          onBlur={() => setinputLoginEdit(false)}
+          onBlur={() => {
+            setInputLoginEdit(false);
+            showErorEmail();
+          }}
           placeholder={"Логин"}
           ref={inputLoginRef}
           type={"text"}
           disabled={!inputLoginEdit}
+          errorText={"Некоректный email"}
+          error={errorEmail}
         />
         <Input
           onChange={(e) => setValuePassword(e.target.value)}
@@ -122,18 +153,20 @@ export default function Profile() {
           icon={icon}
           onIconClick={onIconClick}
           ref={inputPasswordRef}
-          error={error}
+          error={errorPassword}
           errorText={"Некорректный пароль"}
           value={valuePassword}
         />
-        <div className={styles.buttons_field}>
-          <Button type="secondary" size="medium" onClick={cancelEdit} htmlType={"button"}>
-            Отмена
-          </Button>
-          <Button type="primary" size="medium" htmlType={"submit"}>
-            Сохранить
-          </Button>
-        </div>
+        {showBtns && (
+          <div className={styles.buttons_field}>
+            <Button type="secondary" size="medium" onClick={cancelEdit} htmlType={"button"}>
+              Отмена
+            </Button>
+            <Button type="primary" size="medium" htmlType={"submit"} disabled={btnDisabled}>
+              Сохранить
+            </Button>
+          </div>
+        )}
       </Form>
     </main>
   );
