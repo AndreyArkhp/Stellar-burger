@@ -23,7 +23,7 @@ import {
 } from "../../services/actions/constructor";
 
 function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
-  const {modalData, isLoaded} = useSelector((store) => store.modal);
+  const {modalOrderData, isLoaded} = useSelector((store) => store.modal);
   const {isAuth} = useSelector((store) => store.dataUser);
   const [active, setActive] = useState(false);
   const [isOrder, setIsOrder] = useState(false);
@@ -69,7 +69,7 @@ function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
       </Button>
       {active && (
         <Modal active={active} setActive={setActive}>
-          <OrderDetails dataOrder={modalData} isLoaded={isLoaded} />
+          <OrderDetails dataOrder={modalOrderData} isLoaded={isLoaded} />
         </Modal>
       )}
     </div>

@@ -1,18 +1,14 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrag} from "react-dnd";
-import {ingredientsPropTypes} from "../../utils/constants";
+import {Link, useLocation} from "react-router-dom";
+import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 
-import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
+import {ingredientsPropTypes} from "../../utils/constants";
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {scrollIngredients, switchTab} from "../../services/actions/tabs";
-import {Link} from "react-router-dom";
 import {openIngredientModal} from "../../services/actions/modal";
 
 function BurgerTab() {
@@ -43,6 +39,7 @@ function BurgerTab() {
 function BurgerCard({card}) {
   const {bun, constructorIngredients} = useSelector((store) => store.constructorIngredients);
   const dispatch = useDispatch();
+  const location = useLocation();
   let count;
 
   if (card.type === "bun") {
@@ -64,12 +61,16 @@ function BurgerCard({card}) {
   );
 
   function handleClick() {
-    dispatch(openIngredientModal());
+    dispatch(openIngredientModal(card));
   }
 
   return (
     <li className={styles.ingredient} onClick={handleClick} ref={cardRef}>
-      <Link to={`ingredients/${card._id}`} className={styles.ingredient__link}>
+      <Link
+        to={`ingredients/${card._id}`}
+        className={styles.ingredient__link}
+        state={{background: location}}
+      >
         <img src={card.image} className={" ml-4 mr-4 mb-2"} alt={card.name}></img>
         <p className={`${styles.ingredient__price} text text_type_digits-default mb-2`}>
           {card.price}
@@ -79,11 +80,6 @@ function BurgerCard({card}) {
           {card.name}
         </p>
         <Counter count={count || 0} size="default" className={styles.ingredient__counter} />
-        {/* {active && (
-          <Modal active={active} setActive={setActive}>
-            <IngredientDetails card={card} />
-          </Modal>
-        )} */}
       </Link>
     </li>
   );

@@ -6,8 +6,8 @@ export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
 export const OPEN_INGREDIENT_MODAL = "OPEN_INGREDIENT_MODAL";
 export const CLOSE_INGREDIENT_MODAL = "CLOSE_INGREDIENT_MODAL";
 
-export const openIngredientModal = () => {
-  return {type: OPEN_INGREDIENT_MODAL};
+export const openIngredientModal = (ingredient) => {
+  return {type: OPEN_INGREDIENT_MODAL,ingredient};
 };
 
 export const closeIngredientModal = () => {
