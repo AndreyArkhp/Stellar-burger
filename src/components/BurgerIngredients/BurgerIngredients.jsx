@@ -17,19 +17,19 @@ function BurgerTab() {
   const FILLING = "main";
 
   const dispatch = useDispatch();
-  const current = useSelector((store) => store.tabs.scroll);
+  const {activeTab, scroll} = useSelector((store) => store.tabs);
   const setActiveTab = (tab) => {
     dispatch(scrollIngredients(tab));
   };
   return (
     <div className={`${styles.tabs} mb-10`}>
-      <Tab value={BUNS} active={current === BUNS} onClick={() => setActiveTab(BUNS)}>
+      <Tab value={BUNS} active={activeTab === BUNS} onClick={() => setActiveTab(BUNS)}>
         Булки
       </Tab>
-      <Tab value={SAUCES} active={current === SAUCES} onClick={() => setActiveTab(SAUCES)}>
+      <Tab value={SAUCES} active={activeTab === SAUCES} onClick={() => setActiveTab(SAUCES)}>
         Соусы
       </Tab>
-      <Tab value={FILLING} active={current === FILLING} onClick={() => setActiveTab(FILLING)}>
+      <Tab value={FILLING} active={activeTab === FILLING} onClick={() => setActiveTab(FILLING)}>
         Начинки
       </Tab>
     </div>
@@ -128,7 +128,7 @@ function BurgerIngredients() {
   const getActiveTab = (headers) => {
     const containerOffset = tabsContainerRef.current.offsetTop;
     const offsetFormula = (el) =>
-      Math.abs(Math.round(el.getBoundingClientRect().y)) - containerOffset;
+      Math.abs(Math.round(el.getBoundingClientRect().y) - containerOffset);
     const tabs = [];
     for (let key in headers) {
       tabs.push({
