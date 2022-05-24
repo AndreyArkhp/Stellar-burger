@@ -61,7 +61,7 @@ function BurgerCard({card}) {
   );
 
   function handleClick() {
-    dispatch(openIngredientModal(card));
+    dispatch(openIngredientModal());
   }
 
   return (
