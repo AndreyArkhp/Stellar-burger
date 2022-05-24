@@ -152,7 +152,7 @@ function BurgerIngredients() {
     headers.sauce = sauces;
     headers.main = filling;
 
-    scrollTo && headers[scrollTo].scrollIntoView();
+    scrollTo && headers[scrollTo].scrollIntoView({behavior: "smooth"});
 
     let currentTab = getActiveTab(headers);
 

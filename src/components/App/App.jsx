@@ -40,7 +40,7 @@ function App() {
   return (
     <ErrorBoundary>
       <AppHeader />
-      <Routes location={background || location}>
+      <Routes location={background ?? location}>
         <Route path="/" element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Registration />} />
