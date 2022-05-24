@@ -11,7 +11,6 @@ const initialState = {
   error: false,
   ingredientOpen: false,
   modalOrderData: {},
-  modalIngredientData: {},
 };
 
 export const modalReducer = (state = initialState, action) => {
@@ -38,13 +37,11 @@ export const modalReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredientOpen: true,
-        modalIngredientData: action.ingredient,
       };
     case CLOSE_INGREDIENT_MODAL:
       return {
         ...state,
         ingredientOpen: false,
-        modalIngredientData: {},
       };
     default:
       return state;
