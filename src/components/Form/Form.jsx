@@ -24,4 +24,6 @@ Form.propTypes = {
   title: PropTypes.string,
   name: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
 };

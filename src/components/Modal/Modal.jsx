@@ -47,7 +47,7 @@ function Modal({children, setActive}) {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  setActive: PropTypes.func,
+  setActive: PropTypes.func.isRequired,
 };
 
 export default Modal;
