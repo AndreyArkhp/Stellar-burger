@@ -1,0 +1,33 @@
+.main {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #4c4cff;
+  height: 100vh;
+}
+
+.title {
+  /* margin: 8vw 0 2vw; */
+  font-size: 200px;
+  line-height: 215px;
+}
+
+.subtitle {
+  font-size: 40px;
+  line-height: 45px;
+  margin-block-end: 5vw;
+}
+
+.text {
+  max-width: 40vw;
+  text-align: center;
+  color: white;
+}
+
+.link {
+  text-decoration: none;
+  color: #4c4cff;
+}

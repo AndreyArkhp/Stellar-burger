@@ -1,0 +1,24 @@
+.main {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  padding-block-start: 14vh;
+  gap: 60px;
+}
+
+.links {
+  width: 320px;
+}
+
+.links__item {
+  text-decoration: none;
+  transition: color 0.2s linear;
+}
+
+.links__item:hover {
+  color: #f2f2f3;
+}
+
+.buttons_field {
+  margin-inline-start: auto;
+}

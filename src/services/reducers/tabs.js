@@ -1,4 +1,4 @@
-import { SWITCH_TAB, SCROLL_INGREDIENTS } from "../actions/tabs";
+import {SWITCH_TAB, SCROLL_INGREDIENTS} from "../actions/tabs";
 
 const initialState = {
   activeTab: "bun",

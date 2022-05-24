@@ -5,7 +5,7 @@ import {
 } from "../actions/ingredients";
 
 const initialState = {
-  isLoaded: false,
+  isLoade: false,
   error: false,
   ingredientsList: [],
 };
@@ -15,19 +15,19 @@ export const ingredientsReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_REQUEST:
       return {
         ...state,
-        isLoaded: false,
+        isLoade: false,
         error: false,
       };
     case GET_INGREDIENTS_SUCCESS:
       return {
         ...state,
-        isLoaded: true,
+        isLoade: true,
         ingredientsList: action.ingredients.data,
       };
     case GET_INGREDIENTS_FAILED:
       return {
         ...state,
-        isLoaded: true,
+        isLoade: true,
         error: true,
       };
     default:

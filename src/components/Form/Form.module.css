@@ -1,0 +1,19 @@
+.form > div > div {
+  width: 480px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  min-width: 25vw;
+}
+
+.form__title {
+  text-align: center;
+}
+
+.errorMessage {
+  color: red;
+}

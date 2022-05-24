@@ -1,0 +1,12 @@
+.ingredient {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1280px;
+  margin: 6.25vw auto 0;
+}
+
+.ingredient h2 {
+  align-self: center;
+}

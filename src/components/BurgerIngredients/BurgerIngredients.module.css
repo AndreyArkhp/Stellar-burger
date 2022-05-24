@@ -4,7 +4,7 @@
 }
 
 .all-ingredients {
-  max-height: 83.5vh;
+  max-height: 55vh;
   overflow: auto;
   position: relative;
   scrollbar-color: #8585ad #2f2f37;
@@ -37,7 +37,6 @@
   flex-direction: column;
   position: relative;
   min-height: 208px;
-  cursor: pointer;
 }
 
 .ingredient__price {
@@ -54,4 +53,9 @@
 .ingredient__icon {
   display: inline-block;
   margin: auto;
+}
+
+.ingredient__link {
+  color: inherit;
+  text-decoration: none;
 }

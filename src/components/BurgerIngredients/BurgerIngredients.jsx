@@ -1,17 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import {useEffect, useRef} from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { useDrag } from "react-dnd";
-import { ingredientsPropTypes } from "../../utils/constants";
+import {useDispatch, useSelector} from "react-redux";
+import {useDrag} from "react-dnd";
+import {Link, useLocation} from "react-router-dom";
+import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
-import { SCROLL_INGREDIENTS, SWITCH_TAB } from "../../services/actions/tabs";
+import {ingredientsPropTypes} from "../../utils/constants";
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import {scrollIngredients, switchTab} from "../../services/actions/tabs";
+import {openIngredientModal} from "../../services/actions/modal";
 
 function BurgerTab() {
   const BUNS = "bun";
@@ -19,40 +17,41 @@ function BurgerTab() {
   const FILLING = "main";
 
   const dispatch = useDispatch();
-  const current = useSelector((store) => store.tabs.activeTab);
+  const {activeTab} = useSelector((store) => store.tabs);
   const setActiveTab = (tab) => {
-    dispatch({ type: SCROLL_INGREDIENTS, scroll: tab });
+    dispatch(scrollIngredients(tab));
   };
   return (
     <div className={`${styles.tabs} mb-10`}>
-      <Tab value={BUNS} active={current === BUNS} onClick={() => setActiveTab(BUNS)}>
+      <Tab value={BUNS} active={activeTab === BUNS} onClick={() => setActiveTab(BUNS)}>
         Булки
       </Tab>
-      <Tab value={SAUCES} active={current === SAUCES} onClick={() => setActiveTab(SAUCES)}>
+      <Tab value={SAUCES} active={activeTab === SAUCES} onClick={() => setActiveTab(SAUCES)}>
         Соусы
       </Tab>
-      <Tab value={FILLING} active={current === FILLING} onClick={() => setActiveTab(FILLING)}>
+      <Tab value={FILLING} active={activeTab === FILLING} onClick={() => setActiveTab(FILLING)}>
         Начинки
       </Tab>
     </div>
   );
 }
 
-function BurgerCard({ card }) {
-  const counts = useSelector((store) => store.constructorIngredients);
-  const [active, setActive] = useState(false);
+function BurgerCard({card}) {
+  const {bun, constructorIngredients} = useSelector((store) => store.constructorIngredients);
+  const dispatch = useDispatch();
+  const location = useLocation();
   let count;
 
   if (card.type === "bun") {
-    count = counts.bunCount ? card._id === counts.bunCount && 1 : 0;
+    count = bun ? card._id === bun._id && 1 : 0;
   } else {
-    count = counts.ingredientsCount[card._id] ? counts.ingredientsCount[card._id] : 0;
+    count = constructorIngredients.filter((el) => el._id === card._id).length;
   }
 
   const [, cardRef] = useDrag(
     {
       type: "ingredient",
-      item: { id: card._id },
+      item: {id: card._id},
       collect: (monitor) => ({
         ingredientAdded: monitor.didDrop(),
         typeee: monitor.getItem(),
@@ -62,24 +61,26 @@ function BurgerCard({ card }) {
   );
 
   function handleClick() {
-    if (!active) {
-      setActive(true);
-    }
+    dispatch(openIngredientModal(card));
   }
+
   return (
     <li className={styles.ingredient} onClick={handleClick} ref={cardRef}>
-      <img src={card.image} className={" ml-4 mr-4 mb-2"} alt={card.name}></img>
-      <p className={`${styles.ingredient__price} text text_type_digits-default mb-2`}>
-        {card.price}
-        <CurrencyIcon type="primary" />
-      </p>
-      <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>{card.name}</p>
-      <Counter count={count || 0} size="default" className={styles.ingredient__counter} />
-      {active && (
-        <Modal active={active} setActive={setActive}>
-          <IngredientDetails card={card} />
-        </Modal>
-      )}
+      <Link
+        to={`ingredients/${card._id}`}
+        className={styles.ingredient__link}
+        state={{background: location}}
+      >
+        <img src={card.image} className={" ml-4 mr-4 mb-2"} alt={card.name}></img>
+        <p className={`${styles.ingredient__price} text text_type_digits-default mb-2`}>
+          {card.price}
+          <CurrencyIcon type="primary" />
+        </p>
+        <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>
+          {card.name}
+        </p>
+        <Counter count={count || 0} size="default" className={styles.ingredient__counter} />
+      </Link>
     </li>
   );
 }
@@ -88,8 +89,8 @@ BurgerCard.propTypes = {
   card: PropTypes.shape(ingredientsPropTypes).isRequired,
 };
 
-function TypeIngredients({ ingredient }) {
-  const { ingredientsList } = useSelector((store) => store.ingredients);
+function TypeIngredients({ingredient}) {
+  const {ingredientsList} = useSelector((store) => store.ingredients);
   const translation = {
     bun: "Булки",
     sauce: "Соусы",
@@ -116,9 +117,9 @@ TypeIngredients.propTypes = {
 
 function BurgerIngredients() {
   const ingredients = [
-    { type: "bun", id: 1 },
-    { type: "sauce", id: 2 },
-    { type: "main", id: 3 },
+    {type: "bun", id: 1},
+    {type: "sauce", id: 2},
+    {type: "main", id: 3},
   ];
   const scrollTo = useSelector((store) => store.tabs.scroll);
   const dispatch = useDispatch();
@@ -127,7 +128,7 @@ function BurgerIngredients() {
   const getActiveTab = (headers) => {
     const containerOffset = tabsContainerRef.current.offsetTop;
     const offsetFormula = (el) =>
-      Math.abs(Math.round(el.getBoundingClientRect().y)) - containerOffset;
+      Math.abs(Math.round(el.getBoundingClientRect().y) - containerOffset);
     const tabs = [];
     for (let key in headers) {
       tabs.push({
@@ -151,14 +152,14 @@ function BurgerIngredients() {
     headers.sauce = sauces;
     headers.main = filling;
 
-    scrollTo && headers[scrollTo].scrollIntoView();
+    scrollTo && headers[scrollTo].scrollIntoView({behavior: "smooth"});
 
     let currentTab = getActiveTab(headers);
 
     tabsContainerRef.current.addEventListener("scroll", () => {
       const activeTab = getActiveTab(headers);
       if (!Object.is(currentTab, activeTab)) {
-        dispatch({ type: SWITCH_TAB, activeTab: activeTab });
+        dispatch(switchTab(activeTab));
         currentTab = activeTab;
       }
     });

@@ -1,35 +1,70 @@
-import { useEffect } from "react";
-
-import { useDispatch, useSelector } from "react-redux";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import {Routes, Route, useLocation, useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
 import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
-
-import styles from "./App.module.css";
-import { getIngridients } from "../../services/actions/ingredients";
+import HomePage from "../../pages/home";
+import Login from "../../pages/forms/login";
+import Registration from "../../pages/forms/register";
+import ForgotPassword from "../../pages/forms/forgotPassword";
+import ResetPassword from "../../pages/forms/resetPassword";
+import Profile from "../../pages/forms/profile";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import {getUserInfo} from "../../services/actions/authorization";
+import IngredientPage from "../../pages/ingredient";
+import NotFound from "../NotFound/NotFound";
+import Modal from "../Modal/Modal";
+import {closeIngredientModal} from "../../services/actions/modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 function App() {
+  const {ingredientOpen} = useSelector((store) => store.modal);
   const dispatch = useDispatch();
-  const { isLoaded } = useSelector((store) => store.ingredients);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const background = ingredientOpen && location.state?.background;
+
+  const setActive = (bool) => {
+    if (!bool) {
+      dispatch(closeIngredientModal());
+      navigate(-1);
+    }
+  };
 
   useEffect(() => {
-    dispatch(getIngridients());
+    localStorage.refreshToken && dispatch(getUserInfo());
   }, [dispatch]);
 
   return (
     <ErrorBoundary>
       <AppHeader />
-      {isLoaded && (
-        <DndProvider backend={HTML5Backend}>
-          <main className={styles.main}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </main>
-        </DndProvider>
+      <Routes location={background ?? location}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Registration />} />
+        <Route path="forgotpassword" element={<ForgotPassword />} />
+        <Route path="resetpassword" element={<ResetPassword />} />
+        <Route path="ingredients/:ingredientId" element={<IngredientPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="profile" element={<Profile />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      {background && (
+        <Routes>
+          <Route
+            path="ingredients/:ingredientId"
+            element={
+              ingredientOpen && (
+                <Modal setActive={setActive}>
+                  <IngredientDetails />
+                </Modal>
+              )
+            }
+          />
+        </Routes>
       )}
     </ErrorBoundary>
   );
