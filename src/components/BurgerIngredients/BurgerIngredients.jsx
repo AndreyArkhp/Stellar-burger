@@ -17,7 +17,7 @@ function BurgerTab() {
   const FILLING = "main";
 
   const dispatch = useDispatch();
-  const {activeTab, scroll} = useSelector((store) => store.tabs);
+  const {activeTab} = useSelector((store) => store.tabs);
   const setActiveTab = (tab) => {
     dispatch(scrollIngredients(tab));
   };

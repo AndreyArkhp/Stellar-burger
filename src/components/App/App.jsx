@@ -19,7 +19,7 @@ import {closeIngredientModal} from "../../services/actions/modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 function App() {
-  const {ingredientOpen, modalIngredientData} = useSelector((store) => store.modal);
+  const {ingredientOpen} = useSelector((store) => store.modal);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,7 +59,7 @@ function App() {
             element={
               ingredientOpen && (
                 <Modal setActive={setActive}>
-                  <IngredientDetails card={modalIngredientData} />
+                  <IngredientDetails />
                 </Modal>
               )
             }
