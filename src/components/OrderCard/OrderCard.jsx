@@ -64,7 +64,7 @@ export function OrderCard({order, status}) {
         </div>
 
         <div>
-          <h1 className="text text_type_main-medium mb-2">{order.name}</h1>
+          <h2 className="text text_type_main-medium mb-2">{order.name}</h2>
           {status && <p className="text text_type_main-default">{order.status}</p>}
         </div>
         <div className={styles.card__content}>

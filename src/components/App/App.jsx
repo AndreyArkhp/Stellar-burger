@@ -64,7 +64,7 @@ function App() {
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="resetpassword" element={<ResetPassword />} />
         <Route path="ingredients/:ingredientId" element={<IngredientPage />} />
-        <Route path="feed" element={<OrderFeedPage orders={datafeed?.orders} />} />
+        <Route path="feed" element={<OrderFeedPage orders={datafeed} />} />
         <Route element={<ProtectedRoute />}>
           <Route path="profile" element={<Profile />} />
         </Route>

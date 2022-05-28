@@ -1,6 +1,7 @@
 .feed {
+  box-sizing: border-box;
   width: 584px;
-  height: calc(100vh - 180px);
+  max-height: calc(100vh - 100px);
   overflow: auto;
   scrollbar-color: #8585ad #2f2f37;
   scrollbar-width: thin;
