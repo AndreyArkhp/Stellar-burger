@@ -101,3 +101,13 @@ export function checkResponse(res) {
     throw new Error(error);
   }
 }
+
+ export const getRandomId = (id) => {
+   let randomNumb = Math.round(Math.random() * 10000);
+   if (randomNumb < 1000) {
+     randomNumb = (1000 - randomNumb) * 3 + randomNumb;
+     return id + randomNumb;
+   } else {
+     return id + randomNumb;
+   }
+ };

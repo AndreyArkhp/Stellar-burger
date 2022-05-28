@@ -17,8 +17,25 @@ import NotFound from "../NotFound/NotFound";
 import Modal from "../Modal/Modal";
 import {closeIngredientModal} from "../../services/actions/modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import {OrderFeedPage} from "../../pages/orderFeed";
+
+//test
+export let datafeed = null;
+
+const ws = new WebSocket("wss://norma.nomoreparties.space/orders/all");
+ws.onopen = (e) => console.log("open");
+ws.onclose = (e) => console.log("close");
+ws.onmessage = (e) => (datafeed = {...JSON.parse(e.data)});
+
+//test
 
 function App() {
+  //test
+  useEffect(() => {
+    console.log(datafeed);
+  }, [datafeed]);
+  //test
+
   const {ingredientOpen} = useSelector((store) => store.modal);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,6 +64,7 @@ function App() {
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="resetpassword" element={<ResetPassword />} />
         <Route path="ingredients/:ingredientId" element={<IngredientPage />} />
+        <Route path="feed" element={<OrderFeedPage orders={datafeed?.orders} />} />
         <Route element={<ProtectedRoute />}>
           <Route path="profile" element={<Profile />} />
         </Route>

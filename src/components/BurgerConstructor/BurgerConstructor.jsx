@@ -13,6 +13,7 @@ import Modal from "../Modal/Modal";
 
 import styles from "./BurgerConstructor.module.css";
 import {ingredientsPropTypes, baseUrl} from "../../utils/constants";
+import {getRandomId} from "../../utils/functions";
 import {getOrder} from "../../services/actions/modal";
 import {
   resetConstructor,
@@ -159,15 +160,6 @@ function BurgerConstructor() {
       constructorIngredients.length === 0 &&
       "Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа") ||
     (!bun && "Пожалуйста, перенесите сюда булку  для создания заказа");
-  const getRandomId = (id) => {
-    let randomNumb = Math.round(Math.random() * 10000);
-    if (randomNumb < 1000) {
-      randomNumb = (1000 - randomNumb) * 3 + randomNumb;
-      return id + randomNumb;
-    } else {
-      return id + randomNumb;
-    }
-  };
 
   const setIngredientsOrder = (constructorIngredients) => {
     return [
