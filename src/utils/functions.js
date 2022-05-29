@@ -102,12 +102,26 @@ export function checkResponse(res) {
   }
 }
 
- export const getRandomId = (id) => {
-   let randomNumb = Math.round(Math.random() * 10000);
-   if (randomNumb < 1000) {
-     randomNumb = (1000 - randomNumb) * 3 + randomNumb;
-     return id + randomNumb;
-   } else {
-     return id + randomNumb;
-   }
- };
+export const getRandomId = (id) => {
+  let randomNumb = Math.round(Math.random() * 10000);
+  if (randomNumb < 1000) {
+    randomNumb = (1000 - randomNumb) * 3 + randomNumb;
+    return id + randomNumb;
+  } else {
+    return id + randomNumb;
+  }
+};
+
+/**
+ * Функция посчета стоимости ингридиетов
+ * @param {Array} ingredients - массив ингридиентов
+ * @returns - итоговая стоимось
+ */
+export const getPrice = (ingredients) =>
+  ingredients.reduce((total, ingredient) => {
+    return total + ingredient.price;
+  }, 0);
+
+export function openModal(dispatch, func) {
+  dispatch(func());
+}

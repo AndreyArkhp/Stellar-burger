@@ -5,7 +5,7 @@ export default function Feed({orders}) {
   return (
     <section className={`${styles.feed} pl-5`}>
       {orders.orders.map((order) => {
-        return <OrderCard order={order} ststus={false} key={order._id} />;
+        return <OrderCard order={order} status={false} key={order._id} />;
       })}
     </section>
   );

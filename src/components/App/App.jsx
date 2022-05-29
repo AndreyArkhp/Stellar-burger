@@ -18,6 +18,7 @@ import Modal from "../Modal/Modal";
 import {closeIngredientModal} from "../../services/actions/modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {OrderFeedPage} from "../../pages/orderFeed";
+import Order from "../Order/Order";
 
 //test
 export let datafeed = null;
@@ -42,6 +43,7 @@ function App() {
   const location = useLocation();
 
   const background = ingredientOpen && location.state?.background;
+  console.log(location);
 
   const setActive = (bool) => {
     if (!bool) {
@@ -65,6 +67,7 @@ function App() {
         <Route path="resetpassword" element={<ResetPassword />} />
         <Route path="ingredients/:ingredientId" element={<IngredientPage />} />
         <Route path="feed" element={<OrderFeedPage orders={datafeed} />} />
+        <Route path="feed/:id" element={<Order />} />
         <Route element={<ProtectedRoute />}>
           <Route path="profile" element={<Profile />} />
         </Route>
@@ -80,6 +83,14 @@ function App() {
                   <IngredientDetails />
                 </Modal>
               )
+            }
+          />
+          <Route
+            path="feed/:id"
+            element={
+              <Modal setActive={setActive}>
+                <Order />
+              </Modal>
             }
           />
         </Routes>

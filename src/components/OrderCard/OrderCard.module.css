@@ -33,13 +33,14 @@
   object-fit: cover;
   padding: 5px;
   background: #131316;
-  position: relative;
+  position: absolute;
   top: 0;
 }
 
 .card__imgContainer {
   max-width: 384px;
   position: relative;
+  min-height: 64px;
 }
 
 .card__restIngedients {

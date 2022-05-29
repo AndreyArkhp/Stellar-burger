@@ -10,6 +10,7 @@ import {ingredientsPropTypes} from "../../utils/constants";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {scrollIngredients, switchTab} from "../../services/actions/tabs";
 import {openIngredientModal} from "../../services/actions/modal";
+import {openModal} from "../../utils/functions";
 
 function BurgerTab() {
   const BUNS = "bun";
@@ -60,12 +61,12 @@ function BurgerCard({card}) {
     [card]
   );
 
-  function handleClick() {
-    dispatch(openIngredientModal());
-  }
-
   return (
-    <li className={styles.ingredient} onClick={handleClick} ref={cardRef}>
+    <li
+      className={styles.ingredient}
+      onClick={() => openModal(dispatch, openIngredientModal)}
+      ref={cardRef}
+    >
       <Link
         to={`ingredients/${card._id}`}
         className={styles.ingredient__link}

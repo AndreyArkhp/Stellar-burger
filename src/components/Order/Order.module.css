@@ -1,0 +1,9 @@
+.order__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.order__listItem {
+  display: flex;
+}
