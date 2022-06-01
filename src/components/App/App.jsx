@@ -19,31 +19,17 @@ import {closeIngredientModal} from "../../services/actions/modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {OrderFeedPage} from "../../pages/orderFeed";
 import Order from "../Order/Order";
-
-//test
-export let datafeed = null;
-
-const ws = new WebSocket("wss://norma.nomoreparties.space/orders/all");
-ws.onopen = (e) => console.log("open");
-ws.onclose = (e) => console.log("close");
-ws.onmessage = (e) => (datafeed = {...JSON.parse(e.data)});
-
-//test
+import {wsConnectStart} from "../../services/actions/wsOrders";
+import {wsOrdersUrl} from "../../utils/constants";
+import {getIngridients} from "../../services/actions/ingredients";
 
 function App() {
-  //test
-  useEffect(() => {
-    console.log(datafeed);
-  }, [datafeed]);
-  //test
-
-  const {ingredientOpen} = useSelector((store) => store.modal);
+  const {modalOpen} = useSelector((store) => store.modal);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const background = ingredientOpen && location.state?.background;
-  console.log(location);
+  const background = modalOpen && location.state?.background;
 
   const setActive = (bool) => {
     if (!bool) {
@@ -53,7 +39,12 @@ function App() {
   };
 
   useEffect(() => {
+    dispatch(wsConnectStart(wsOrdersUrl)); //test
+  }, []); //test
+
+  useEffect(() => {
     localStorage.refreshToken && dispatch(getUserInfo());
+    dispatch(getIngridients());
   }, [dispatch]);
 
   return (
@@ -66,7 +57,7 @@ function App() {
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="resetpassword" element={<ResetPassword />} />
         <Route path="ingredients/:ingredientId" element={<IngredientPage />} />
-        <Route path="feed" element={<OrderFeedPage orders={datafeed} />} />
+        <Route path="feed" element={<OrderFeedPage />} />
         <Route path="feed/:id" element={<Order />} />
         <Route element={<ProtectedRoute />}>
           <Route path="profile" element={<Profile />} />
@@ -78,7 +69,7 @@ function App() {
           <Route
             path="ingredients/:ingredientId"
             element={
-              ingredientOpen && (
+              modalOpen && (
                 <Modal setActive={setActive}>
                   <IngredientDetails />
                 </Modal>

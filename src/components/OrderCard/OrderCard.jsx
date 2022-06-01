@@ -1,10 +1,16 @@
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useCallback, useMemo} from "react";
+import {useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useLocation} from "react-router-dom";
 
 import styles from "./OrderCard.module.css";
-import {getRandomId, getPrice, openModal} from "../../utils/functions";
+import {
+  getRandomId,
+  getPrice,
+  openModal,
+  findIngredientsById,
+  getOrderDate,
+} from "../../utils/functions";
 import {openIngredientModal} from "../../services/actions/modal";
 
 export function OrderCard({order, status}) {
@@ -12,40 +18,13 @@ export function OrderCard({order, status}) {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const ingredients = useMemo(() => {
-    return order.ingredients
-      .filter((el) => {
-        return !Object.is(el, null);
-      })
-      .map((ingredient) => {
-        return (ingredient = ingredientsList.find((el) => {
-          return el._id === ingredient;
-        }));
-      });
-  }, [order, ingredientsList]);
+  const ingredients = findIngredientsById(ingredientsList, order.ingredients);
 
   const restIngredients = useMemo(() => {
     return order.ingredients.length > 6 ? `+${order.ingredients.length - 6}` : "";
   }, [order.ingredients.length]);
 
-  const orderDate = useMemo(() => {
-    const time = new Date(order.createdAt);
-    const timeNow = Date.now();
-    const DAY = 86400000;
-    const timeAgo = {
-      today: "Сегодня",
-      yesterday: "Вчера",
-      fewDaysAgo: "дня назад",
-    };
-    const differTime = timeNow - time;
-    const daysAgo =
-      (differTime < DAY && timeAgo.today) ||
-      (differTime < DAY * 2 && timeAgo.yesterday) ||
-      `${Math.floor(differTime / DAY)} ${timeAgo.fewDaysAgo}`;
-    const minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
-    const result = `${daysAgo}, ${time.getHours()}:${minutes} i-GMT+3`;
-    return result;
-  }, [order.createdAt]);
+  const orderDate = getOrderDate(order.createdAt);
 
   return (
     <article
@@ -56,7 +35,7 @@ export function OrderCard({order, status}) {
         <div className={styles.card__header}>
           <p className="text text_type_digits-default">{`#${order.number}`}</p>
           <time
-            dateTime="2022-05-27T08:48:06.083Z"
+            dateTime={`${order.createdAt}`}
             className="text text_type_main-default text_color_inactive"
           >
             {orderDate}

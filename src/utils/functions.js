@@ -125,3 +125,34 @@ export const getPrice = (ingredients) =>
 export function openModal(dispatch, func) {
   dispatch(func());
 }
+
+export const findIngredientsById = (listIngredients, id) => {
+  return id
+    .filter((el) => {
+      return !Object.is(el, null);
+    })
+    .map((id) => {
+      return listIngredients.find((el) => {
+        return el._id === id;
+      });
+    });
+};
+
+export const getOrderDate = (date) => {
+  const time = new Date(date);
+  const timeNow = Date.now();
+  const DAY = 86400000;
+  const timeAgo = {
+    today: "Сегодня",
+    yesterday: "Вчера",
+    fewDaysAgo: "дня назад",
+  };
+  const differTime = timeNow - time;
+  const daysAgo =
+    (differTime < DAY && timeAgo.today) ||
+    (differTime < DAY * 2 && timeAgo.yesterday) ||
+    `${Math.floor(differTime / DAY)} ${timeAgo.fewDaysAgo}`;
+  const minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
+  const result = `${daysAgo}, ${time.getHours()}:${minutes} i-GMT+3`;
+  return result;
+};
