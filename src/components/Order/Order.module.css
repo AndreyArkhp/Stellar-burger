@@ -1,6 +1,19 @@
-.order {
+.orderModal {
   padding: 40px;
   max-width: 720px;
+}
+
+.order {
+  composes: orderModal;
+  margin: 0 auto;
+}
+
+.order__number {
+  text-align: center;
+}
+
+.order__statusDone {
+  color: #00cccc;
 }
 
 .order__list {
@@ -51,4 +64,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.order__loading {
+  text-align: center;
+  margin-block-start: 20vh;
 }

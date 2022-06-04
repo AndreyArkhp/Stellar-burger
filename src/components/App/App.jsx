@@ -19,12 +19,13 @@ import {closeIngredientModal} from "../../services/actions/modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {OrderFeedPage} from "../../pages/orderFeed";
 import Order from "../Order/Order";
-import {wsConnectStart} from "../../services/actions/wsOrders";
+import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
 import {wsOrdersUrl} from "../../utils/constants";
 import {getIngridients} from "../../services/actions/ingredients";
 
 function App() {
   const {modalOpen} = useSelector((store) => store.modal);
+  const {wsConnection} = useSelector((store) => store.orders);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,8 +40,12 @@ function App() {
   };
 
   useEffect(() => {
-    dispatch(wsConnectStart(wsOrdersUrl)); //test
-  }, []); //test
+    if (/^\/feed|profile\/order.*/.test(location.pathname)) {
+      dispatch(wsConnectStart(wsOrdersUrl));
+    } else if (wsConnection) {
+      dispatch(wsConnectFinish());
+    }
+  }, [location, dispatch, wsConnection]);
 
   useEffect(() => {
     localStorage.refreshToken && dispatch(getUserInfo());

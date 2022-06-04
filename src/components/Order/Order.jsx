@@ -23,48 +23,69 @@ function OrderListItem({order}) {
 }
 
 export default function Order() {
-  const params = useParams();
-  // const {modalOpen} = useSelector((store) => store.modal);
+  const {id} = useParams();
+  const {modalOpen} = useSelector((store) => store.modal);
   const {orders} = useSelector((store) => store.orders);
   const {ingredientsList} = useSelector((store) => store.ingredients);
-  const {number, name, ingredients, createdAt} = orders.find((el) => el._id === params.id);
-  const ingredientsOrder = findIngredientsById(ingredientsList, ingredients);
-  const ingredientsMap = {};
+  const styleOrder = modalOpen ? styles.orderModal : styles.order;
+  const styleNumberOrder = modalOpen ? null : styles.order__number;
+  if (orders.length && ingredientsList.length) {
+    const {number, name, ingredients, createdAt, status} = orders.find((el) => el._id === id);
+    const ingredientsOrder = findIngredientsById(ingredientsList, ingredients);
+    const ingredientsMap = {};
 
-  ingredientsOrder.forEach((ingredient) => {
-    const {_id: id, image, name, price} = ingredient;
-    if (!ingredientsMap[id]) {
-      ingredientsMap[id] = {
-        curent: 1,
-        image,
-        name,
-        price,
-        id,
-      };
-    } else {
-      ingredientsMap[id].curent++;
-    }
-  });
+    ingredientsOrder.forEach((ingredient) => {
+      const {_id: id, image, name, price} = ingredient;
+      if (!ingredientsMap[id]) {
+        ingredientsMap[id] = {
+          curent: 1,
+          image,
+          name,
+          price,
+          id,
+        };
+      } else {
+        ingredientsMap[id].curent++;
+      }
+    });
+    const statusMap = {
+      done: "Выполнен",
+      pending: "Готовится",
+      created: "Создан",
+    };
+    const orderStatus = status === "done" ? styles.order__statusDone : null;
 
-  return (
-    <div className={styles.order}>
-      <p className="text text_type_digits-default mt-5 mb-10">{`#${number}`}</p>
-      <h2 className="text text_type_main-medium mb-3">{name}</h2>
-      <p className="text text_type_main-default mb-15">Выполнен</p>
-      <h2 className="text text_type_main-medium mb-6">Состав:</h2>
-      <ul className={`${styles.order__list} mb-10 pr-6`}>
-        {Object.values(ingredientsMap).map((el) => {
-          return <OrderListItem order={el} key={el.id} />;
-        })}
-      </ul>
-      <div className={styles.order__footer}>
-        <time className="text text_type_main-default text_color_inactive" dateTime={`${createdAt}`}>
-          {getOrderDate(createdAt)}
-        </time>
-        <p className={`text text_type_digits-default ${styles.order__price}`}>
-          {getPrice(ingredientsOrder)} <CurrencyIcon />
-        </p>
+    return (
+      <div className={styleOrder}>
+        <p
+          className={`${styleNumberOrder} text text_type_digits-default mt-5 mb-10`}
+        >{`#${number}`}</p>
+        <h2 className="text text_type_main-medium mb-3">{name}</h2>
+        <p className={`${orderStatus} text text_type_main-default mb-15`}>{statusMap[status]}</p>
+        <h2 className="text text_type_main-medium mb-6">Состав:</h2>
+        <ul className={`${styles.order__list} mb-10 pr-6`}>
+          {Object.values(ingredientsMap).map((el) => {
+            return <OrderListItem order={el} key={el.id} />;
+          })}
+        </ul>
+        <div className={styles.order__footer}>
+          <time
+            className="text text_type_main-default text_color_inactive"
+            dateTime={`${createdAt}`}
+          >
+            {getOrderDate(createdAt)}
+          </time>
+          <p className={`text text_type_digits-default ${styles.order__price}`}>
+            {getPrice(ingredientsOrder)} <CurrencyIcon />
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <h2 className={`${styles.order__loading} text text_type_main-large`}>
+        Загрузка ингридиента ...
+      </h2>
+    );
+  }
 }

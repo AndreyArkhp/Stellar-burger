@@ -6,7 +6,7 @@ import {
 } from "../actions/wsOrders";
 
 const initialState = {
-  wsConection: false,
+  wsConnection: false,
   wsError: false,
   orders: [],
 };
@@ -16,12 +16,12 @@ export const wsOrdersReduser = (state = initialState, action) => {
     case WS_CONNECTION_SUCCESS:
       return {
         ...state,
-        wsConection: true,
+        wsConnection: true,
       };
     case WS_CONNECTION_CLOSE:
       return {
         ...state,
-        wsConection: false,
+        wsConnection: false,
         wsError: false,
         orders: [],
       };
