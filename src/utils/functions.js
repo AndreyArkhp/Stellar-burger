@@ -127,15 +127,17 @@ export function openModal(dispatch, func) {
 }
 
 export const findIngredientsById = (listIngredients, id) => {
-  return id
-    .filter((el) => {
-      return !Object.is(el, null);
-    })
-    .map((id) => {
-      return listIngredients.find((el) => {
-        return el._id === id;
+  if (listIngredients.length && id.length) {
+    return id
+      .filter((el) => {
+        return !Object.is(el, null);
+      })
+      .map((id) => {
+        return listIngredients.find((el) => {
+          return el._id === id;
+        });
       });
-    });
+  }
 };
 
 export const getOrderDate = (date) => {

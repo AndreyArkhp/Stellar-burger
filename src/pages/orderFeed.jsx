@@ -8,8 +8,8 @@ export function OrderFeedPage({orders}) {
       <h1 className={`${styles.title} text text_type_main-large pt-10 pb-5 pl-5`}>Лента заказов</h1>
 
       <div className={styles.content}>
-        <Feed orders={orders} />
-        {/* <Orders orders={orders} /> */}
+        <Feed />
+        <Orders />
       </div>
     </main>
   );

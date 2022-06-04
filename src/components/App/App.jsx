@@ -41,9 +41,9 @@ function App() {
 
   useEffect(() => {
     if (/^\/feed|profile\/order.*/.test(location.pathname)) {
-      dispatch(wsConnectStart(wsOrdersUrl));
-    } else if (wsConnection) {
-      dispatch(wsConnectFinish());
+      !wsConnection && dispatch(wsConnectStart(wsOrdersUrl));
+    } else {
+      wsConnection && dispatch(wsConnectFinish());
     }
   }, [location, dispatch, wsConnection]);
 

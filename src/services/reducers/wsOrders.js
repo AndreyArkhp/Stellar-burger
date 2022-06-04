@@ -9,6 +9,8 @@ const initialState = {
   wsConnection: false,
   wsError: false,
   orders: [],
+  total: 0,
+  totalToday: 0,
 };
 
 export const wsOrdersReduser = (state = initialState, action) => {
@@ -31,9 +33,12 @@ export const wsOrdersReduser = (state = initialState, action) => {
         wsError: action.payload,
       };
     case WS_GET_MESSAGE:
+      const res = JSON.parse(action.payload);
       return {
         ...state,
-        orders: JSON.parse(action.payload).orders,
+        orders: res.orders,
+        total: res.total,
+        totalToday: res.totalToday,
       };
     default:
       return state;

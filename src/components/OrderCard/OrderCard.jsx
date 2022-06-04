@@ -1,24 +1,15 @@
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useMemo} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {Link, useLocation} from "react-router-dom";
 
 import styles from "./OrderCard.module.css";
-import {
-  getRandomId,
-  getPrice,
-  openModal,
-  findIngredientsById,
-  getOrderDate,
-} from "../../utils/functions";
+import {getRandomId, getPrice, openModal, getOrderDate} from "../../utils/functions";
 import {openIngredientModal} from "../../services/actions/modal";
 
-export function OrderCard({order, status}) {
-  const {ingredientsList} = useSelector((store) => store.ingredients);
+export function OrderCard({order, status, ingredients}) {
   const dispatch = useDispatch();
   const location = useLocation();
-
-  const ingredients = findIngredientsById(ingredientsList, order.ingredients);
 
   const restIngredients = useMemo(() => {
     return order.ingredients.length > 6 ? `+${order.ingredients.length - 6}` : "";

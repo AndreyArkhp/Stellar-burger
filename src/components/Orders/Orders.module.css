@@ -40,6 +40,9 @@
     0px 4px 32px rgba(51, 51, 255, 0.5);
 }
 
-.number {
+.numberDone {
   color: #00cccc;
+}
+.number {
+  color: inherit;
 }
