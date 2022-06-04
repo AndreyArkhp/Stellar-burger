@@ -1,4 +1,4 @@
-import {checkResponse} from "../../utils/functions";
+import {checkResponse, getToken} from "../../utils/functions";
 
 export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";
 export const GET_ORDER_FAILED = "GET_ORDER_FAILED";
@@ -7,7 +7,7 @@ export const OPEN_INGREDIENT_MODAL = "OPEN_INGREDIENT_MODAL";
 export const CLOSE_INGREDIENT_MODAL = "CLOSE_INGREDIENT_MODAL";
 
 export const openIngredientModal = (ingredient) => {
-  return {type: OPEN_INGREDIENT_MODAL,ingredient};
+  return {type: OPEN_INGREDIENT_MODAL, ingredient};
 };
 
 export const closeIngredientModal = () => {
@@ -21,6 +21,7 @@ export const getOrder = (baseUrl, ingredientsOder) => async (dispatch) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify({
         ingredients: ingredientsOder,

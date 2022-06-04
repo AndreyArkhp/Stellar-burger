@@ -17,6 +17,11 @@ export function OrderCard({order, status, ingredients}) {
   }, [order.ingredients.length]);
 
   const orderDate = getOrderDate(order.createdAt);
+  const statusMap = {
+    done: "Выполнен",
+    pending: "Готовится",
+    created: "Создан",
+  };
 
   return (
     <article
@@ -36,7 +41,7 @@ export function OrderCard({order, status, ingredients}) {
 
         <div>
           <h2 className="text text_type_main-medium mb-2">{order.name}</h2>
-          {status && <p className="text text_type_main-default">{order.status}</p>}
+          {status && <p className="text text_type_main-default">{statusMap[order.status]}</p>}
         </div>
         <div className={styles.card__content}>
           <div className={styles.card__imgContainer}>

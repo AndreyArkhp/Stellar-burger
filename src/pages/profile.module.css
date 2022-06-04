@@ -15,10 +15,10 @@
   transition: color 0.2s linear;
 }
 
-.links__item:hover {
+.links__item_active {
   color: #f2f2f3;
 }
 
-.buttons_field {
-  margin-inline-start: auto;
+.links__item:hover {
+  color: #f2f2f3;
 }

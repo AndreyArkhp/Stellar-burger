@@ -9,7 +9,7 @@ import Login from "../../pages/forms/login";
 import Registration from "../../pages/forms/register";
 import ForgotPassword from "../../pages/forms/forgotPassword";
 import ResetPassword from "../../pages/forms/resetPassword";
-import Profile from "../../pages/forms/profile";
+import Profile from "../../pages/profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {getUserInfo} from "../../services/actions/authorization";
 import IngredientPage from "../../pages/ingredient";
@@ -20,8 +20,9 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {OrderFeedPage} from "../../pages/orderFeed";
 import Order from "../Order/Order";
 import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
-import {wsOrdersUrl} from "../../utils/constants";
+import {wsHistoryOrders, wsHistoryOrdersUrl, wsOrdersUrl} from "../../utils/constants";
 import {getIngridients} from "../../services/actions/ingredients";
+import {getToken} from "../../utils/functions";
 
 function App() {
   const {modalOpen} = useSelector((store) => store.modal);
@@ -40,8 +41,10 @@ function App() {
   };
 
   useEffect(() => {
-    if (/^\/feed|profile\/order.*/.test(location.pathname)) {
+    if (/^\/feed/.test(location.pathname)) {
       !wsConnection && dispatch(wsConnectStart(wsOrdersUrl));
+    } else if (/^\/profile\/order/.test(location.pathname)) {
+      !wsConnection && dispatch(wsConnectStart(`${wsHistoryOrdersUrl}?token=${getToken()}`));
     } else {
       wsConnection && dispatch(wsConnectFinish());
     }
@@ -65,7 +68,7 @@ function App() {
         <Route path="feed" element={<OrderFeedPage />} />
         <Route path="feed/:id" element={<Order />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile/*" element={<Profile />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
