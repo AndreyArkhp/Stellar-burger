@@ -1,3 +1,4 @@
+import propTypes from "prop-types";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
@@ -21,6 +22,10 @@ function OrderListItem({order}) {
     </>
   );
 }
+
+OrderListItem.propTypes = {
+  order: propTypes.object.isRequired,
+};
 
 export default function Order() {
   const {id} = useParams();

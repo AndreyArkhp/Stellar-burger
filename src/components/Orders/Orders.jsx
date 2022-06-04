@@ -22,7 +22,6 @@ function ListNumbers({orders, status}) {
 
 export default function Orders() {
   const {orders, total, totalToday} = useSelector((store) => store.orders);
-  console.log(orders);
   return (
     <section className={styles.orders}>
       <div className={`${styles.orders__statusContainer} mb-15`}>

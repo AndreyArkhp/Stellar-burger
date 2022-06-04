@@ -1,5 +1,6 @@
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useMemo} from "react";
+import propTypes from "prop-types";
 import {useDispatch} from "react-redux";
 import {Link, useLocation} from "react-router-dom";
 
@@ -69,3 +70,9 @@ export function OrderCard({order, status, ingredients}) {
     </article>
   );
 }
+
+OrderCard.propTypes = {
+  order: propTypes.object.isRequired,
+  status: propTypes.bool,
+  ingredients: propTypes.array.isRequired,
+};
