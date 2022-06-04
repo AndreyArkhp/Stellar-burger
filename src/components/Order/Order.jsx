@@ -39,6 +39,7 @@ export default function Order() {
         image,
         name,
         price,
+        id,
       };
     } else {
       ingredientsMap[id].curent++;
@@ -53,7 +54,7 @@ export default function Order() {
       <h2 className="text text_type_main-medium mb-6">Состав:</h2>
       <ul className={`${styles.order__list} mb-10 pr-6`}>
         {Object.values(ingredientsMap).map((el) => {
-          return <OrderListItem order={el} />;
+          return <OrderListItem order={el} key={el.id} />;
         })}
       </ul>
       <div className={styles.order__footer}>

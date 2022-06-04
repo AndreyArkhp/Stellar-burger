@@ -140,14 +140,21 @@ export const findIngredientsById = (listIngredients, id) => {
 
 export const getOrderDate = (date) => {
   const time = new Date(date);
-  const timeNow = Date.now();
+  const timeNow = new Date();
   const DAY = 86400000;
+  const coefficientTime =
+    DAY -
+    (timeNow.getHours() * 3600000 +
+      timeNow.getMinutes() * 60000 +
+      timeNow.getSeconds() * 1000 +
+      timeNow.getMilliseconds());
+
   const timeAgo = {
     today: "Сегодня",
     yesterday: "Вчера",
     fewDaysAgo: "дня назад",
   };
-  const differTime = timeNow - time;
+  const differTime = timeNow - time + coefficientTime;
   const daysAgo =
     (differTime < DAY && timeAgo.today) ||
     (differTime < DAY * 2 && timeAgo.yesterday) ||
