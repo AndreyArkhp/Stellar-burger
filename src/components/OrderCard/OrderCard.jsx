@@ -23,6 +23,8 @@ export function OrderCard({order, status, ingredients}) {
     created: "Создан",
   };
 
+  const statusStyle = order.status === "done" && styles.card__status;
+
   return (
     <article
       className={`${styles.card} mb-4`}
@@ -41,7 +43,11 @@ export function OrderCard({order, status, ingredients}) {
 
         <div>
           <h2 className="text text_type_main-medium mb-2">{order.name}</h2>
-          {status && <p className="text text_type_main-default">{statusMap[order.status]}</p>}
+          {status && (
+            <p className={`text text_type_main-default ${statusStyle}`}>
+              {statusMap[order.status]}
+            </p>
+          )}
         </div>
         <div className={styles.card__content}>
           <div className={styles.card__imgContainer}>

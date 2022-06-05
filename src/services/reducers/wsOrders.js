@@ -11,6 +11,7 @@ const initialState = {
   orders: [],
   total: 0,
   totalToday: 0,
+  success: false,
 };
 
 export const wsOrdersReduser = (state = initialState, action) => {
@@ -26,6 +27,9 @@ export const wsOrdersReduser = (state = initialState, action) => {
         wsConnection: false,
         wsError: false,
         orders: [],
+        total: 0,
+        totalToday: 0,
+        success: false,
       };
     case WS_CONNECTION_ERROR:
       return {
@@ -39,6 +43,7 @@ export const wsOrdersReduser = (state = initialState, action) => {
         orders: res.orders,
         total: res.total,
         totalToday: res.totalToday,
+        success: res.success,
       };
     default:
       return state;

@@ -1,15 +1,16 @@
-import {useEffect, useMemo} from "react";
 import {useSelector} from "react-redux";
 import {OrderCard} from "../components/OrderCard/OrderCard";
 import {findIngredientsById} from "../utils/functions";
 
+import styles from "./historyOrders.module.css";
+
 export default function HistoryOrdersPage() {
-  const {orders} = useSelector((store) => store.orders);
+  const {orders, wsConnection, success} = useSelector((store) => store.orders);
   const {ingredientsList} = useSelector((store) => store.ingredients);
-  let orderStatus = "Загрузка...";
+  let orderStatus = wsConnection && success ? "Заказы не найдены" : "Загрузка...";
 
   return orders.length && ingredientsList.length ? (
-    <section>
+    <section className={`${styles.section} pr-2`}>
       {orders.map((order) => {
         const ingredients = findIngredientsById(ingredientsList, order.ingredients);
         return <OrderCard order={order} ingredients={ingredients} status={true} key={order._id} />;

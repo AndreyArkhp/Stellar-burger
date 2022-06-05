@@ -37,6 +37,10 @@
   top: 0;
 }
 
+.card__status {
+  color: #00cccc;
+}
+
 .card__imgContainer {
   max-width: 384px;
   position: relative;

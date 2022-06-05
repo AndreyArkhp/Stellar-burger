@@ -2,12 +2,13 @@
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
-  padding-block-start: 14vh;
+  padding-block-start: 40px;
   gap: 60px;
 }
 
 .links {
   width: 320px;
+  padding-block-start: 80px;
 }
 
 .links__item {

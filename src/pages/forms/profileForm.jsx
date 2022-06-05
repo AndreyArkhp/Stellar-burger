@@ -75,71 +75,73 @@ export default function ProfileForm() {
     }
   }, [valueEmail, valuePassword]);
   return (
-    <Form name={"profile"} handleSubmit={handleSubmit}>
-      <Input
-        name={"name"}
-        value={valueName}
-        onChange={(e) => setValueName(e.target.value)}
-        icon={"EditIcon"}
-        onIconClick={() => {
-          setTimeout(() => !inputNameEdit && inputNameRef.current.focus(), 0);
-          setInputNameEdit(true);
-        }}
-        onBlur={() => {
-          setInputNameEdit(false);
-        }}
-        placeholder={"Имя"}
-        ref={inputNameRef}
-        type={"text"}
-        disabled={!inputNameEdit}
-      />
-      <Input
-        name={"email"}
-        value={valueEmail}
-        onChange={(e) => setValueEmail(e.target.value)}
-        icon={"EditIcon"}
-        onIconClick={() => {
-          setTimeout(() => inputLoginRef.current.focus(), 0);
-          setInputLoginEdit(true);
-        }}
-        onBlur={() => {
-          setInputLoginEdit(false);
-          showErorEmail();
-        }}
-        placeholder={"Логин"}
-        ref={inputLoginRef}
-        type={"text"}
-        disabled={!inputLoginEdit}
-        errorText={"Некоректный email"}
-        error={errorEmail}
-      />
-      <Input
-        onChange={(e) => setValuePassword(e.target.value)}
-        onFocus={() => setinputPasswordFocused(true)}
-        onBlur={() => {
-          setinputPasswordFocused(false);
-          setShowPassword(false);
-        }}
-        name={"new-password"}
-        type={type}
-        placeholder={"Введите новый пароль"}
-        icon={icon}
-        onIconClick={onIconClick}
-        ref={inputPasswordRef}
-        error={errorPassword}
-        errorText={"Некорректный пароль"}
-        value={valuePassword}
-      />
-      {showBtns && (
-        <div className={styles.buttonsField}>
-          <Button type="secondary" size="medium" onClick={cancelEdit} htmlType={"button"}>
-            Отмена
-          </Button>
-          <Button type="primary" size="medium" htmlType={"submit"} disabled={btnDisabled}>
-            Сохранить
-          </Button>
-        </div>
-      )}
-    </Form>
+    <div className="pt-20">
+      <Form name={"profile"} handleSubmit={handleSubmit}>
+        <Input
+          name={"name"}
+          value={valueName}
+          onChange={(e) => setValueName(e.target.value)}
+          icon={"EditIcon"}
+          onIconClick={() => {
+            setTimeout(() => !inputNameEdit && inputNameRef.current.focus(), 0);
+            setInputNameEdit(true);
+          }}
+          onBlur={() => {
+            setInputNameEdit(false);
+          }}
+          placeholder={"Имя"}
+          ref={inputNameRef}
+          type={"text"}
+          disabled={!inputNameEdit}
+        />
+        <Input
+          name={"email"}
+          value={valueEmail}
+          onChange={(e) => setValueEmail(e.target.value)}
+          icon={"EditIcon"}
+          onIconClick={() => {
+            setTimeout(() => inputLoginRef.current.focus(), 0);
+            setInputLoginEdit(true);
+          }}
+          onBlur={() => {
+            setInputLoginEdit(false);
+            showErorEmail();
+          }}
+          placeholder={"Логин"}
+          ref={inputLoginRef}
+          type={"text"}
+          disabled={!inputLoginEdit}
+          errorText={"Некоректный email"}
+          error={errorEmail}
+        />
+        <Input
+          onChange={(e) => setValuePassword(e.target.value)}
+          onFocus={() => setinputPasswordFocused(true)}
+          onBlur={() => {
+            setinputPasswordFocused(false);
+            setShowPassword(false);
+          }}
+          name={"new-password"}
+          type={type}
+          placeholder={"Введите новый пароль"}
+          icon={icon}
+          onIconClick={onIconClick}
+          ref={inputPasswordRef}
+          error={errorPassword}
+          errorText={"Некорректный пароль"}
+          value={valuePassword}
+        />
+        {showBtns && (
+          <div className={styles.buttonsField}>
+            <Button type="secondary" size="medium" onClick={cancelEdit} htmlType={"button"}>
+              Отмена
+            </Button>
+            <Button type="primary" size="medium" htmlType={"submit"} disabled={btnDisabled}>
+              Сохранить
+            </Button>
+          </div>
+        )}
+      </Form>
+    </div>
   );
 }
