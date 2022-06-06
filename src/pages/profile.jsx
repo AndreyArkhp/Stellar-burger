@@ -7,13 +7,14 @@ import {useDispatch} from "react-redux";
 import {logout} from "../services/actions/authorization";
 import ProfileForm from "./forms/profileForm";
 import HistoryOrdersPage from "./historyOrders";
+import Order from "../components/Order/Order";
 
-export default function Profile() {
+function MenuProfile() {
   const dispatch = useDispatch();
   return (
-    <main className={`${styles.main} pl-10`}>
-      <nav className={styles.links}>
-        <p className="text text_type_main-medium pt-4 pb-4">
+    <nav className={styles.links}>
+      <ul className={styles.listLinks}>
+        <li className="text text_type_main-medium pt-4 pb-4">
           <NavLink
             to={""}
             end
@@ -25,8 +26,8 @@ export default function Profile() {
           >
             Профиль
           </NavLink>
-        </p>
-        <p className="text text_type_main-medium pt-4 pb-4 ">
+        </li>
+        <li className="text text_type_main-medium pt-4 pb-4 ">
           <NavLink
             to={"orders"}
             className={({isActive}) =>
@@ -37,8 +38,8 @@ export default function Profile() {
           >
             История заказов
           </NavLink>
-        </p>
-        <p className="text text_type_main-medium pt-4 pb-4 ">
+        </li>
+        <li className="text text_type_main-medium pt-4 pb-4 ">
           <NavLink
             to={""}
             className={`${styles.links__item} text_color_inactive`}
@@ -46,14 +47,23 @@ export default function Profile() {
           >
             Выход
           </NavLink>
-        </p>
+        </li>
         <p className="mt-20 pt-1 text text_type_main-default text_color_inactive">
           В&nbsp;этом разделе вы&nbsp;можете изменить свои персональные данные
         </p>
-      </nav>
+      </ul>
+    </nav>
+  );
+}
+
+export default function Profile() {
+  return (
+    <main className={`${styles.main} pl-10`}>
+      <MenuProfile />
       <Routes>
         <Route path="" element={<ProfileForm />} />
         <Route path="/orders" element={<HistoryOrdersPage />} />
+        <Route path="/orders/:id" element={<Order />} />
       </Routes>
     </main>
   );

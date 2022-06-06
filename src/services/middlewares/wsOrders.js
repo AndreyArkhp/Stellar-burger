@@ -12,7 +12,7 @@ export const ordersMiddlewar = (store) => {
       socket.onopen = () => dispatch(onOpen());
       socket.onerror = (e) => dispatch(onError(e));
       socket.onclose = () => dispatch(onClose());
-      socket.onmessage = (e) => dispatch(onMessage(e.data));
+      socket.onmessage = (e) => dispatch(onMessage(e.data,payload.wsType));
     }
 
     if (Object.is(type, wsActions?.wsFinish)) {

@@ -20,13 +20,13 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {OrderFeedPage} from "../../pages/orderFeed";
 import Order from "../Order/Order";
 import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
-import {wsHistoryOrders, wsHistoryOrdersUrl, wsOrdersUrl} from "../../utils/constants";
+import {wsHistoryOrdersUrl, wsOrdersUrl} from "../../utils/constants";
 import {getIngridients} from "../../services/actions/ingredients";
 import {getToken} from "../../utils/functions";
 
 function App() {
   const {modalOpen} = useSelector((store) => store.modal);
-  const {wsConnection} = useSelector((store) => store.orders);
+  const {wsConnection, wsType} = useSelector((store) => store.orders);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,9 +42,12 @@ function App() {
 
   useEffect(() => {
     if (/^\/feed/.test(location.pathname)) {
-      !wsConnection && dispatch(wsConnectStart(wsOrdersUrl));
+      Object.is(wsType, "orders") && wsConnection && dispatch(wsConnectFinish());
+      !wsConnection && dispatch(wsConnectStart(wsOrdersUrl, "feed"));
     } else if (/^\/profile\/order/.test(location.pathname)) {
-      !wsConnection && dispatch(wsConnectStart(`${wsHistoryOrdersUrl}?token=${getToken()}`));
+      Object.is(wsType, "feed") && wsConnection && dispatch(wsConnectFinish());
+      !wsConnection &&
+        dispatch(wsConnectStart(`${wsHistoryOrdersUrl}?token=${getToken()}`, "orders"));
     } else {
       wsConnection && dispatch(wsConnectFinish());
     }
@@ -68,6 +71,7 @@ function App() {
         <Route path="feed" element={<OrderFeedPage />} />
         <Route path="feed/:id" element={<Order />} />
         <Route element={<ProtectedRoute />}>
+          <Route path="profile/orders/:id" element={<Order />} />
           <Route path="profile/*" element={<Profile />} />
         </Route>
         <Route path="*" element={<NotFound />} />
@@ -86,6 +90,14 @@ function App() {
           />
           <Route
             path="feed/:id"
+            element={
+              <Modal setActive={setActive}>
+                <Order />
+              </Modal>
+            }
+          />
+          <Route
+            path="profile/orders/:id"
             element={
               <Modal setActive={setActive}>
                 <Order />
