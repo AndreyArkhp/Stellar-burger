@@ -1,11 +1,21 @@
 import styles from "./Feed.module.css";
 import {OrderCard} from "../OrderCard/OrderCard";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {findIngredientsById} from "../../utils/functions";
+import {useEffect} from "react";
+import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
+import {wsOrdersUrl} from "../../utils/constants";
 
 export default function Feed() {
-  const {orders} = useSelector((store) => store.orders);
+  const {orders, wsConnection} = useSelector((store) => store.orders);
   const {ingredientsList} = useSelector((store) => store.ingredients);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    !wsConnection && dispatch(wsConnectStart(wsOrdersUrl, "feed"));
+    return () => wsConnection && dispatch(wsConnectFinish());
+  }, [wsConnection, dispatch]);
+
   return orders.length && ingredientsList.length ? (
     <section className={`${styles.feed} pl-5`}>
       {orders.map((order) => {

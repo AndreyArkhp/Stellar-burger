@@ -19,14 +19,10 @@ import {closeIngredientModal} from "../../services/actions/modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {OrderFeedPage} from "../../pages/orderFeed";
 import Order from "../Order/Order";
-import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
-import {wsHistoryOrdersUrl, wsOrdersUrl} from "../../utils/constants";
 import {getIngridients} from "../../services/actions/ingredients";
-import {getToken} from "../../utils/functions";
 
 function App() {
   const {modalOpen} = useSelector((store) => store.modal);
-  const {wsConnection, wsType} = useSelector((store) => store.orders);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,19 +35,6 @@ function App() {
       navigate(-1);
     }
   };
-
-  useEffect(() => {
-    if (/^\/feed/.test(location.pathname)) {
-      Object.is(wsType, "orders") && wsConnection && dispatch(wsConnectFinish());
-      !wsConnection && dispatch(wsConnectStart(wsOrdersUrl, "feed"));
-    } else if (/^\/profile\/order/.test(location.pathname)) {
-      Object.is(wsType, "feed") && wsConnection && dispatch(wsConnectFinish());
-      !wsConnection &&
-        dispatch(wsConnectStart(`${wsHistoryOrdersUrl}?token=${getToken()}`, "orders"));
-    } else {
-      wsConnection && dispatch(wsConnectFinish());
-    }
-  }, [location, dispatch, wsConnection]);
 
   useEffect(() => {
     localStorage.refreshToken && dispatch(getUserInfo());

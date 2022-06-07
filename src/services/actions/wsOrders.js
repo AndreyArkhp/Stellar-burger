@@ -17,8 +17,8 @@ export const wsConnectionClose = () => {
   return {type: WS_CONNECTION_CLOSE};
 };
 
-export const wsGetMessage = (message, wsType) => {
-  return {type: WS_GET_MESSAGE, payload: {message, wsType}};
+export const wsGetMessage = (message) => {
+  return {type: WS_GET_MESSAGE, payload: message};
 };
 
 const wsActions = {
@@ -30,8 +30,8 @@ const wsActions = {
   onMessage: wsGetMessage,
 };
 
-export const wsConnectStart = (url, wsType) => {
-  return {type: WS_CONNECTION_START, payload: {url, wsActions, wsType}};
+export const wsConnectStart = (url) => {
+  return {type: WS_CONNECTION_START, payload: {url, wsActions}};
 };
 
 export const wsConnectFinish = () => {

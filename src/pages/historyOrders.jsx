@@ -1,13 +1,25 @@
-import {useSelector} from "react-redux";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {OrderCard} from "../components/OrderCard/OrderCard";
-import {findIngredientsById} from "../utils/functions";
+import {findIngredientsById, getToken} from "../utils/functions";
+import {wsConnectFinish, wsConnectStart} from "../services/actions/wsOrders";
+import {wsHistoryOrdersUrl} from "../utils/constants";
 
 import styles from "./historyOrders.module.css";
 
 export default function HistoryOrdersPage() {
   const {orders, wsConnection, success} = useSelector((store) => store.orders);
   const {ingredientsList} = useSelector((store) => store.ingredients);
+  const dispatch = useDispatch();
   let orderStatus = wsConnection && success ? "Заказы не найдены" : "Загрузка...";
+
+  useEffect(() => {
+    !wsConnection &&
+      dispatch(wsConnectStart(`${wsHistoryOrdersUrl}?token=${getToken()}`, "orders"));
+    return () => {
+      wsConnection && dispatch(wsConnectFinish());
+    };
+  }, [wsConnection, dispatch]);
 
   return orders.length && ingredientsList.length ? (
     <section className={`${styles.section} pr-2`}>

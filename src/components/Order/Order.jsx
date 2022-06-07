@@ -34,6 +34,7 @@ export default function Order() {
   const {ingredientsList} = useSelector((store) => store.ingredients);
   const styleOrder = modalOpen ? styles.orderModal : styles.order;
   const styleNumberOrder = modalOpen ? null : styles.order__number;
+  console.log(orders, ingredientsList);
   if (orders.length && ingredientsList.length) {
     const {number, name, ingredients, createdAt, status} = orders.find((el) => el._id === id);
     const ingredientsOrder = findIngredientsById(ingredientsList, ingredients);

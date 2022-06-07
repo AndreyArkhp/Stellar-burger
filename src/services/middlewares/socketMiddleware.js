@@ -1,4 +1,4 @@
-export const ordersMiddlewar = (store) => {
+export const socketMiddleware = (store) => {
   let socket = null;
   let wsActions = {};
   return (next) => (action) => {
@@ -12,7 +12,7 @@ export const ordersMiddlewar = (store) => {
       socket.onopen = () => dispatch(onOpen());
       socket.onerror = (e) => dispatch(onError(e));
       socket.onclose = () => dispatch(onClose());
-      socket.onmessage = (e) => dispatch(onMessage(e.data,payload.wsType));
+      socket.onmessage = (e) => dispatch(onMessage(e.data));
     }
 
     if (Object.is(type, wsActions?.wsFinish)) {
