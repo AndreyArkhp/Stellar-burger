@@ -21,7 +21,7 @@ export default function HistoryOrdersPage() {
     };
   }, [wsConnection, dispatch]);
 
-  return orders.length && ingredientsList.length ? (
+  return orders?.length && ingredientsList?.length ? (
     <section className={`${styles.section} pr-2`}>
       {orders.map((order) => {
         const ingredients = findIngredientsById(ingredientsList, order.ingredients);

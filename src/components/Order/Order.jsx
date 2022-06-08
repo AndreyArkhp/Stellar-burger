@@ -1,9 +1,12 @@
 import propTypes from "prop-types";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector} from "react-redux";
-import {useParams} from "react-router-dom";
-import {findIngredientsById, getOrderDate, getPrice} from "../../utils/functions";
+import {useDispatch, useSelector} from "react-redux";
+import {useMatch, useParams} from "react-router-dom";
+import {findIngredientsById, getOrderDate, getPrice, getToken} from "../../utils/functions";
 import styles from "./Order.module.css";
+import {useEffect} from "react";
+import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
+import {wsHistoryOrdersUrl, wsOrdersUrl} from "../../utils/constants";
 
 function OrderListItem({order}) {
   return (
@@ -28,14 +31,28 @@ OrderListItem.propTypes = {
 };
 
 export default function Order() {
+  const matchOrders = useMatch(`/profile/*`);
+
+  console.log(matchOrders ? "profile" : "feed");
   const {id} = useParams();
+  const dispatch = useDispatch();
   const {modalOpen} = useSelector((store) => store.modal);
-  const {orders} = useSelector((store) => store.orders);
+  const {orders, wsConnection} = useSelector((store) => store.orders);
   const {ingredientsList} = useSelector((store) => store.ingredients);
   const styleOrder = modalOpen ? styles.orderModal : styles.order;
   const styleNumberOrder = modalOpen ? null : styles.order__number;
-  console.log(orders, ingredientsList);
-  if (orders.length && ingredientsList.length) {
+
+  useEffect(() => {
+    const url = matchOrders ? wsHistoryOrdersUrl : wsOrdersUrl;
+    console.log(url, orders);
+    !wsConnection && dispatch(wsConnectStart(`${url}?token=${getToken()}`, "orders"));
+    return () => {
+      wsConnection && dispatch(wsConnectFinish());
+    };
+  }, []);
+
+  if (orders?.length && ingredientsList?.length) {
+    console.log(111);
     const {number, name, ingredients, createdAt, status} = orders.find((el) => el._id === id);
     const ingredientsOrder = findIngredientsById(ingredientsList, ingredients);
     const ingredientsMap = {};
