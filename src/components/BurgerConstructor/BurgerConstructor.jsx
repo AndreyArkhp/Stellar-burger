@@ -69,7 +69,7 @@ function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
         Оформить заказ
       </Button>
       {active && (
-        <Modal active={active} setActive={setActive}>
+        <Modal setActive={setActive}>
           <OrderDetails dataOrder={modalOrderData} isLoaded={isLoaded} />
         </Modal>
       )}

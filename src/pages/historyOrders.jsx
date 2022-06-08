@@ -20,7 +20,6 @@ export default function HistoryOrdersPage() {
       wsConnection && dispatch(wsConnectFinish());
     };
   }, [wsConnection, dispatch]);
-
   return orders?.length && ingredientsList?.length ? (
     <section className={`${styles.section} pr-2`}>
       {orders.map((order) => {

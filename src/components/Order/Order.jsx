@@ -33,7 +33,6 @@ OrderListItem.propTypes = {
 export default function Order() {
   const matchOrders = useMatch(`/profile/*`);
 
-  console.log(matchOrders ? "profile" : "feed");
   const {id} = useParams();
   const dispatch = useDispatch();
   const {modalOpen} = useSelector((store) => store.modal);
@@ -44,15 +43,13 @@ export default function Order() {
 
   useEffect(() => {
     const url = matchOrders ? wsHistoryOrdersUrl : wsOrdersUrl;
-    console.log(url, orders);
     !wsConnection && dispatch(wsConnectStart(`${url}?token=${getToken()}`, "orders"));
     return () => {
-      wsConnection && dispatch(wsConnectFinish());
+      dispatch(wsConnectFinish());
     };
   }, []);
 
   if (orders?.length && ingredientsList?.length) {
-    console.log(111);
     const {number, name, ingredients, createdAt, status} = orders.find((el) => el._id === id);
     const ingredientsOrder = findIngredientsById(ingredientsList, ingredients);
     const ingredientsMap = {};

@@ -9,17 +9,19 @@ import {useDispatch} from "react-redux";
 import {closeIngredientModal} from "../../services/actions/modal";
 import {useNavigate} from "react-router-dom";
 
-function Modal({children}) {
+function Modal({children, setActive}) {
   const modalRoot = document.getElementById("modal-root");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const setActive = (bool) => {
-    if (!bool) {
-      dispatch(closeIngredientModal());
-      navigate(-1);
-    }
-  };
+  setActive = setActive
+    ? setActive
+    : (bool) => {
+        if (!bool) {
+          dispatch(closeIngredientModal());
+          navigate(-1);
+        }
+      };
 
   const modal = (
     <ModalOverlay handleClickOverlay={handleClickOverlay}>
@@ -59,6 +61,7 @@ function Modal({children}) {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
+  setActive: PropTypes.func,
 };
 
 export default Modal;

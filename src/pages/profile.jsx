@@ -1,4 +1,4 @@
-import {NavLink, useLocation, useNavigate} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 import {Routes, Route} from "react-router-dom";
 
 import styles from "./profile.module.css";
@@ -9,7 +9,6 @@ import ProfileForm from "./forms/profileForm";
 import HistoryOrdersPage from "./historyOrders";
 import Order from "../components/Order/Order";
 import Modal from "../components/Modal/Modal";
-import {closeIngredientModal} from "../services/actions/modal";
 
 function MenuProfile() {
   const dispatch = useDispatch();
@@ -61,7 +60,6 @@ function MenuProfile() {
 export default function Profile() {
   const location = useLocation();
   const background = location.state?.background;
-  console.log(background ?? location);
   return (
     <main className={`${styles.main} pl-10`}>
       <MenuProfile />
