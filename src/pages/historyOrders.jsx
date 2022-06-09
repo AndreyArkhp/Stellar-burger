@@ -14,8 +14,7 @@ export default function HistoryOrdersPage() {
   let orderStatus = wsConnection && success ? "Заказы не найдены" : "Загрузка...";
 
   useEffect(() => {
-    !wsConnection &&
-      dispatch(wsConnectStart(`${wsHistoryOrdersUrl}?token=${getToken()}`, "orders"));
+    !wsConnection && dispatch(wsConnectStart(`${wsHistoryOrdersUrl}?token=${getToken()}`));
     return () => {
       wsConnection && dispatch(wsConnectFinish());
     };

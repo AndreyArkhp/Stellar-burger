@@ -13,8 +13,8 @@ import Modal from "../Modal/Modal";
 
 import styles from "./BurgerConstructor.module.css";
 import {ingredientsPropTypes, baseUrl} from "../../utils/constants";
-import {getRandomId} from "../../utils/functions";
-import {getOrder} from "../../services/actions/modal";
+import {getRandomId, openModal} from "../../utils/functions";
+import {closeIngredientModal, getOrder, openIngredientModal} from "../../services/actions/modal";
 import {
   resetConstructor,
   resetConstructorSuccess,
@@ -24,10 +24,9 @@ import {
 } from "../../services/actions/constructor";
 
 function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
-  const {modalOrderData, isLoaded} = useSelector((store) => store.modal);
+  const {modalOrderData, isLoaded, modalOpen} = useSelector((store) => store.modal);
   const {isAuth} = useSelector((store) => store.dataUser);
   const [active, setActive] = useState(false);
-  const [isOrder, setIsOrder] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,20 +43,18 @@ function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
     if (isAuth) {
       setActive(true);
       dispatch(getOrder(baseUrl, ingredientsOrder));
+      openModal(dispatch, openIngredientModal);
     } else {
       navigate("/login", {state: location.pathname});
     }
   };
 
   useEffect(() => {
-    if (isLoaded && active) {
-      setIsOrder(true);
-    }
-    if (isOrder && !active) {
+    if (!active && modalOpen) {
       dispatch(resetConstructor());
-      setIsOrder(false);
+      dispatch(closeIngredientModal());
     }
-  }, [dispatch, isLoaded, active, isOrder]);
+  }, [dispatch, active, modalOpen]);
 
   return (
     <div className={`${styles.oder} mt-10 mr-5`}>

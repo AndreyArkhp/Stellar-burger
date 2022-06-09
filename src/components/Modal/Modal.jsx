@@ -5,23 +5,9 @@ import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import {useDispatch} from "react-redux";
-import {closeIngredientModal} from "../../services/actions/modal";
-import {useNavigate} from "react-router-dom";
 
 function Modal({children, setActive}) {
   const modalRoot = document.getElementById("modal-root");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  setActive = setActive
-    ? setActive
-    : (bool) => {
-        if (!bool) {
-          dispatch(closeIngredientModal());
-          navigate(-1);
-        }
-      };
 
   const modal = (
     <ModalOverlay handleClickOverlay={handleClickOverlay}>

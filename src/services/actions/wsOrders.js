@@ -30,8 +30,8 @@ const wsActions = {
   onMessage: wsGetMessage,
 };
 
-export const wsConnectStart = (url) => {
-  return {type: WS_CONNECTION_START, payload: {url, wsActions}};
+export const wsConnectStart = (url, wsName) => {
+  return {type: WS_CONNECTION_START, payload: {url, wsActions, wsName}};
 };
 
 export const wsConnectFinish = () => {

@@ -30,7 +30,6 @@ export const wsOrdersReduser = (state = initialState, action) => {
         total: 0,
         totalToday: 0,
         success: false,
-        wsType: null,
       };
     case WS_CONNECTION_ERROR:
       return {

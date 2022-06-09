@@ -57,7 +57,7 @@ function MenuProfile() {
   );
 }
 
-export default function Profile() {
+export default function Profile({setActiveModal}) {
   const location = useLocation();
   const background = location.state?.background;
   return (
@@ -72,7 +72,7 @@ export default function Profile() {
           <Route
             path="orders/:id"
             element={
-              <Modal>
+              <Modal setActive={setActiveModal}>
                 <Order />
               </Modal>
             }

@@ -7,14 +7,16 @@ import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
 import {wsOrdersUrl} from "../../utils/constants";
 
 export default function Feed() {
-  const {orders, wsConnection} = useSelector((store) => store.orders);
+  const {orders} = useSelector((store) => store.orders);
   const {ingredientsList} = useSelector((store) => store.ingredients);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    !wsConnection && dispatch(wsConnectStart(wsOrdersUrl, "feed"));
-    return () => wsConnection && dispatch(wsConnectFinish());
-  }, [wsConnection, dispatch]);
+    dispatch(wsConnectStart(wsOrdersUrl));
+    return () => {
+      dispatch(wsConnectFinish());
+    };
+  }, [dispatch]);
 
   return orders.length && ingredientsList.length ? (
     <section className={`${styles.feed} pl-5`}>

@@ -1,4 +1,4 @@
-import {Routes, Route, useLocation} from "react-router-dom";
+import {Routes, Route, useLocation, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -19,13 +19,22 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {OrderFeedPage} from "../../pages/orderFeed";
 import Order from "../Order/Order";
 import {getIngridients} from "../../services/actions/ingredients";
+import {closeIngredientModal} from "../../services/actions/modal";
 
 function App() {
   const {modalOpen} = useSelector((store) => store.modal);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const background = modalOpen && location.state?.background;
+
+  const setActive = (bool) => {
+    if (!bool) {
+      dispatch(closeIngredientModal());
+      navigate(-1);
+    }
+  };
 
   useEffect(() => {
     localStorage.refreshToken && dispatch(getUserInfo());
@@ -46,7 +55,7 @@ function App() {
         <Route path="feed/:id" element={<Order />} />
         <Route element={<ProtectedRoute />}>
           <Route path="profile/orders/:id" element={<Order />} />
-          <Route path="profile/*" element={<Profile />} />
+          <Route path="profile/*" element={<Profile setActiveModal={setActive} />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -56,7 +65,7 @@ function App() {
             path="ingredients/:ingredientId"
             element={
               modalOpen && (
-                <Modal>
+                <Modal setActive={setActive}>
                   <IngredientDetails />
                 </Modal>
               )
@@ -65,7 +74,7 @@ function App() {
           <Route
             path="feed/:id"
             element={
-              <Modal>
+              <Modal setActive={setActive}>
                 <Order />
               </Modal>
             }
