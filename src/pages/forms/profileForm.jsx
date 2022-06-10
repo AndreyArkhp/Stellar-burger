@@ -1,14 +1,13 @@
-import {useState, useRef, useEffect} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
-
-import styles from "./profile.module.css";
-import Form from "../../components/Form/Form";
+import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {logout, setUserInfo} from "../../services/actions/authorization";
-import {checkEmail} from "../../utils/functions";
 
-export default function Profile() {
+import styles from "./registrationForms.module.css";
+import {setUserInfo} from "../../services/actions/authorization";
+import {checkEmail} from "../../utils/functions";
+import Form from "../../components/Form/Form";
+
+export default function ProfileForm() {
   const {user} = useSelector((state) => state.dataUser);
   const [valueName, setValueName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
@@ -75,33 +74,8 @@ export default function Profile() {
       setBtnDisabled(true);
     }
   }, [valueEmail, valuePassword]);
-
   return (
-    <main className={`${styles.main} pl-10`}>
-      <nav className={styles.links}>
-        <p className="text text_type_main-medium pt-4 pb-4">
-          <Link to={"#"} className={`${styles.links__item} text_color_primary`}>
-            Профиль
-          </Link>
-        </p>
-        <p className="text text_type_main-medium pt-4 pb-4 ">
-          <Link to={"order"} className={`${styles.links__item}  text_color_inactive`}>
-            История заказов
-          </Link>
-        </p>
-        <p className="text text_type_main-medium pt-4 pb-4 ">
-          <Link
-            to={""}
-            className={`${styles.links__item} text_color_inactive`}
-            onClick={() => dispatch(logout())}
-          >
-            Выход
-          </Link>
-        </p>
-        <p className="mt-20 pt-1 text text_type_main-default text_color_inactive">
-          В&nbsp;этом разделе вы&nbsp;можете изменить свои персональные данные
-        </p>
-      </nav>
+    <div className="pt-20">
       <Form name={"profile"} handleSubmit={handleSubmit}>
         <Input
           name={"name"}
@@ -158,7 +132,7 @@ export default function Profile() {
           value={valuePassword}
         />
         {showBtns && (
-          <div className={styles.buttons_field}>
+          <div className={styles.buttonsField}>
             <Button type="secondary" size="medium" onClick={cancelEdit} htmlType={"button"}>
               Отмена
             </Button>
@@ -168,6 +142,6 @@ export default function Profile() {
           </div>
         )}
       </Form>
-    </main>
+    </div>
   );
 }

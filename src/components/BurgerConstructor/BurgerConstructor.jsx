@@ -13,7 +13,8 @@ import Modal from "../Modal/Modal";
 
 import styles from "./BurgerConstructor.module.css";
 import {ingredientsPropTypes, baseUrl} from "../../utils/constants";
-import {getOrder} from "../../services/actions/modal";
+import {getRandomId, openModal} from "../../utils/functions";
+import {closeIngredientModal, getOrder, openIngredientModal} from "../../services/actions/modal";
 import {
   resetConstructor,
   resetConstructorSuccess,
@@ -23,10 +24,9 @@ import {
 } from "../../services/actions/constructor";
 
 function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
-  const {modalOrderData, isLoaded} = useSelector((store) => store.modal);
+  const {modalOrderData, isLoaded, modalOpen} = useSelector((store) => store.modal);
   const {isAuth} = useSelector((store) => store.dataUser);
   const [active, setActive] = useState(false);
-  const [isOrder, setIsOrder] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,20 +43,18 @@ function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
     if (isAuth) {
       setActive(true);
       dispatch(getOrder(baseUrl, ingredientsOrder));
+      openModal(dispatch, openIngredientModal);
     } else {
       navigate("/login", {state: location.pathname});
     }
   };
 
   useEffect(() => {
-    if (isLoaded && active) {
-      setIsOrder(true);
-    }
-    if (isOrder && !active) {
+    if (!active && modalOpen) {
       dispatch(resetConstructor());
-      setIsOrder(false);
+      dispatch(closeIngredientModal());
     }
-  }, [dispatch, isLoaded, active, isOrder]);
+  }, [dispatch, active, modalOpen]);
 
   return (
     <div className={`${styles.oder} mt-10 mr-5`}>
@@ -68,7 +66,7 @@ function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
         Оформить заказ
       </Button>
       {active && (
-        <Modal active={active} setActive={setActive}>
+        <Modal setActive={setActive}>
           <OrderDetails dataOrder={modalOrderData} isLoaded={isLoaded} />
         </Modal>
       )}
@@ -159,15 +157,6 @@ function BurgerConstructor() {
       constructorIngredients.length === 0 &&
       "Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа") ||
     (!bun && "Пожалуйста, перенесите сюда булку  для создания заказа");
-  const getRandomId = (id) => {
-    let randomNumb = Math.round(Math.random() * 10000);
-    if (randomNumb < 1000) {
-      randomNumb = (1000 - randomNumb) * 3 + randomNumb;
-      return id + randomNumb;
-    } else {
-      return id + randomNumb;
-    }
-  };
 
   const setIngredientsOrder = (constructorIngredients) => {
     return [

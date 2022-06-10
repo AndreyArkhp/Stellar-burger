@@ -1,0 +1,12 @@
+.content {
+  width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px;
+}
+
+.title {
+  width: 1280px;
+  margin: 0 auto;
+}

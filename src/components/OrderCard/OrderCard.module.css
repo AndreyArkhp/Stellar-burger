@@ -1,0 +1,66 @@
+.card {
+  border-radius: 40px;
+  background: #1c1c21;
+  padding: 24px;
+}
+
+.card__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card__content {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card__price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card__img {
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: bottom;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid #631ab2;
+  width: 64px;
+  object-fit: cover;
+  padding: 5px;
+  background: #131316;
+  position: absolute;
+  top: 0;
+}
+
+.card__status {
+  color: #00cccc;
+}
+
+.card__imgContainer {
+  max-width: 384px;
+  position: relative;
+  min-height: 64px;
+}
+
+.card__restIngedients {
+  position: absolute;
+  top: 18px;
+  left: 240px;
+  width: 64px;
+  color: white;
+  z-index: 999;
+  text-align: center;
+}
+
+.card__link {
+  text-decoration: none;
+  color: #f2f2f3;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+}

@@ -3,11 +3,11 @@ import React from "react";
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = {hasError: false};
   }
 
   static getDerivedStateFromError(error) {
-    return { hasError: true };
+    return {hasError: true};
   }
 
   componentDidCatch(error, info) {
@@ -18,8 +18,10 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <section>
-          <h1>Что-то пошло не так :</h1>
-          <p>В приложении произошла ошибка. Пожалуйста, перезагрузите страницу.</p>
+          <h1 className="text text_type_main-large">Что-то пошло не так :</h1>
+          <p className="text text_type_main-medium">
+            В приложении произошла ошибка. Пожалуйста, перезагрузите страницу.
+          </p>
         </section>
       );
     }

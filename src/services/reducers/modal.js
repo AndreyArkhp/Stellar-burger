@@ -9,7 +9,7 @@ import {
 const initialState = {
   isLoaded: false,
   error: false,
-  ingredientOpen: false,
+  modalOpen: false,
   modalOrderData: {},
 };
 
@@ -36,12 +36,12 @@ export const modalReducer = (state = initialState, action) => {
     case OPEN_INGREDIENT_MODAL:
       return {
         ...state,
-        ingredientOpen: true,
+        modalOpen: true,
       };
     case CLOSE_INGREDIENT_MODAL:
       return {
         ...state,
-        ingredientOpen: false,
+        modalOpen: false,
       };
     default:
       return state;

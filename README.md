@@ -28,5 +28,7 @@
 - Drad and Drop
   - react-dnd
 - React Router
+- HTTPS
+- WebSocket
 
 [Stellar Burgers](https://andreyarkhp.github.io/Stellar-burger/)

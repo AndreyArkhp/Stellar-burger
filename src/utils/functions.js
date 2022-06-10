@@ -101,3 +101,67 @@ export function checkResponse(res) {
     throw new Error(error);
   }
 }
+
+export const getRandomId = (id) => {
+  let randomNumb = Math.round(Math.random() * 10000);
+  if (randomNumb < 1000) {
+    randomNumb = (1000 - randomNumb) * 3 + randomNumb;
+    return id + randomNumb;
+  } else {
+    return id + randomNumb;
+  }
+};
+
+/**
+ * Функция посчета стоимости ингридиетов
+ * @param {Array} ingredients - массив ингридиентов
+ * @returns - итоговая стоимось
+ */
+export const getPrice = (ingredients) =>
+  ingredients.reduce((total, ingredient) => {
+    return total + ingredient.price;
+  }, 0);
+
+export function openModal(dispatch, func) {
+  dispatch(func());
+}
+
+export const findIngredientsById = (listIngredients, id) => {
+  if (listIngredients.length && id.length) {
+    return id
+      .filter((el) => {
+        return !Object.is(el, null);
+      })
+      .map((id) => {
+        return listIngredients.find((el) => {
+          return el._id === id;
+        });
+      });
+  }
+};
+
+export const getOrderDate = (date) => {
+  const time = new Date(date);
+  const timeNow = new Date();
+  const DAY = 86400000;
+  const coefficientTime =
+    DAY -
+    (timeNow.getHours() * 3600000 +
+      timeNow.getMinutes() * 60000 +
+      timeNow.getSeconds() * 1000 +
+      timeNow.getMilliseconds());
+
+  const timeAgo = {
+    today: "Сегодня",
+    yesterday: "Вчера",
+    fewDaysAgo: "дня назад",
+  };
+  const differTime = timeNow - time + coefficientTime;
+  const daysAgo =
+    (differTime < DAY && timeAgo.today) ||
+    (differTime < DAY * 2 && timeAgo.yesterday) ||
+    `${Math.floor(differTime / DAY)} ${timeAgo.fewDaysAgo}`;
+  const minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
+  const result = `${daysAgo}, ${time.getHours()}:${minutes} i-GMT+3`;
+  return result;
+};

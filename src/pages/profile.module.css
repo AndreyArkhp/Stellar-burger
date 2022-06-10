@@ -2,12 +2,13 @@
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
-  padding-block-start: 14vh;
+  padding-block-start: 40px;
   gap: 60px;
 }
 
 .links {
   width: 320px;
+  padding-block-start: 80px;
 }
 
 .links__item {
@@ -15,10 +16,16 @@
   transition: color 0.2s linear;
 }
 
+.links__item_active {
+  color: #f2f2f3;
+}
+
 .links__item:hover {
   color: #f2f2f3;
 }
 
-.buttons_field {
-  margin-inline-start: auto;
+.listLinks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

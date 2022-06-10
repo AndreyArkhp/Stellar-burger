@@ -9,22 +9,25 @@ import Login from "../../pages/forms/login";
 import Registration from "../../pages/forms/register";
 import ForgotPassword from "../../pages/forms/forgotPassword";
 import ResetPassword from "../../pages/forms/resetPassword";
-import Profile from "../../pages/forms/profile";
+import Profile from "../../pages/profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {getUserInfo} from "../../services/actions/authorization";
 import IngredientPage from "../../pages/ingredient";
 import NotFound from "../NotFound/NotFound";
 import Modal from "../Modal/Modal";
-import {closeIngredientModal} from "../../services/actions/modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import {OrderFeedPage} from "../../pages/orderFeed";
+import Order from "../Order/Order";
+import {getIngridients} from "../../services/actions/ingredients";
+import {closeIngredientModal} from "../../services/actions/modal";
 
 function App() {
-  const {ingredientOpen} = useSelector((store) => store.modal);
+  const {modalOpen} = useSelector((store) => store.modal);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const background = ingredientOpen && location.state?.background;
+  const background = modalOpen && location.state?.background;
 
   const setActive = (bool) => {
     if (!bool) {
@@ -35,6 +38,7 @@ function App() {
 
   useEffect(() => {
     localStorage.refreshToken && dispatch(getUserInfo());
+    dispatch(getIngridients());
   }, [dispatch]);
 
   return (
@@ -47,8 +51,11 @@ function App() {
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="resetpassword" element={<ResetPassword />} />
         <Route path="ingredients/:ingredientId" element={<IngredientPage />} />
+        <Route path="feed" element={<OrderFeedPage />} />
+        <Route path="feed/:id" element={<Order />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile/orders/:id" element={<Order />} />
+          <Route path="profile/*" element={<Profile setActiveModal={setActive} />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -57,11 +64,19 @@ function App() {
           <Route
             path="ingredients/:ingredientId"
             element={
-              ingredientOpen && (
+              modalOpen && (
                 <Modal setActive={setActive}>
                   <IngredientDetails />
                 </Modal>
               )
+            }
+          />
+          <Route
+            path="feed/:id"
+            element={
+              <Modal setActive={setActive}>
+                <Order />
+              </Modal>
             }
           />
         </Routes>

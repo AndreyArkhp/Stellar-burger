@@ -1,9 +1,11 @@
 .header {
   background-color: #1c1c21;
+  min-width: 1000px;
 }
 
 .header__content {
   max-width: 1280px;
+  min-width: 1000px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;

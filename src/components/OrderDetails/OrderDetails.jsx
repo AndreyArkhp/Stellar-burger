@@ -26,7 +26,7 @@ function OrderDetails({dataOrder, isLoaded}) {
 OrderDetails.propTypes = {
   dataOrder: PropTypes.shape({
     name: PropTypes.string,
-    order: PropTypes.objectOf(PropTypes.number),
+    order: PropTypes.object,
     success: PropTypes.bool,
   }),
   isLoaded: PropTypes.bool.isRequired,
