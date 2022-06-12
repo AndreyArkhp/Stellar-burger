@@ -45,7 +45,7 @@ function App() {
     <ErrorBoundary>
       <AppHeader />
       <Routes location={background ?? location}>
-        <Route path="/" element={<HomePage />} />
+        <Route path="" element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Registration />} />
         <Route path="forgotpassword" element={<ForgotPassword />} />
