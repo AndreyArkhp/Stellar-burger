@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {FC, FormEvent, useEffect, useState} from "react";
 import {
   Button,
   EmailInput,
@@ -12,17 +12,17 @@ import Form from "../../components/Form/Form";
 import {checkEmail} from "../../utils/functions";
 import {login} from "../../services/actions/authorization";
 
-export default function Login() {
-  const [valueEmail, setValueEmail] = useState("");
-  const [valuePassword, setValuePassword] = useState("");
-  const [btnDisabled, setBtnDisabled] = useState(true);
+  const Login:FC = () => {
+  const [valueEmail, setValueEmail] = useState<string>("");
+  const [valuePassword, setValuePassword] = useState<string>("");
+  const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
   const {isError, isAuth} = useSelector((store) => store.dataUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const errorMessage = (isError && "Что то пошло не так, пожалуйста попробуйте снова") || "";
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(login(valueEmail, valuePassword));
   };
@@ -40,7 +40,6 @@ export default function Login() {
   }, [isAuth, navigate, location]);
 
   return (
-    !isAuth && (
       <main className={styles.main}>
         <Form name={"login"} title={"Вход"} error={errorMessage} handleSubmit={handleSubmit}>
           <EmailInput
@@ -50,7 +49,6 @@ export default function Login() {
             value={valueEmail}
           />
           <PasswordInput
-            placeholder={"Пароль"}
             name={"password"}
             onChange={(e) => setValuePassword(e.target.value)}
             value={valuePassword}
@@ -74,5 +72,7 @@ export default function Login() {
         </p>
       </main>
     )
-  );
-}
+  
+};
+
+export default Login;

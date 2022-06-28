@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {findIngredientsById} from "../../utils/functions";
 import {useEffect} from "react";
 import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
-import {wsOrdersUrl} from "../../utils/constants";
+import {wsUrl} from "../../utils/constants";
 
 export default function Feed() {
   const {orders} = useSelector((store) => store.orders);
@@ -12,7 +12,7 @@ export default function Feed() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(wsConnectStart(wsOrdersUrl));
+    dispatch(wsConnectStart(`${wsUrl}all`));
     return () => {
       dispatch(wsConnectFinish());
     };

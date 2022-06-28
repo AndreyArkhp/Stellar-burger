@@ -6,7 +6,7 @@ import {findIngredientsById, getOrderDate, getPrice, getToken} from "../../utils
 import styles from "./Order.module.css";
 import {useEffect} from "react";
 import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
-import {wsHistoryOrdersUrl, wsOrdersUrl} from "../../utils/constants";
+import {wsUrl} from "../../utils/constants";
 
 function OrderListItem({order}) {
   return (
@@ -42,7 +42,7 @@ export default function Order() {
   const styleNumberOrder = modalOpen ? null : styles.order__number;
 
   useEffect(() => {
-    const url = matchOrders ? wsHistoryOrdersUrl : wsOrdersUrl;
+    const url = matchOrders ? wsUrl : `${wsUrl}all`;
     !wsConnection && dispatch(wsConnectStart(`${url}?token=${getToken()}`, "orders"));
     return () => {
       dispatch(wsConnectFinish());

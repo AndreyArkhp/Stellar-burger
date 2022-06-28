@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {OrderCard} from "../components/OrderCard/OrderCard";
 import {findIngredientsById, getToken} from "../utils/functions";
 import {wsConnectFinish, wsConnectStart} from "../services/actions/wsOrders";
-import {wsHistoryOrdersUrl} from "../utils/constants";
+import {wsUrl} from "../utils/constants";
 
 import styles from "./historyOrders.module.css";
 
@@ -14,7 +14,7 @@ export default function HistoryOrdersPage() {
   let orderStatus = wsConnection && success ? "Заказы не найдены" : "Загрузка...";
 
   useEffect(() => {
-    !wsConnection && dispatch(wsConnectStart(`${wsHistoryOrdersUrl}?token=${getToken()}`));
+    !wsConnection && dispatch(wsConnectStart(`${wsUrl}?token=${getToken()}`));
     return () => {
       wsConnection && dispatch(wsConnectFinish());
     };

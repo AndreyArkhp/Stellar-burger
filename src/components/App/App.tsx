@@ -1,11 +1,11 @@
 import {Routes, Route, useLocation, useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import  { FC, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import AppHeader from "../AppHeader/AppHeader";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import HomePage from "../../pages/home";
-import Login from "../../pages/forms/login";
+import  Login  from "../../pages/forms/login";
 import Registration from "../../pages/forms/register";
 import ForgotPassword from "../../pages/forms/forgotPassword";
 import ResetPassword from "../../pages/forms/resetPassword";
@@ -21,7 +21,7 @@ import Order from "../Order/Order";
 import {getIngridients} from "../../services/actions/ingredients";
 import {closeIngredientModal} from "../../services/actions/modal";
 
-function App() {
+const App:FC = () => {
   const {modalOpen} = useSelector((store) => store.modal);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function App() {
 
   const background = modalOpen && location.state?.background;
 
-  const setActive = (bool) => {
+  const setActive = (bool:boolean):void => {
     if (!bool) {
       dispatch(closeIngredientModal());
       navigate(-1);
