@@ -12,7 +12,7 @@ export default function Feed() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(wsConnectStart(`${wsUrl}all`));
+    dispatch(wsConnectStart(`${wsUrl}/all`));
     return () => {
       dispatch(wsConnectFinish());
     };

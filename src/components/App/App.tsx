@@ -25,7 +25,7 @@ const App:FC = () => {
   const {modalOpen} = useSelector((store) => store.modal);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation();  
 
   const background = modalOpen && location.state?.background;
 

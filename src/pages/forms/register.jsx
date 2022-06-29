@@ -41,37 +41,40 @@ export default function Registration() {
   }, [valueEmail, valueName, valuePassword]);
 
   return (
-    !isAuth && (
-      <main className={styles.main}>
-        <Form name={"register"} title={"Регистрация"} error={errorMessage} handleSubmit={handleSubmit}>
-          <Input
-            placeholder={"Имя"}
-            name={"name"}
-            onChange={(e) => setValueName(e.target.value)}
-            value={valueName}
-          />
-          <EmailInput
-            name={"email"}
-            size="default"
-            onChange={(e) => setValueEmail(e.target.value)}
-            value={valueEmail}
-          />
-          <PasswordInput
-            name={"password"}
-            onChange={(e) => setValuePassword(e.target.value)}
-            value={valuePassword}
-          />
-          <Button type="primary" size="medium" disabled={btnDisabled} htmlType={"submit"}>
-            Зарегистрироваться
-          </Button>
-        </Form>
-        <p className="text text_type_main-default mb-4">
-          Уже зарегистрированы?{" "}
-          <Link to={"/login"} className={styles.link}>
-            Войти
-          </Link>
-        </p>
-      </main>
-    )
+    <main className={styles.main}>
+      <Form
+        name={"register"}
+        title={"Регистрация"}
+        error={errorMessage}
+        handleSubmit={handleSubmit}
+      >
+        <Input
+          placeholder={"Имя"}
+          name={"name"}
+          onChange={(e) => setValueName(e.target.value)}
+          value={valueName}
+        />
+        <EmailInput
+          name={"email"}
+          size="default"
+          onChange={(e) => setValueEmail(e.target.value)}
+          value={valueEmail}
+        />
+        <PasswordInput
+          name={"password"}
+          onChange={(e) => setValuePassword(e.target.value)}
+          value={valuePassword}
+        />
+        <Button type="primary" size="medium" disabled={btnDisabled} htmlType={"submit"}>
+          Зарегистрироваться
+        </Button>
+      </Form>
+      <p className="text text_type_main-default mb-4">
+        Уже зарегистрированы?{" "}
+        <Link to={"/login"} className={styles.link}>
+          Войти
+        </Link>
+      </p>
+    </main>
   );
 }

@@ -42,7 +42,7 @@ export default function Order() {
   const styleNumberOrder = modalOpen ? null : styles.order__number;
 
   useEffect(() => {
-    const url = matchOrders ? wsUrl : `${wsUrl}all`;
+    const url = matchOrders ? wsUrl : `${wsUrl}/all`;
     !wsConnection && dispatch(wsConnectStart(`${url}?token=${getToken()}`, "orders"));
     return () => {
       dispatch(wsConnectFinish());

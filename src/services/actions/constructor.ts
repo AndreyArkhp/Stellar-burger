@@ -29,6 +29,8 @@ interface IDeleteIngredient{
   readonly type: typeof DELETE_INGREDIENT;
   readonly uuid: string;
 }
+
+export type TConstructorActions = IResetConstructor | IResetConstructorSuccess | IUpdateIngredients | IAddIngredient | IDeleteIngredient;
   
 export const resetConstructor = ():IResetConstructor => {
   return {type: RESET_CONSTRUCTOR};
@@ -51,3 +53,4 @@ export const addIngredient = (ingredient:IIngredient, bun:boolean):IAddIngredien
 export const deleteIngredient = (uuid:string):IDeleteIngredient => {
   return {type: DELETE_INGREDIENT, uuid};
 };
+
