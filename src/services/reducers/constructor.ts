@@ -1,18 +1,26 @@
+import { IIngredient } from "../../types";
 import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
   RESET_CONSTRUCTOR,
   RESET_CONSTRUCTOR_SUCCESS,
+  TConstructorActions,
   UPDATE_INGREDIENTS,
 } from "../actions/constructor";
 
-const initialState = {
+interface IConstructorState {
+  bun: string;
+  constructorIngredients: IIngredient[];
+  reset: boolean;
+}
+
+const initialState:IConstructorState = {
   bun: "",
   constructorIngredients: [],
   reset: false,
 };
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action:TConstructorActions) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return action.bun

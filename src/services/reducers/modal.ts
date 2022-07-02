@@ -1,19 +1,28 @@
+import { IOrderResponse } from "../../types";
 import {
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED,
   OPEN_INGREDIENT_MODAL,
   CLOSE_INGREDIENT_MODAL,
+  TModalActions,
 } from "../actions/modal";
 
-const initialState = {
+interface IModalState {
+  isLoaded: boolean;
+  error: boolean;
+  modalOpen: boolean;
+  modalOrderData: IOrderResponse|object;
+}
+
+const initialState:IModalState = {
   isLoaded: false,
   error: false,
   modalOpen: false,
   modalOrderData: {},
 };
 
-export const modalReducer = (state = initialState, action) => {
+export const modalReducer = (state = initialState, action:TModalActions) => {
   switch (action.type) {
     case GET_ORDER_FAILED:
       return {

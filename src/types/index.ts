@@ -19,6 +19,11 @@ export interface IIngredientsList {
   data: Array<IIngredient>;
 }
 
+export interface IUser {
+  name: string;
+  email: string;
+}
+
 export interface IOwner {
   createdAt: string;
   email: string;
@@ -32,7 +37,7 @@ export interface IOrder {
   name: string;
   number: number;
   ouner?: IOwner;
-  price: number;
+  price?: number;
   status: string;
   updatedAt: string;
   _id: string;
@@ -43,3 +48,4 @@ export interface IOrderResponse {
   success: boolean;
   order: IOrder;
 }
+

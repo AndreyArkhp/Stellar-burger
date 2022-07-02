@@ -1,3 +1,5 @@
+import { IUser } from "../../types";
+
 import {
   REGISTRATION_FAILED,
   REGISTRATION_REQUEST,
@@ -14,9 +16,25 @@ import {
   SET_USER_INFO_FAILED,
   SET_USER_INFO_REQUEST,
   SET_USER_INFO_SUCCESS,
+  TAuthorizationActions,
 } from "../actions/authorization";
 
-const initialState = {
+interface IAuthorizationState {
+  registrationRequest: boolean;
+  loginUserRequest: boolean;
+  getUserInfoRequest: boolean;
+  setUserInfoRequest: boolean;
+  logoutRequest: boolean;
+  registrationError: boolean;
+  loginUserError: boolean;
+  getUserInfoError: boolean;
+  setUserInfoError: boolean;
+  logoutError: boolean;
+  isAuth: boolean;
+  user: IUser;
+}
+
+const initialState:IAuthorizationState = {
   registrationRequest: false,
   loginUserRequest: false,
   getUserInfoRequest: false,
@@ -34,7 +52,7 @@ const initialState = {
   },
 };
 
-export const registrationReducer = (state = initialState, action) => {
+export const registrationReducer = (state = initialState, action:TAuthorizationActions) => {
   switch (action.type) {
     case REGISTRATION_REQUEST:
       return {...state, registrationRequest: true};

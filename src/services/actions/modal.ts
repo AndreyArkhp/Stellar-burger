@@ -22,7 +22,7 @@ interface IGetOrderRequest {
 
 interface IGetOrderSuccess {
   type: typeof GET_ORDER_SUCCESS;
-  data: any;
+  data: IOrderResponse;
 }
 
 interface IGetOrderFailed {

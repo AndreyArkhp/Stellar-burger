@@ -1,11 +1,22 @@
+import {IOrder} from "../../types/index"
 import {
+  TWsOrders,
   WS_CONNECTION_CLOSE,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
 } from "../actions/wsOrders";
 
-const initialState = {
+interface IWsOrdersState {
+  wsConnection: boolean;
+  wsError: boolean;
+  orders: Array<IOrder>;
+  total: number;
+  totalToday: number;
+  success: boolean;
+}
+
+const initialState:IWsOrdersState = {
   wsConnection: false,
   wsError: false,
   orders: [],
@@ -14,7 +25,7 @@ const initialState = {
   success: false,
 };
 
-export const wsOrdersReduser = (state = initialState, action) => {
+export const wsOrdersReduser = (state = initialState, action:TWsOrders) => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {

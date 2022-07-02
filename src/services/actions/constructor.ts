@@ -16,7 +16,7 @@ interface IResetConstructorSuccess{
 
 interface IUpdateIngredients{
   readonly type: typeof UPDATE_INGREDIENTS;
-  readonly updateIngredients: IIngredient;
+  readonly updateIngredients: ReadonlyArray<IIngredient>;
 }
 
 interface IAddIngredient{
@@ -40,7 +40,8 @@ export const resetConstructorSuccess = ():IResetConstructorSuccess => {
   return {type: RESET_CONSTRUCTOR_SUCCESS};
 };
 
-export const updateIngredients = (updateIngredients:IIngredient): IUpdateIngredients => {  
+export const updateIngredients = (updateIngredients:ReadonlyArray<IIngredient>): IUpdateIngredients =>
+{  
   return {type: UPDATE_INGREDIENTS, updateIngredients};
 };
 

@@ -1,11 +1,17 @@
-import {SWITCH_TAB, SCROLL_INGREDIENTS} from "../actions/tabs";
+import { SWITCH_TAB, SCROLL_INGREDIENTS, TTabsActions } from "../actions/tabs";
 
-const initialState = {
+
+interface ITabsState {
+  activeTab: string;
+  scroll: string|null;
+}
+
+const initialState:ITabsState = {
   activeTab: "bun",
   scroll: null,
 };
 
-export const tabsReduser = (state = initialState, action) => {
+export const tabsReduser = (state = initialState, action:TTabsActions):ITabsState => {
   switch (action.type) {
     case SCROLL_INGREDIENTS:
       return {
