@@ -22,7 +22,7 @@ const initialState:IModalState = {
   modalOrderData: {},
 };
 
-export const modalReducer = (state = initialState, action:TModalActions) => {
+export const modalReducer = (state = initialState, action:TModalActions):IModalState => {
   switch (action.type) {
     case GET_ORDER_FAILED:
       return {

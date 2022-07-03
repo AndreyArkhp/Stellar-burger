@@ -52,7 +52,7 @@ const initialState:IAuthorizationState = {
   },
 };
 
-export const registrationReducer = (state = initialState, action:TAuthorizationActions) => {
+export const registrationReducer = (state = initialState, action:TAuthorizationActions):IAuthorizationState => {
   switch (action.type) {
     case REGISTRATION_REQUEST:
       return {...state, registrationRequest: true};

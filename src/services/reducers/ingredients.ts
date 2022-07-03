@@ -18,7 +18,7 @@ const initialState:IIngredientsState = {
   ingredientsList: [],
 };
 
-export const ingredientsReducer = (state = initialState, action:TIngredientsActions) => {
+export const ingredientsReducer = (state = initialState, action:TIngredientsActions):IIngredientsState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST:
       return {

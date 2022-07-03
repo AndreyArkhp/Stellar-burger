@@ -9,18 +9,18 @@ import {
 } from "../actions/constructor";
 
 interface IConstructorState {
-  bun: string;
+  bun: null|IIngredient;
   constructorIngredients: IIngredient[];
   reset: boolean;
 }
 
 const initialState:IConstructorState = {
-  bun: "",
+  bun: null,
   constructorIngredients: [],
   reset: false,
 };
 
-export const constructorReducer = (state = initialState, action:TConstructorActions) => {
+export const constructorReducer = (state = initialState, action:TConstructorActions):IConstructorState => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return action.bun
@@ -50,7 +50,7 @@ export const constructorReducer = (state = initialState, action:TConstructorActi
       return {
         ...state,
         constructorIngredients: [],
-        bun: "",
+        bun: null,
         reset: true,
       };
     case RESET_CONSTRUCTOR_SUCCESS:

@@ -12,7 +12,7 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
 
 import styles from "./BurgerConstructor.module.css";
-import {ingredientsPropTypes, baseUrl} from "../../utils/constants";
+import {baseUrl} from "../../utils/constants";
 import {getRandomId, openModal} from "../../utils/functions";
 import {closeIngredientModal, getOrder, openIngredientModal} from "../../services/actions/modal";
 import {

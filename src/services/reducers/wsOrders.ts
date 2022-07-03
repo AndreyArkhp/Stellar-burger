@@ -25,7 +25,7 @@ const initialState:IWsOrdersState = {
   success: false,
 };
 
-export const wsOrdersReduser = (state = initialState, action:TWsOrders) => {
+export const wsOrdersReduser = (state = initialState, action:TWsOrders):IWsOrdersState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
