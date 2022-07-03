@@ -6,10 +6,7 @@ import { ThunkAction } from "redux-thunk";
 import {Action,ActionCreator,Dispatch} from "redux"
 import { TModalActions } from "../actions/modal";
 import { TTabsActions } from "../actions/tabs";
-import { TypedUseSelectorHook, useSelector as selectorHook, useDispatch as dispatchHook} from "react-redux";
 
-export const useSelector: TypedUseSelectorHook<TRootState> = selectorHook;
-export const useDispatch = () => dispatchHook<TAppDispatch | TAppThunk>();
 
 export type TRootState = ReturnType<typeof store.getState>;
 

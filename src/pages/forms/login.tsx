@@ -5,7 +5,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "../../services/types/types";
+import {useDispatch, useSelector} from "../../services/types/hooks";
 
 import styles from "./registrationForms.module.css";
 import Form from "../../components/Form/Form";

@@ -1,7 +1,7 @@
 import {useState, useRef, useEffect} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useSelector} from "../../services/types/types";
+import {useSelector} from "../../services/types/hooks";
 
 import styles from "./registrationForms.module.css";
 import Form from "../../components/Form/Form";

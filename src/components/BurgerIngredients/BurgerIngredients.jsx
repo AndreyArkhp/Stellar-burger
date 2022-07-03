@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 import PropTypes from "prop-types";
-import {useDispatch, useSelector} from "../../services/types/types";
+import {useDispatch, useSelector} from "../../services/types/hooks";
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";

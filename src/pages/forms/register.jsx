@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "../../services/types/types";
+import {useDispatch, useSelector} from "../../services/types/hooks";
 import {Link, useNavigate} from "react-router-dom";
 import {
   Button,

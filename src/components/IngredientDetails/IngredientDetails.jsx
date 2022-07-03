@@ -1,6 +1,6 @@
 import styles from "./IngredientDetails.module.css";
 import {useParams} from "react-router-dom";
-import {useSelector} from "../../services/types/types";
+import {useSelector} from "../../services/types/hooks";
 
 function IngredientDetails() {
   const param = useParams();

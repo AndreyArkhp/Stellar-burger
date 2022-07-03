@@ -1,6 +1,6 @@
 import propTypes from "prop-types";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "../../services/types/types";
+import {useDispatch, useSelector} from "../../services/types/hooks";
 import {useMatch, useParams} from "react-router-dom";
 import {findIngredientsById, getOrderDate, getPrice, getToken} from "../../utils/functions";
 import styles from "./Order.module.css";

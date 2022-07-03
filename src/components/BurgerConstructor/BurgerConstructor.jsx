@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
-import {useDispatch, useSelector} from "../../services/types/types";
+import {useDispatch, useSelector} from "../../services/types/hooks";
 import {useDrag, useDrop} from "react-dnd";
 import {useLocation, useNavigate} from "react-router-dom";
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";

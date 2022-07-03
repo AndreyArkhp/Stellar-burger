@@ -1,4 +1,4 @@
-import {useSelector} from "../services/types/types";
+import {useSelector} from "../services/types/hooks";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 

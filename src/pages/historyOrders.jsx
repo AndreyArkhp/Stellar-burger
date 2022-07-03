@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {useDispatch, useSelector} from "../services/types/types";
+import {useDispatch, useSelector} from "../services/types/hooks";
 import {OrderCard} from "../components/OrderCard/OrderCard";
 import {findIngredientsById, getToken} from "../utils/functions";
 import {wsConnectFinish, wsConnectStart} from "../services/actions/wsOrders";

@@ -1,4 +1,4 @@
-import {useSelector} from "../../services/types/types";
+import {useSelector} from "../../services/types/hooks";
 import styles from "./Orders.module.css";
 
 function ListNumbers({orders, status}) {
