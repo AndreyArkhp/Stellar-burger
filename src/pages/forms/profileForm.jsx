@@ -1,6 +1,6 @@
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useEffect, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/types/types";
 
 import styles from "./registrationForms.module.css";
 import {setUserInfo} from "../../services/actions/authorization";

@@ -6,7 +6,7 @@ import styles from "./registrationForms.module.css";
 import Form from "../../components/Form/Form";
 import {baseUrl} from "../../utils/constants";
 import {checkEmail, checkResponse} from "../../utils/functions";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/types/types";
 
 export default function ForgotPassword() {
   const [value, setValue] = useState("");

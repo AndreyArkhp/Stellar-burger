@@ -1,5 +1,8 @@
+import { Store } from "redux";
+import { TRootState,TApplicationActions } from "../types/types";
+
 export const socketMiddleware = (store) => {
-  let socket = null;
+  let socket:null|string = null;
   let wsActions = {};
   return (next) => (action) => {
     const {type, payload} = action;

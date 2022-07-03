@@ -1,6 +1,6 @@
 import {Routes, Route, useLocation, useNavigate} from "react-router-dom";
 import  { FC, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/types/types";
 
 import AppHeader from "../AppHeader/AppHeader";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";

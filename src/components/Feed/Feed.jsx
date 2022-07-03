@@ -1,6 +1,6 @@
 import styles from "./Feed.module.css";
 import {OrderCard} from "../OrderCard/OrderCard";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/types/types";
 import {findIngredientsById} from "../../utils/functions";
 import {useEffect} from "react";
 import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";

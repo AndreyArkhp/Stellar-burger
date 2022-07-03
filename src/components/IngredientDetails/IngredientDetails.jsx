@@ -1,6 +1,6 @@
 import styles from "./IngredientDetails.module.css";
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/types/types";
 
 function IngredientDetails() {
   const param = useParams();

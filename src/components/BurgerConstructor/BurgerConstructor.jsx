@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/types/types";
 import {useDrag, useDrop} from "react-dnd";
 import {useLocation, useNavigate} from "react-router-dom";
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -98,10 +98,10 @@ function LockElement({position, bun}) {
   );
 }
 
-LockElement.propTypes = {
-  position: PropTypes.string.isRequired,
-  bun: PropTypes.shape(ingredientsPropTypes),
-};
+// LockElement.propTypes = {
+//   position: PropTypes.string.isRequired,
+//   bun: PropTypes.shape(ingredientsPropTypes),
+// };
 
 function ListIngredients({ingredient, onClick, sortIngredients}) {
   const ref = useRef();
@@ -140,11 +140,11 @@ function ListIngredients({ingredient, onClick, sortIngredients}) {
   );
 }
 
-ListIngredients.propTypes = {
-  ingredient: PropTypes.shape(ingredientsPropTypes).isRequired,
-  onClick: PropTypes.func.isRequired,
-  sortIngredients: PropTypes.func.isRequired,
-};
+// ListIngredients.propTypes = {
+//   ingredient: PropTypes.shape(ingredientsPropTypes).isRequired,
+//   onClick: PropTypes.func.isRequired,
+//   sortIngredients: PropTypes.func.isRequired,
+// };
 
 function BurgerConstructor() {
   const {ingredientsList} = useSelector((store) => store.ingredients);

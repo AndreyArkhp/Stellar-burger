@@ -1,4 +1,4 @@
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/types/types";
 import styles from "./Orders.module.css";
 
 function ListNumbers({orders, status}) {

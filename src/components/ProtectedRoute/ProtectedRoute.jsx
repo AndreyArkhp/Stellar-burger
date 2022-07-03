@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/types/types";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
 
 export default function ProtectedRoute() {
