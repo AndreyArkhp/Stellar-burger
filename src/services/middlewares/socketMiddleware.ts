@@ -1,5 +1,5 @@
 import {   Middleware } from "redux";
-import { IWsOrderActions } from "../../types";
+import { IWsOrderActions } from "../actions/wsOrders"; 
 import { IWsActions } from "../actions/wsOrders";
 import { TRootState } from "../reducers"; 
 

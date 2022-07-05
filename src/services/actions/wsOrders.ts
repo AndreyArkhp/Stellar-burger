@@ -24,7 +24,7 @@ export interface IWsGetMessege {
   payload: string;
 }
 
-export interface IWsConectStartPayload {
+ interface IWsConectStartPayload {
   url: string;
   wsActions: IWsActions;
   wsName: string;
@@ -37,6 +37,11 @@ export interface IWsConnectStart {
 
 interface IWsConnectFinish {
   type: typeof WS_CONNECTION_FINISH;
+}
+
+export interface IWsOrderActions {
+  type: TWsOrdersActions["type"];
+  payload:  IWsConectStartPayload;
 }
 
 export type TWsOrdersActions = IWsConnectionSuccess | IWsConnectionError | IWsConnectionClose | IWsGetMessege | IWsConnectStart | IWsConnectFinish;

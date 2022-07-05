@@ -8,9 +8,6 @@ import { TModalActions } from "../actions/modal";
 import { TTabsActions } from "../actions/tabs";
 import { TRootState } from "../reducers";
 
-
-// export type TRootState = ReturnType<typeof store.getState>;
-
 export type TApplicationActions = TConstructorActions | TAuthorizationActions | TIngredientsActions|TModalActions|TTabsActions;
 
 export type TAppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, TRootState, TApplicationActions>>;
