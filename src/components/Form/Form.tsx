@@ -6,7 +6,7 @@ interface IParams {
   title: string;
   name: string;
   error: string;
-  handleSubmit: object;
+  handleSubmit: ()=>void;
 }
 
 /**
@@ -14,7 +14,7 @@ interface IParams {
  * @param {string} title - Заголовок формы(необязательный)
  * @param {string} name - Имя формы
  * @param {string} error - Сообщение об ошибке
- * @param handleSubmit - Обработчик сабмита  
+ * @param  handleSubmit - Обработчик сабмита  
  }}
  */
 const Form: FC<IParams> = ({children, title, name, error, handleSubmit}) => {

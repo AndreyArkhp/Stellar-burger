@@ -6,7 +6,7 @@ import {NavLink, useMatch} from "react-router-dom";
 import styles from "./AppHeader.module.css";
 
 function AppHeader() {
-  const match = useMatch("*").pathname;
+  const match = useMatch("*")?.pathname;
   return (
     <>
       <header className={styles.header}>
