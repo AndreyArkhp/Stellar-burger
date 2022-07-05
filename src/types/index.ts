@@ -1,3 +1,5 @@
+import { IWsConectStartPayload, IWsConnectionError, IWsConnectStart, IWsGetMessege, TWsOrdersActions } from "../services/actions/wsOrders";
+
 export interface IIngredient  {
   _id: string;
   name: string;
@@ -47,5 +49,10 @@ export interface IOrderResponse {
   name: string;
   success: boolean;
   order: IOrder;
+}
+
+export interface IWsOrderActions {
+  type: TWsOrdersActions["type"];
+  payload:  IWsConectStartPayload;
 }
 

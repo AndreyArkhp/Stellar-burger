@@ -10,7 +10,7 @@ interface IWsConnectionSuccess {
   type: typeof WS_CONNECTION_SUCCESS;
 }
 
-interface IWsConnectionError {
+export interface IWsConnectionError {
   type: typeof WS_CONNECTION_ERROR;
   payload: any;
 }
@@ -19,18 +19,18 @@ interface IWsConnectionClose {
   type: typeof WS_CONNECTION_CLOSE;
 }
 
-interface IWsGetMessege {
+export interface IWsGetMessege {
   type: typeof WS_GET_MESSAGE
   payload: string;
 }
 
-interface IWsConectStartPayload {
+export interface IWsConectStartPayload {
   url: string;
   wsActions: IWsActions;
   wsName: string;
 }
 
-interface IWsConnectStart {
+export interface IWsConnectStart {
   type: typeof WS_CONNECTION_START;
   payload: IWsConectStartPayload;
 }
@@ -39,9 +39,9 @@ interface IWsConnectFinish {
   type: typeof WS_CONNECTION_FINISH;
 }
 
-export type TWsOrders = IWsConnectionSuccess | IWsConnectionError | IWsConnectionClose | IWsGetMessege | IWsConnectStart | IWsConnectFinish;
+export type TWsOrdersActions = IWsConnectionSuccess | IWsConnectionError | IWsConnectionClose | IWsGetMessege | IWsConnectStart | IWsConnectFinish;
 
-interface IWsActions {
+export interface IWsActions {
   wsInit: typeof WS_CONNECTION_START;
   wsFinish:typeof WS_CONNECTION_FINISH;
   onOpen: typeof wsConnectionSuccess;
