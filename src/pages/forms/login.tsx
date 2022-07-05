@@ -16,13 +16,13 @@ import {login} from "../../services/actions/authorization";
   const [valueEmail, setValueEmail] = useState<string>("");
   const [valuePassword, setValuePassword] = useState<string>("");
   const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
-  const {isError, isAuth} = useSelector((store) => store.dataUser);
+  const {loginUserError, isAuth} = useSelector((store) => store.dataUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const errorMessage = (isError && "Что то пошло не так, пожалуйста попробуйте снова") || "";
+  const errorMessage = (loginUserError && "Что то пошло не так, пожалуйста попробуйте снова") || "";
 
-  const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e:FormEvent<HTMLFormElement>):void => {
     e.preventDefault();
     dispatch(login(valueEmail, valuePassword));
   };

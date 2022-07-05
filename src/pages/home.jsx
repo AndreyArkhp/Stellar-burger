@@ -8,16 +8,18 @@ import BurgerConstructor from "../components/BurgerConstructor/BurgerConstructor
 import BurgerIngredients from "../components/BurgerIngredients/BurgerIngredients";
 
 export default function HomePage() {
-  const {isLoade} = useSelector((store) => store.ingredients);
+  const {isLoaded} = useSelector((store) => store.ingredients);
 
-  return (
-    isLoade && (
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </main>
-      </DndProvider>
-    )
+  const content = isLoaded ? (
+    <main className={styles.main}>
+      <BurgerIngredients />
+      <BurgerConstructor />
+    </main>
+  ) : (
+    <main className={styles.wait}>
+      <h2 className="text text_type_main-large">Загрузка...</h2>
+    </main>
   );
+
+  return <DndProvider backend={HTML5Backend}>{content}</DndProvider>;
 }

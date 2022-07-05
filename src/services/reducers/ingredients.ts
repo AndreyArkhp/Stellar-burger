@@ -7,13 +7,13 @@ import {
 } from "../actions/ingredients";
 
 interface IIngredientsState {
-  isLoade: boolean;
+  isLoaded: boolean;
   error: boolean;
   ingredientsList: ReadonlyArray<IIngredient>;
 }
 
 const initialState:IIngredientsState = {
-  isLoade: false,
+  isLoaded: false,
   error: false,
   ingredientsList: [],
 };
@@ -23,19 +23,19 @@ export const ingredientsReducer = (state = initialState, action:TIngredientsActi
     case GET_INGREDIENTS_REQUEST:
       return {
         ...state,
-        isLoade: false,
+        isLoaded: false,
         error: false,
       };
     case GET_INGREDIENTS_SUCCESS:
       return {
         ...state,
-        isLoade: true,
+        isLoaded: true,
         ingredientsList: action.ingredients.data,
       };
     case GET_INGREDIENTS_FAILED:
       return {
         ...state,
-        isLoade: true,
+        isLoaded: true,
         error: true,
       };
     default:

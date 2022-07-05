@@ -19,16 +19,24 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {OrderFeedPage} from "../../pages/orderFeed";
 import Order from "../Order/Order";
 import {getIngridients} from "../../services/actions/ingredients";
-import {closeIngredientModal} from "../../services/actions/modal";
+import { closeIngredientModal } from "../../services/actions/modal";
+
+type TLocationState = {
+  state: {
+    background?: Location;
+  }
+}
 
 const App:FC = () => {
   const {modalOpen} = useSelector((store) => store.modal);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();  
+  const location = useLocation() as TLocationState;  
 
-  const background = modalOpen && location.state?.background;
+  
 
+  const background = modalOpen?location.state?.background:undefined;
+  
   const setActive = (bool:boolean):void => {
     if (!bool) {
       dispatch(closeIngredientModal());

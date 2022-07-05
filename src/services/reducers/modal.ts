@@ -9,14 +9,14 @@ import {
 } from "../actions/modal";
 
 interface IModalState {
-  isLoaded: boolean;
+  isLoadedd: boolean;
   error: boolean;
   modalOpen: boolean;
   modalOrderData: IOrderResponse|object;
 }
 
 const initialState:IModalState = {
-  isLoaded: false,
+  isLoadedd: false,
   error: false,
   modalOpen: false,
   modalOrderData: {},
@@ -28,19 +28,19 @@ export const modalReducer = (state = initialState, action:TModalActions):IModalS
       return {
         ...state,
         error: true,
-        isLoaded: true,
+        isLoadedd: true,
       };
     case GET_ORDER_REQUEST:
       return {
         ...state,
         error: false,
-        isLoaded: false,
+        isLoadedd: false,
       };
     case GET_ORDER_SUCCESS:
       return {
         ...state,
         modalOrderData: action.data,
-        isLoaded: true,
+        isLoadedd: true,
       };
     case OPEN_INGREDIENT_MODAL:
       return {

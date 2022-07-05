@@ -1,12 +1,10 @@
 import {useEffect, useRef} from "react";
-import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "../../services/types/hooks";
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./BurgerIngredients.module.css";
-import {ingredientsPropTypes} from "../../utils/constants";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {scrollIngredients, switchTab} from "../../services/actions/tabs";
 import {openIngredientModal} from "../../services/actions/modal";
@@ -86,10 +84,6 @@ function BurgerCard({card}) {
   );
 }
 
-BurgerCard.propTypes = {
-  card: PropTypes.shape(ingredientsPropTypes).isRequired,
-};
-
 function TypeIngredients({ingredient}) {
   const {ingredientsList} = useSelector((store) => store.ingredients);
   const translation = {
@@ -111,10 +105,6 @@ function TypeIngredients({ingredient}) {
     </article>
   );
 }
-
-TypeIngredients.propTypes = {
-  ingredient: PropTypes.string.isRequired,
-};
 
 function BurgerIngredients() {
   const ingredients = [

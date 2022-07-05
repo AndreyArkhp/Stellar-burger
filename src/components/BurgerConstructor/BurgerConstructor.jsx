@@ -24,7 +24,7 @@ import {
 } from "../../services/actions/constructor";
 
 function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
-  const {modalOrderData, isLoaded, modalOpen} = useSelector((store) => store.modal);
+  const {modalOrderData, isLoadedd, modalOpen} = useSelector((store) => store.modal);
   const {isAuth} = useSelector((store) => store.dataUser);
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
       </Button>
       {active && (
         <Modal setActive={setActive}>
-          <OrderDetails dataOrder={modalOrderData} isLoaded={isLoaded} />
+          <OrderDetails dataOrder={modalOrderData} isLoadedd={isLoadedd} />
         </Modal>
       )}
     </div>
