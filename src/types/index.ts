@@ -49,5 +49,9 @@ export interface IOrderResponse {
   order: IOrder;
 }
 
+export interface MyRequestInit extends Omit<RequestInit, 'headers'> {
+  headers?: Record<string, string>;
+}
+
 
 

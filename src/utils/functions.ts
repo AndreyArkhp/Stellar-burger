@@ -1,3 +1,5 @@
+import { TAppDispatch, TApplicationActions, TAppThunk } from "../services/types/types";
+import { IIngredient, MyRequestInit } from "../types";
 import {baseUrl} from "./constants";
 
 /**
@@ -5,18 +7,24 @@ import {baseUrl} from "./constants";
  * @param {string} value - Значение инпута email
  * @returns {boolean} - boolean
  */
-export function checkEmail(value) {
+export function checkEmail(value:string):boolean {
   return value && /^\w+@[a-z]+\.[a-z]+$/.test(value) ? true : false;
 }
 
 /**
  * Функция получения токена
- * @returns - cookie с именем token
+ * @returns - cookie с именем token или ошибка в консоли
  */
 export function getToken() {
   const cookies = document.cookie.split(";");
-  const token = decodeURIComponent(cookies.find((cookie) => /(^|;) ?token=.+(;|$)/.test(cookie)));
-  return token.split("=")[1];
+  const encodedURI = cookies.find((cookie) => /(^|;) ?token=.+(;|$)/.test(cookie))
+
+  if (typeof encodedURI === "string") {
+    const token = decodeURIComponent(encodedURI);
+    return token.split("=")[1];
+  } else {
+    console.log("Ошибка получения токена");
+  }
 }
 
 /**
@@ -24,15 +32,15 @@ export function getToken() {
  * @param {string} token - токен
  * @param {string|number} age - срок действия в секундах
  */
-export function setToken(token, age) {
+export function setToken(token:string, age:string|number):void {
   document.cookie = `token=${encodeURIComponent(token)}; max-age=${String(age || 0)}`;
 }
 
-export function removeToken(token) {
+export function removeToken(token:string):void {
   document.cookie = `token=${encodeURIComponent(token)}; max-age=${String(-1)}`;
 }
 
-export async function refreshToken() {
+export async function refreshToken():Promise<void> {
   try {
     const res = await fetch(`${baseUrl}auth/token`, {
       method: "POST",
@@ -57,13 +65,15 @@ export async function refreshToken() {
   }
 }
 
+
+
 /**
  * Функция проверяет наличие токена, если его нет то обновляет, затем делает запрос с существующим или обновленным токеном.
  * @param {string} url - Адресс запроса
  * @param {object} options - дополнительные параметры запроса
  * @returns Возвращает fetch с токеном или перенаправляет на /login
  */
-export async function fetchWithAuth(url, options) {
+export async function fetchWithAuth(url:string, options:MyRequestInit) {
   const loginUrl = "/login";
   let tokenData = null;
   const curentToken = getToken();
@@ -92,17 +102,18 @@ export async function fetchWithAuth(url, options) {
   }
 }
 
-export function checkResponse(res) {
+export function checkResponse(res:Response) { 
   if (res.ok) {
     const data = res.json();
     return data;
   } else {
     const error = res.json();
-    throw new Error(error);
+    throw new Error(`Ошибка: ${error}`);
   }
 }
 
-export const getRandomId = (id) => {
+export const getRandomId = (id:string):string => {
+  
   let randomNumb = Math.round(Math.random() * 10000);
   if (randomNumb < 1000) {
     randomNumb = (1000 - randomNumb) * 3 + randomNumb;
@@ -117,16 +128,16 @@ export const getRandomId = (id) => {
  * @param {Array} ingredients - массив ингридиентов
  * @returns - итоговая стоимось
  */
-export const getPrice = (ingredients) =>
+export const getPrice = (ingredients:IIngredient[]):number =>
   ingredients.reduce((total, ingredient) => {
     return total + ingredient.price;
   }, 0);
 
-export function openModal(dispatch, func) {
+export function openModal(dispatch:TAppDispatch|TAppThunk, func:()=>TApplicationActions):void {
   dispatch(func());
 }
 
-export const findIngredientsById = (listIngredients, id) => {
+export const findIngredientsById = (listIngredients:IIngredient[], id:string[]) => {
   if (listIngredients.length && id.length) {
     return id
       .filter((el) => {
@@ -140,7 +151,8 @@ export const findIngredientsById = (listIngredients, id) => {
   }
 };
 
-export const getOrderDate = (date) => {
+export const getOrderDate = (date: string): string => {
+  
   const time = new Date(date);
   const timeNow = new Date();
   const DAY = 86400000;
@@ -150,18 +162,23 @@ export const getOrderDate = (date) => {
       timeNow.getMinutes() * 60000 +
       timeNow.getSeconds() * 1000 +
       timeNow.getMilliseconds());
-
+  
+  const today: "Сегодня" = "Сегодня";
+  const yesterday: "Вчера" = "Вчера";
+  const fewDaysAgo: "дня назад" = "дня назад";
+  
   const timeAgo = {
-    today: "Сегодня",
-    yesterday: "Вчера",
-    fewDaysAgo: "дня назад",
+    today,
+    yesterday,
+    fewDaysAgo,
   };
-  const differTime = timeNow - time + coefficientTime;
+  const differTime = Number(timeNow) - Number(time) + coefficientTime;
   const daysAgo =
     (differTime < DAY && timeAgo.today) ||
     (differTime < DAY * 2 && timeAgo.yesterday) ||
     `${Math.floor(differTime / DAY)} ${timeAgo.fewDaysAgo}`;
-  const minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
+  const minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()
+    }`;
   const result = `${daysAgo}, ${time.getHours()}:${minutes} i-GMT+3`;
   return result;
 };

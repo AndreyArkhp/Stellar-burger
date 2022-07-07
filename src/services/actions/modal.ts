@@ -51,7 +51,7 @@ const getOrderFailed = ():IGetOrderFailed => {
   return {type: GET_ORDER_FAILED}
 }
 
-export const getOrder = (baseUrl: string, ingredientsOder: string) => async (dispatch: TAppDispatch) => {
+export const getOrder = (baseUrl: string, ingredientsOder: string[]) => async (dispatch: TAppDispatch) => {
   dispatch(getOrderRequest());
   try {
     const res = await fetch(`${baseUrl}orders`, {

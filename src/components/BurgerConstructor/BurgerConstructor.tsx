@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "../../services/types/hooks";
 import {useDrag, useDrop} from "react-dnd";
@@ -23,7 +22,13 @@ import {
   deleteIngredient,
 } from "../../services/actions/constructor";
 
-function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
+interface IOrderParams {
+  ingredientsPrice: number[];
+  bunPrice: number;
+  ingredientsOrder: string[];
+}
+
+function Order({ ingredientsPrice, bunPrice, ingredientsOrder }: IOrderParams) {
   const {modalOrderData, isLoadedd, modalOpen} = useSelector((store) => store.modal);
   const {isAuth} = useSelector((store) => store.dataUser);
   const [active, setActive] = useState(false);
@@ -74,12 +79,6 @@ function Order({ingredientsPrice, bunPrice, ingredientsOrder}) {
   );
 }
 
-Order.propTypes = {
-  ingredientsPrice: PropTypes.arrayOf(PropTypes.number).isRequired,
-  bunPrice: PropTypes.number.isRequired,
-  ingredientsOrder: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
 function LockElement({position, bun}) {
   const text = {
     top: "верх",
@@ -97,11 +96,6 @@ function LockElement({position, bun}) {
     </div>
   );
 }
-
-// LockElement.propTypes = {
-//   position: PropTypes.string.isRequired,
-//   bun: PropTypes.shape(ingredientsPropTypes),
-// };
 
 function ListIngredients({ingredient, onClick, sortIngredients}) {
   const ref = useRef();
@@ -139,12 +133,6 @@ function ListIngredients({ingredient, onClick, sortIngredients}) {
     </li>
   );
 }
-
-// ListIngredients.propTypes = {
-//   ingredient: PropTypes.shape(ingredientsPropTypes).isRequired,
-//   onClick: PropTypes.func.isRequired,
-//   sortIngredients: PropTypes.func.isRequired,
-// };
 
 function BurgerConstructor() {
   const {ingredientsList} = useSelector((store) => store.ingredients);
