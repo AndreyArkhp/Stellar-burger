@@ -53,5 +53,26 @@ export interface MyRequestInit extends Omit<RequestInit, 'headers'> {
   headers?: Record<string, string>;
 }
 
+export interface ITranslation {
+  bun: "Булки";
+  sauce: "Соусы";
+  main: "Начинки";
+}
 
+type TIngredientType = "bun" | "sauce" | "main"
 
+export interface IIngtedientType {
+  ingredient: TIngredientType;
+}
+
+export interface IIngtedientTypesObjects {
+  type: TIngredientType;
+  id: 1 | 2 | 3;
+}
+
+export interface IHeadersIngredients {
+  [index: string]: HTMLHeadingElement;
+  bun: HTMLHeadingElement;
+  main: HTMLHeadingElement;
+  sauces: HTMLHeadingElement;
+}

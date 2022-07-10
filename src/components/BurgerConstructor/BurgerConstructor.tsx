@@ -109,8 +109,8 @@ interface IListIngredients {
   sortIngredients: (topId:string, bottomId:string, topElementPart:number, offsetActualY:number, offsetFactor:number) => void;
 }
 
-function ListIngredients({ ingredient, onClick, sortIngredients }:IListIngredients) {
-   let uuid = "";
+function ListIngredients({ ingredient, onClick, sortIngredients }: IListIngredients) {
+  const uuid = ingredient.uuid ? ingredient.uuid : "";
   const ref = useRef<HTMLLIElement>(null);
   const [, dragRef] = useDrag({
     type: "constructorIngredient",
@@ -125,7 +125,6 @@ function ListIngredients({ ingredient, onClick, sortIngredients }:IListIngredien
       const topBoundinClientRect = ref.current?.getBoundingClientRect();
       const clientOffsetY = monitor.getClientOffset()?.y;
       if (topBoundinClientRect && ingredient.uuid && clientOffsetY) {
-        uuid = ingredient.uuid;
         const topElementPart = (topBoundinClientRect.bottom - topBoundinClientRect.top) / offsetFactor;
         
         const offsetActualY = clientOffsetY - topBoundinClientRect.top;
@@ -179,8 +178,6 @@ function BurgerConstructor() {
       bunId,
     ];
   };
-  console.log(setIngredientsOrder(constructorIngredients));
-  
 
   const sortIngredients = useCallback(
     (topId:string, bottomId:string, topElementPart:number, offsetActualY:number, offsetFactor:number) => {
@@ -218,7 +215,7 @@ function BurgerConstructor() {
     });
   };
 
-  const handleClickDelete = (uuid: string) => {
+  const handleClickDelete = (uuid: string) => {    
     dispatch(deleteIngredient(uuid));
   };
 

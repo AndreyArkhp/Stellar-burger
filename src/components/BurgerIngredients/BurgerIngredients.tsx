@@ -9,6 +9,13 @@ import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {scrollIngredients, switchTab} from "../../services/actions/tabs";
 import {openIngredientModal} from "../../services/actions/modal";
 import {openModal} from "../../utils/functions";
+import {
+  IHeadersIngredients,
+  IIngredient,
+  IIngtedientType,
+  IIngtedientTypesObjects,
+  ITranslation,
+} from "../../types";
 
 function BurgerTab() {
   const BUNS = "bun";
@@ -17,7 +24,7 @@ function BurgerTab() {
 
   const dispatch = useDispatch();
   const {activeTab} = useSelector((store) => store.tabs);
-  const setActiveTab = (tab) => {
+  const setActiveTab = (tab: string) => {
     dispatch(scrollIngredients(tab));
   };
   return (
@@ -35,14 +42,14 @@ function BurgerTab() {
   );
 }
 
-function BurgerCard({card}) {
+function BurgerCard({card}: {card: IIngredient}) {
   const {bun, constructorIngredients} = useSelector((store) => store.constructorIngredients);
   const dispatch = useDispatch();
   const location = useLocation();
-  let count;
+  let count: number;
 
   if (card.type === "bun") {
-    count = bun ? card._id === bun._id && 1 : 0;
+    count = bun && card._id === bun._id ? 1 : 0;
   } else {
     count = constructorIngredients.filter((el) => el._id === card._id).length;
   }
@@ -78,15 +85,15 @@ function BurgerCard({card}) {
         <p className={`${styles.ingredient__title} text text_type_main-default mb-7`}>
           {card.name}
         </p>
-        <Counter count={count || 0} size="default" className={styles.ingredient__counter} />
+        <Counter count={count || 0} size="default" />
       </Link>
     </li>
   );
 }
 
-function TypeIngredients({ingredient}) {
+function TypeIngredients({ingredient}: IIngtedientType) {
   const {ingredientsList} = useSelector((store) => store.ingredients);
-  const translation = {
+  const translation: ITranslation = {
     bun: "Булки",
     sauce: "Соусы",
     main: "Начинки",
@@ -107,20 +114,21 @@ function TypeIngredients({ingredient}) {
 }
 
 function BurgerIngredients() {
-  const ingredients = [
+  const ingredients: IIngtedientTypesObjects[] = [
     {type: "bun", id: 1},
     {type: "sauce", id: 2},
     {type: "main", id: 3},
   ];
   const scrollTo = useSelector((store) => store.tabs.scroll);
   const dispatch = useDispatch();
-  const tabsContainerRef = useRef();
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
 
-  const getActiveTab = (headers) => {
-    const containerOffset = tabsContainerRef.current.offsetTop;
-    const offsetFormula = (el) =>
+  const getActiveTab = (headers: IHeadersIngredients) => {
+    const containerOffset = tabsContainerRef.current ? tabsContainerRef.current.offsetTop : 0;
+    const offsetFormula = (el: HTMLHeadingElement) =>
       Math.abs(Math.round(el.getBoundingClientRect().y) - containerOffset);
     const tabs = [];
+
     for (let key in headers) {
       tabs.push({
         value: offsetFormula(headers[key]),
@@ -131,29 +139,33 @@ function BurgerIngredients() {
       return tabs.reduce((res, el) => {
         return res.value < el.value ? res : el;
       }).tab;
+    } else {
+      return "bun";
     }
   };
 
   useEffect(() => {
-    const headers = {};
-    const [buns, sauces, filling] = Array.from(
-      tabsContainerRef.current.querySelectorAll(".tab-header")
-    );
-    headers.bun = buns;
-    headers.sauce = sauces;
-    headers.main = filling;
+    const headers = {} as IHeadersIngredients;
+    if (tabsContainerRef.current) {
+      const [buns, sauces, filling] = Array.from(
+        tabsContainerRef.current.querySelectorAll(".tab-header")
+      );
+      headers.bun = buns;
+      headers.sauce = sauces;
+      headers.main = filling;
 
-    scrollTo && headers[scrollTo].scrollIntoView({behavior: "smooth"});
+      scrollTo && headers[scrollTo].scrollIntoView({behavior: "smooth"});
 
-    let currentTab = getActiveTab(headers);
+      let currentTab = getActiveTab(headers);
 
-    tabsContainerRef.current.addEventListener("scroll", () => {
-      const activeTab = getActiveTab(headers);
-      if (!Object.is(currentTab, activeTab)) {
-        dispatch(switchTab(activeTab));
-        currentTab = activeTab;
-      }
-    });
+      tabsContainerRef.current.addEventListener("scroll", () => {
+        const activeTab = getActiveTab(headers);
+        if (!Object.is(currentTab, activeTab)) {
+          dispatch(switchTab(activeTab));
+          currentTab = activeTab;
+        }
+      });
+    }
   }, [scrollTo, dispatch]);
 
   return (
