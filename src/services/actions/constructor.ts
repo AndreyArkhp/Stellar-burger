@@ -45,7 +45,7 @@ export const updateIngredients = (updateIngredients:ReadonlyArray<IIngredient>):
   return {type: UPDATE_INGREDIENTS, updateIngredients};
 };
 
-export const addIngredient = (ingredient:IIngredient, bun:boolean):IAddIngredient => ({
+export const addIngredient = (ingredient:IIngredient, bun?:boolean):IAddIngredient => ({
   type: ADD_INGREDIENT,
   ingredient,
   bun: bun || null,

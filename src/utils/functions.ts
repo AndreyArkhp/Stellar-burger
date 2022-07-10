@@ -18,12 +18,12 @@ export function checkEmail(value:string):boolean {
 export function getToken() {
   const cookies = document.cookie.split(";");
   const encodedURI = cookies.find((cookie) => /(^|;) ?token=.+(;|$)/.test(cookie))
-
+  
   if (typeof encodedURI === "string") {
     const token = decodeURIComponent(encodedURI);
     return token.split("=")[1];
   } else {
-    console.log("Ошибка получения токена");
+    console.log("Ошибка получения токена, обновите страницу");
   }
 }
 

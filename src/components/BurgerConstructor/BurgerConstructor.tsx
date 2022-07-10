@@ -21,6 +21,7 @@ import {
   addIngredient,
   deleteIngredient,
 } from "../../services/actions/constructor";
+import { IIngredient } from "../../types";
 
 interface IOrderParams {
   ingredientsPrice: number[];
@@ -64,8 +65,8 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }: IOrderParams) {
   return (
     <div className={`${styles.oder} mt-10 mr-5`}>
       <span className="text text_type_digits-medium mr-10">
-        {`${totalPrice}`}
-        <CurrencyIcon />
+        {`${totalPrice} `}
+        <CurrencyIcon type="primary"/>
       </span>
       <Button type="primary" size="large" onClick={handleOrder}>
         Оформить заказ
@@ -79,7 +80,12 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }: IOrderParams) {
   );
 }
 
-function LockElement({position, bun}) {
+interface ILockElementParam {
+  position: "top" | "bottom";
+  bun: IIngredient;
+}
+
+function LockElement({ position, bun }:ILockElementParam) {
   const text = {
     top: "верх",
     bottom: "низ",
@@ -97,8 +103,15 @@ function LockElement({position, bun}) {
   );
 }
 
-function ListIngredients({ingredient, onClick, sortIngredients}) {
-  const ref = useRef();
+interface IListIngredients {
+  ingredient: IIngredient;
+  onClick: (uuid: string) => void;
+  sortIngredients: (topId:string, bottomId:string, topElementPart:number, offsetActualY:number, offsetFactor:number) => void;
+}
+
+function ListIngredients({ ingredient, onClick, sortIngredients }:IListIngredients) {
+   let uuid = "";
+  const ref = useRef<HTMLLIElement>(null);
   const [, dragRef] = useDrag({
     type: "constructorIngredient",
     item: {id: ingredient.uuid},
@@ -106,20 +119,25 @@ function ListIngredients({ingredient, onClick, sortIngredients}) {
 
   const [, dropRef] = useDrop({
     accept: "constructorIngredient",
-    hover(item, monitor) {
+    hover(item: { id: string }, monitor) {
+      
       const offsetFactor = 5;
-      const topBoundinClientRect = ref.current.getBoundingClientRect();
-      const topElementPart =
-        (topBoundinClientRect.bottom - topBoundinClientRect.top) / offsetFactor;
-      const offsetActualY = monitor.getClientOffset().y - topBoundinClientRect.top;
-      sortIngredients(item.id, ingredient.uuid, topElementPart, offsetActualY, offsetFactor);
+      const topBoundinClientRect = ref.current?.getBoundingClientRect();
+      const clientOffsetY = monitor.getClientOffset()?.y;
+      if (topBoundinClientRect && ingredient.uuid && clientOffsetY) {
+        uuid = ingredient.uuid;
+        const topElementPart = (topBoundinClientRect.bottom - topBoundinClientRect.top) / offsetFactor;
+        
+        const offsetActualY = clientOffsetY - topBoundinClientRect.top;
+        sortIngredients(item.id, ingredient.uuid, topElementPart, offsetActualY, offsetFactor);
+      }
     },
   });
 
-  const dragDropRef = dragRef(dropRef(ref));
+   dragRef(dropRef(ref));
 
   return (
-    <li className={`${styles["list-ingredients__item"]} mt-4 mb-4 `} ref={dragDropRef}>
+    <li className={`${styles["list-ingredients__item"]} mt-4 mb-4 `} ref={ref}>
       <div className={`${styles["list-ingredients__icon"]}`}>
         <DragIcon type="primary" />
       </div>
@@ -128,17 +146,21 @@ function ListIngredients({ingredient, onClick, sortIngredients}) {
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}
-        handleClose={() => onClick(ingredient.uuid)}
+        handleClose={() => onClick(uuid)}
       />
     </li>
   );
+}
+
+interface IItemId {
+  id: string;
 }
 
 function BurgerConstructor() {
   const {ingredientsList} = useSelector((store) => store.ingredients);
   const {reset, bun, constructorIngredients} = useSelector((store) => store.constructorIngredients);
   const dispatch = useDispatch();
-  const ingredientsPrice = [];
+  const ingredientsPrice:number[] = [];
 
   const titlePreview =
     (!bun &&
@@ -146,26 +168,30 @@ function BurgerConstructor() {
       "Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа") ||
     (!bun && "Пожалуйста, перенесите сюда булку  для создания заказа");
 
-  const setIngredientsOrder = (constructorIngredients) => {
+  const setIngredientsOrder = (constructorIngredients: IIngredient[]) => {
+    const bunId = bun ? bun._id : "";
     return [
-      bun._id,
+      bunId,
       ...constructorIngredients.map((ingredient) => {
         return ingredient._id;
       }),
 
-      bun._id,
+      bunId,
     ];
   };
+  console.log(setIngredientsOrder(constructorIngredients));
+  
 
   const sortIngredients = useCallback(
-    (topId, bottomId, topElementPart, offsetActualY, offsetFactor) => {
+    (topId:string, bottomId:string, topElementPart:number, offsetActualY:number, offsetFactor:number) => {
+      
       if (topId !== bottomId) {
         const topIndex = constructorIngredients.findIndex((el) => el.uuid === topId);
         const bottomIndex = constructorIngredients.findIndex((el) => el.uuid === bottomId);
 
         if (topIndex < bottomIndex && offsetActualY < topElementPart) return;
         if (topIndex > bottomIndex && offsetActualY > topElementPart * offsetFactor - 1) return;
-        const changeOrderIngredients = (constructorIngredients) => {
+        const changeOrderIngredients = (constructorIngredients:IIngredient[]) => {
           const updateIngridients = [...constructorIngredients];
           [updateIngridients[topIndex], updateIngridients[bottomIndex]] = [
             updateIngridients[bottomIndex],
@@ -179,7 +205,8 @@ function BurgerConstructor() {
     [constructorIngredients, dispatch]
   );
 
-  const onDropHandler = ({id}) => {
+  const onDropHandler = ({ id }: IItemId) => {
+    
     ingredientsList.forEach((ingredient) => {
       if (ingredient._id === id) {
         if (ingredient.type !== "bun") {
@@ -191,13 +218,13 @@ function BurgerConstructor() {
     });
   };
 
-  const handleClickDelete = (uuid) => {
+  const handleClickDelete = (uuid: string) => {
     dispatch(deleteIngredient(uuid));
   };
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item:IItemId) {
       onDropHandler(item);
     },
   });
@@ -214,6 +241,7 @@ function BurgerConstructor() {
         {constructorIngredients.length > 0 &&
           constructorIngredients.map((ingredient) => {
             ingredientsPrice.push(ingredient.price);
+            
             return (
               <ListIngredients
                 ingredient={ingredient}
