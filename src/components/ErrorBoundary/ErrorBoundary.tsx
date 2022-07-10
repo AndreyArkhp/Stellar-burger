@@ -1,16 +1,24 @@
-import React from "react";
+import React, { ErrorInfo, ReactNode } from "react";
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
+interface Props {
+  children: ReactNode;
+}
+
+interface State {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends React.Component<Props,State> {
+  constructor(props:Props) {
     super(props);
     this.state = {hasError: false};
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error:State):State|null {
     return {hasError: true};
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error:Error, info:ErrorInfo):void {
     console.log("Возникла ошибка!", error, info);
   }
 
