@@ -1,12 +1,13 @@
-import {useEffect} from "react";
+import {useEffect,FC} from "react";
 import {createPortal} from "react-dom";
-import PropTypes from "prop-types";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
-function Modal({children, setActive}) {
+
+const Modal: FC<{ setActive: (bool:boolean)=>void }> = ({ children, setActive }) => {
+  
   const modalRoot = document.getElementById("modal-root");
 
   const modal = (
@@ -32,22 +33,22 @@ function Modal({children, setActive}) {
     };
   }, []);
 
-  function handleClickOverlay(event) {
+  function handleClickOverlay(event:MouseEvent) {
     Object.is(event.target, event.currentTarget) && setActive(false);
   }
 
-  function closeEsc(event) {
+  function closeEsc(event:KeyboardEvent) {
     if (Object.is("Escape", event.key)) {
       setActive(false);
     }
   }
 
-  return createPortal(modal, modalRoot);
+  if (modalRoot) {
+    return createPortal(modal, modalRoot);
+  } else {
+    throw new Error("Ошибка,корневой элемент не найден")
+  }
+  
 }
-
-Modal.propTypes = {
-  children: PropTypes.node.isRequired,
-  setActive: PropTypes.func,
-};
 
 export default Modal;
