@@ -1,4 +1,4 @@
-import {useEffect,FC} from "react";
+import {useEffect,FC, MouseEvent} from "react";
 import {createPortal} from "react-dom";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 

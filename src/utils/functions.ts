@@ -22,8 +22,8 @@ export function getToken() {
   if (typeof encodedURI === "string") {
     const token = decodeURIComponent(encodedURI);
     return token.split("=")[1];
-  } else {
-    console.log("Ошибка получения токена, обновите страницу");
+  } else {    
+    console.log("Ошибка получения токена, обновите страницу",encodedURI,typeof encodedURI);
   }
 }
 
