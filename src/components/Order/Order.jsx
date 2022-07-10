@@ -43,7 +43,7 @@ export default function Order() {
 
   useEffect(() => {
     const url = matchOrders ? wsUrl : `${wsUrl}/all`;
-    !wsConnection && dispatch(wsConnectStart(`${url}?token=${getToken()}`, "orders"));
+    !wsConnection && dispatch(wsConnectStart(`${url}?token=${getToken()}`));
     return () => {
       dispatch(wsConnectFinish());
     };

@@ -21,7 +21,9 @@ export default function Feed() {
   return orders.length && ingredientsList.length ? (
     <section className={`${styles.feed} pl-5`}>
       {orders.map((order) => {
-        const ingredients = findIngredientsById(ingredientsList, order.ingredients);
+        console.log(order);
+        
+        const ingredients = findIngredientsById(ingredientsList, order.ingredients)??[];
         return <OrderCard order={order} ingredients={ingredients} status={false} key={order._id} />;
       })}
     </section>

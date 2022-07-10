@@ -9,7 +9,7 @@ import {
 interface IIngredientsState {
   isLoaded: boolean;
   error: boolean;
-  ingredientsList: ReadonlyArray<IIngredient>;
+  ingredientsList: IIngredient[];
 }
 
 const initialState:IIngredientsState = {

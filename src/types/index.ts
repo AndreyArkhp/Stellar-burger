@@ -16,7 +16,7 @@ export interface IIngredient  {
 
 export interface IIngredientsList {
   success: boolean;
-  data: Array<IIngredient>;
+  data: IIngredient[];
 }
 
 export interface IUser {
@@ -33,7 +33,7 @@ export interface IOwner {
 
 export interface IOrder {
   createdAt: string;
-  ingredients: IIngredientsList;
+  ingredients: string[];
   name: string;
   number: number;
   ouner?: IOwner;

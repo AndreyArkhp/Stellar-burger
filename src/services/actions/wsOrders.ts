@@ -27,7 +27,6 @@ export interface IWsGetMessege {
  interface IWsConectStartPayload {
   url: string;
   wsActions: IWsActions;
-  wsName: string;
 }
 
 export interface IWsConnectStart {
@@ -71,8 +70,8 @@ export const wsGetMessage = (message: string):IWsGetMessege => {
   return {type: WS_GET_MESSAGE, payload: message};
 };
 
-export const wsConnectStart = (url:string, wsName:string):IWsConnectStart => {
-  return {type: WS_CONNECTION_START, payload: {url, wsActions, wsName}};
+export const wsConnectStart = (url:string):IWsConnectStart => {
+  return {type: WS_CONNECTION_START, payload: {url, wsActions}};
 };
 
 export const wsConnectFinish = ():IWsConnectFinish => {
