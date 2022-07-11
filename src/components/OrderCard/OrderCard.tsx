@@ -1,14 +1,14 @@
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useMemo} from "react";
-import propTypes from "prop-types";
 import {useDispatch} from "react-redux";
 import {Link, useLocation} from "react-router-dom";
 
 import styles from "./OrderCard.module.css";
 import {getRandomId, getPrice, openModal, getOrderDate} from "../../utils/functions";
-import {openIngredientModal} from "../../services/actions/modal";
+import { openIngredientModal } from "../../services/actions/modal";
+import { IOrderCardParam, IStatusMap } from "../../types";
 
-export function OrderCard({order, status, ingredients}) {
+export function OrderCard({ order, status, ingredients }:IOrderCardParam) {  
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -17,7 +17,7 @@ export function OrderCard({order, status, ingredients}) {
   }, [order.ingredients.length]);
 
   const orderDate = getOrderDate(order.createdAt);
-  const statusMap = {
+  const statusMap:IStatusMap = {
     done: "Выполнен",
     pending: "Готовится",
     created: "Создан",
@@ -81,9 +81,3 @@ export function OrderCard({order, status, ingredients}) {
     </article>
   );
 }
-
-OrderCard.propTypes = {
-  order: propTypes.object.isRequired,
-  status: propTypes.bool,
-  ingredients: propTypes.array.isRequired,
-};

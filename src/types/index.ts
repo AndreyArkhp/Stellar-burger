@@ -1,4 +1,4 @@
-export interface IIngredient  {
+export interface IIngredient {
   _id: string;
   name: string;
   type: string;
@@ -12,7 +12,7 @@ export interface IIngredient  {
   image_large: string;
   __v: number;
   uuid?: string;
-};
+}
 
 export interface IIngredientsList {
   success: boolean;
@@ -49,7 +49,7 @@ export interface IOrderResponse {
   order: IOrder;
 }
 
-export interface MyRequestInit extends Omit<RequestInit, 'headers'> {
+export interface MyRequestInit extends Omit<RequestInit, "headers"> {
   headers?: Record<string, string>;
 }
 
@@ -61,7 +61,7 @@ export interface ITranslation {
   main: "Начинки";
 }
 
-type TIngredientType = "bun" | "sauce" | "main"
+type TIngredientType = "bun" | "sauce" | "main";
 
 export interface IIngtedientType {
   ingredient: TIngredientType;
@@ -98,4 +98,12 @@ export interface IStatusMap {
   done: "Выполнен";
   pending: "Готовится";
   created: "Создан";
+}
+
+//OrderCard
+
+export interface IOrderCardParam {
+  order: IOrder;
+  status: boolean;
+  ingredients: IIngredient[];
 }
