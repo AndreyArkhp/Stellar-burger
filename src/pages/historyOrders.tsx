@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "../services/types/hooks";
 import {OrderCard} from "../components/OrderCard/OrderCard";
-import {findIngredientsById, getToken} from "../utils/functions";
+import {ensure, findIngredientsById, getToken} from "../utils/functions";
 import {wsConnectFinish, wsConnectStart} from "../services/actions/wsOrders";
 import {wsUrl} from "../utils/constants";
 
@@ -23,7 +23,7 @@ export default function HistoryOrdersPage() {
     <section className={`${styles.section} pr-2`}>
       {orders
         .map((order) => {
-          const ingredients = findIngredientsById(ingredientsList, order.ingredients);
+          const ingredients = ensure(findIngredientsById(ingredientsList, order.ingredients));
           return (
             <OrderCard order={order} ingredients={ingredients} status={true} key={order._id} />
           );
