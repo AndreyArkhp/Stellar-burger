@@ -1,12 +1,12 @@
-import {FC} from "react";
+import {FC, FormEvent} from "react";
 
 import styles from "./Form.module.css";
 
 interface IParams {
-  title: string;
+  title?: string;
   name: string;
-  error: string;
-  handleSubmit: ()=>void;
+  error?: string;
+  handleSubmit: (e:FormEvent<HTMLFormElement>)=>void;
 }
 
 /**

@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect} from "react";
+import {useState, useRef, useEffect, FormEvent} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useSelector} from "../../services/types/hooks";
@@ -23,7 +23,7 @@ export default function ResetPassword() {
       : location.state !== "/forgotpassword" && navigate("/forgotpassword", {replace: true});
   }, [isAuth, navigate, location]);
 
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const icon = (showPassword && "HideIcon") || "ShowIcon";
   const type = (showPassword && "text") || "password";
@@ -31,11 +31,11 @@ export default function ResetPassword() {
     valuePassword.length > 5 ? false : !focused && valuePassword.length > 0 ? true : false;
 
   const onIconClick = () => {
-    setTimeout(() => !showPassword && inputRef.current.focus(), 0);
+    setTimeout(() => !showPassword && inputRef.current?.focus(), 0);
     setShowPassword(!showPassword);
   };
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e:FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
       const res = await fetch(`${baseUrl}password-reset/reset`, {

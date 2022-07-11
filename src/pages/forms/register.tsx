@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "../../services/types/hooks";
 import {Link, useNavigate} from "react-router-dom";
 import {
@@ -19,15 +19,15 @@ export default function Registration() {
   const [valuePassword, setValuePassword] = useState("");
   const [btnDisabled, setBtnDisabled] = useState(true);
   const dispatch = useDispatch();
-  const {isAuth, isError} = useSelector((store) => store.dataUser);
+  const {isAuth, registrationError} = useSelector((store) => store.dataUser);
   const navigate = useNavigate();
-  const errorMessage = (isError && "Что то пошло не так, пожалуйста попробуйте снова") || "";
+  const errorMessage = (registrationError && "Что то пошло не так, пожалуйста попробуйте снова") || "";
 
   useEffect(() => {
     isAuth && navigate("/", {replace: true});
   }, [isAuth, navigate]);
 
-  function handleSubmit(e) {
+  function handleSubmit(e:FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(registration(valueName, valueEmail, valuePassword));
   }

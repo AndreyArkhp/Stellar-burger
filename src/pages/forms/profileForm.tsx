@@ -1,5 +1,5 @@
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useEffect, useRef, useState} from "react";
+import { FormEvent, SyntheticEvent, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "../../services/types/hooks";
 
 import styles from "./registrationForms.module.css";
@@ -19,9 +19,9 @@ export default function ProfileForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showBtns, setShowBtns] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const inputNameRef = useRef(null);
-  const inputLoginRef = useRef(null);
-  const inputPasswordRef = useRef(null);
+  const inputNameRef = useRef<HTMLInputElement>(null);
+  const inputLoginRef = useRef<HTMLInputElement>(null);
+  const inputPasswordRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const icon = (showPassword && "HideIcon") || "ShowIcon";
@@ -34,7 +34,7 @@ export default function ProfileForm() {
       : false;
 
   const onIconClick = () => {
-    setTimeout(() => !showPassword && inputPasswordRef.current.focus(), 0);
+    setTimeout(() => !showPassword && inputPasswordRef.current?.focus(), 0);
     setShowPassword(!showPassword);
   };
 
@@ -42,14 +42,14 @@ export default function ProfileForm() {
     !valueEmail ? setErrorEmail(false) : setErrorEmail(!checkEmail(valueEmail));
   }
 
-  const cancelEdit = (e) => {
+  const cancelEdit = (e:SyntheticEvent) => {
     e.preventDefault();
     setValueName(user.name);
     setValueEmail(user.email);
     setValuePassword("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setUserInfo(valueName, valueEmail, valuePassword));
   };
@@ -83,7 +83,7 @@ export default function ProfileForm() {
           onChange={(e) => setValueName(e.target.value)}
           icon={"EditIcon"}
           onIconClick={() => {
-            setTimeout(() => !inputNameEdit && inputNameRef.current.focus(), 0);
+            setTimeout(() => !inputNameEdit && inputNameRef.current?.focus(), 0);
             setInputNameEdit(true);
           }}
           onBlur={() => {
@@ -100,7 +100,7 @@ export default function ProfileForm() {
           onChange={(e) => setValueEmail(e.target.value)}
           icon={"EditIcon"}
           onIconClick={() => {
-            setTimeout(() => inputLoginRef.current.focus(), 0);
+            setTimeout(() => inputLoginRef.current?.focus(), 0);
             setInputLoginEdit(true);
           }}
           onBlur={() => {

@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect} from "react";
+import {useState, useRef, useEffect, FormEvent} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
 
@@ -24,7 +24,7 @@ export default function ForgotPassword() {
     isAuth && navigate("/", {replace: true});
   }, [isAuth, navigate]);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e:FormEvent<HTMLFormElement>):Promise<void> {
     e.preventDefault();
     try {
       const res = await fetch(`${baseUrl}password-reset`, {

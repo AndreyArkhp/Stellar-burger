@@ -11,6 +11,7 @@ import styles from "./registrationForms.module.css";
 import Form from "../../components/Form/Form";
 import {checkEmail} from "../../utils/functions";
 import {login} from "../../services/actions/authorization";
+import { TLocationState } from "../../types";
 
   const Login:FC = () => {
   const [valueEmail, setValueEmail] = useState<string>("");
@@ -19,7 +20,7 @@ import {login} from "../../services/actions/authorization";
   const {loginUserError, isAuth} = useSelector((store) => store.dataUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation() as TLocationState;
   const errorMessage = (loginUserError && "Что то пошло не так, пожалуйста попробуйте снова") || "";
 
   const handleSubmit = (e:FormEvent<HTMLFormElement>):void => {
@@ -34,10 +35,12 @@ import {login} from "../../services/actions/authorization";
       setBtnDisabled(true);
     }
   }, [valueEmail, valuePassword]);
-
+ 
+    const locationState = location.state.background ? location.state.background : "/"; 
+    
   useEffect(() => {
-    isAuth && navigate(location.state || "/", {replace: true});
-  }, [isAuth, navigate, location]);
+    isAuth && navigate(locationState, {replace: true});
+  }, [isAuth, navigate, locationState]);
 
   return (
       <main className={styles.main}>
