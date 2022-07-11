@@ -102,8 +102,15 @@ export interface IStatusMap {
 
 //OrderCard
 
-export interface IOrderCardParam {
+export interface IOrderCardParams {
   order: IOrder;
   status: boolean;
   ingredients: IIngredient[];
+}
+
+//OrderDatails
+
+export interface IOrderDetailsParams {
+  dataOrder: IOrderResponse;
+  isLoaded: boolean;
 }

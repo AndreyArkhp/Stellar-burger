@@ -30,7 +30,7 @@ interface IOrderParams {
 }
 
 function Order({ ingredientsPrice, bunPrice, ingredientsOrder }: IOrderParams) {
-  const {modalOrderData, isLoadedd, modalOpen} = useSelector((store) => store.modal);
+  const {modalOrderData, isLoaded, modalOpen} = useSelector((store) => store.modal);
   const {isAuth} = useSelector((store) => store.dataUser);
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
@@ -73,7 +73,7 @@ function Order({ ingredientsPrice, bunPrice, ingredientsOrder }: IOrderParams) {
       </Button>
       {active && (
         <Modal setActive={setActive}>
-          <OrderDetails dataOrder={modalOrderData} isLoadedd={isLoadedd} />
+          <OrderDetails dataOrder={modalOrderData} isLoaded={isLoaded} />
         </Modal>
       )}
     </div>

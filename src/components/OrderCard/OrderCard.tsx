@@ -6,9 +6,9 @@ import {Link, useLocation} from "react-router-dom";
 import styles from "./OrderCard.module.css";
 import {getRandomId, getPrice, openModal, getOrderDate} from "../../utils/functions";
 import { openIngredientModal } from "../../services/actions/modal";
-import { IOrderCardParam, IStatusMap } from "../../types";
+import { IOrderCardParams, IStatusMap } from "../../types";
 
-export function OrderCard({ order, status, ingredients }:IOrderCardParam) {  
+export function OrderCard({ order, status, ingredients }:IOrderCardParams) {  
   const dispatch = useDispatch();
   const location = useLocation();
 
