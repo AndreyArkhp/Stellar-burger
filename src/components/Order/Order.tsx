@@ -1,14 +1,15 @@
-import propTypes from "prop-types";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "../../services/types/hooks";
 import {useMatch, useParams} from "react-router-dom";
-import {findIngredientsById, getOrderDate, getPrice, getToken} from "../../utils/functions";
+import {ensure, findIngredientsById, getOrderDate, getPrice, getToken} from "../../utils/functions";
 import styles from "./Order.module.css";
 import {useEffect} from "react";
 import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
 import {wsUrl} from "../../utils/constants";
+import {IOrderElement, IOrderMap, IStatusMap } from "../../types";
 
-function OrderListItem({order}) {
+function OrderListItem({ order }: { order: IOrderElement }) {
+
   return (
     <>
       <li className={`${styles.order__listItem} mb-4`}>
@@ -19,16 +20,12 @@ function OrderListItem({order}) {
         />
         <p className="text text_type_main-default">{order.name}</p>
         <p className={`text text_type_digits-default ${styles.order__price}`}>
-          {`${order.curent} x ${order.price}`} <CurrencyIcon />
+          {`${order.curent} x ${order.price}`} <CurrencyIcon type="primary"/>
         </p>
       </li>
     </>
   );
 }
-
-OrderListItem.propTypes = {
-  order: propTypes.object.isRequired,
-};
 
 export default function Order() {
   const matchOrders = useMatch(`/profile/*`);
@@ -50,12 +47,12 @@ export default function Order() {
   }, []);
 
   if (orders?.length && ingredientsList?.length) {
-    const {number, name, ingredients, createdAt, status} = orders.find((el) => el._id === id);
-    const ingredientsOrder = findIngredientsById(ingredientsList, ingredients);
-    const ingredientsMap = {};
+    const {number, name, ingredients, createdAt, status} = ensure(orders.find((el) => el._id === id));
+    const ingredientsOrder = ensure(findIngredientsById(ingredientsList, ingredients));
+    const ingredientsMap = {} as IOrderMap;
 
     ingredientsOrder.forEach((ingredient) => {
-      const {_id: id, image, name, price} = ingredient;
+      const {_id: id, image, name, price} = ensure(ingredient);
       if (!ingredientsMap[id]) {
         ingredientsMap[id] = {
           curent: 1,
@@ -68,7 +65,8 @@ export default function Order() {
         ingredientsMap[id].curent++;
       }
     });
-    const statusMap = {
+    
+    const statusMap:IStatusMap = {
       done: "Выполнен",
       pending: "Готовится",
       created: "Создан",
@@ -96,7 +94,7 @@ export default function Order() {
             {getOrderDate(createdAt)}
           </time>
           <p className={`text text_type_digits-default ${styles.order__price}`}>
-            {getPrice(ingredientsOrder)} <CurrencyIcon />
+            {getPrice(ingredientsOrder)} <CurrencyIcon type="primary"/>
           </p>
         </div>
       </div>

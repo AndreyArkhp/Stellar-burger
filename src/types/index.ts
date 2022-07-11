@@ -53,6 +53,8 @@ export interface MyRequestInit extends Omit<RequestInit, 'headers'> {
   headers?: Record<string, string>;
 }
 
+//ingredient
+
 export interface ITranslation {
   bun: "Булки";
   sauce: "Соусы";
@@ -75,4 +77,25 @@ export interface IHeadersIngredients {
   bun: HTMLHeadingElement;
   main: HTMLHeadingElement;
   sauces: HTMLHeadingElement;
+}
+
+//order
+
+export interface IOrderElement {
+  curent: number;
+  id: string;
+  image: string;
+  name: string;
+  price: number;
+}
+
+export interface IOrderMap {
+  [id: string]: IOrderElement;
+}
+
+export interface IStatusMap {
+  [status: string]: string;
+  done: "Выполнен";
+  pending: "Готовится";
+  created: "Создан";
 }

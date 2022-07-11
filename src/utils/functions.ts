@@ -22,9 +22,7 @@ export function getToken() {
   if (typeof encodedURI === "string") {
     const token = decodeURIComponent(encodedURI);
     return token.split("=")[1];
-  } else {    
-    console.log("Ошибка получения токена, обновите страницу",encodedURI,typeof encodedURI);
-  }
+  } 
 }
 
 /**
@@ -144,9 +142,9 @@ export const findIngredientsById = (listIngredients:IIngredient[], id:string[]) 
         return !Object.is(el, null);
       })
       .map((id) => {
-        return listIngredients.find((el) => {
+        return ensure(listIngredients.find((el) => {
           return el._id === id;
-        });
+        }));
       });
   }
 };
@@ -182,3 +180,19 @@ export const getOrderDate = (date: string): string => {
   const result = `${daysAgo}, ${time.getHours()}:${minutes} i-GMT+3`;
   return result;
 };
+
+
+/**
+ * Функция проверки аргумента на undefined или null
+ * @param argument - проверяемый элемент
+ * @param message - сообщение об ошибке если аргумент udefined или null
+ * @return  Аргумент
+ */
+export function ensure<T>(argument:T|undefined|null,message:string="Значения нет"):T {
+  if (argument === undefined || argument === null) {
+    throw new TypeError(message);
+  }
+  return argument;
+}
+
+
