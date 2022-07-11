@@ -1,11 +1,11 @@
-import {useSelector} from "../services/types/hooks";
+import {useSelector} from "../../services/types/hooks";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 
 import styles from "./home.module.css";
 
-import BurgerConstructor from "../components/BurgerConstructor/BurgerConstructor";
-import BurgerIngredients from "../components/BurgerIngredients/BurgerIngredients";
+import BurgerConstructor from "../../components/BurgerConstructor/BurgerConstructor";
+import BurgerIngredients from "../../components/BurgerIngredients/BurgerIngredients";
 
 export default function HomePage() {
   const {isLoaded} = useSelector((store) => store.ingredients);

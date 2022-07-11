@@ -1,6 +1,6 @@
 import styles from "./orderFeed.module.css";
-import Feed from "../components/Feed/Feed";
-import Orders from "../components/Orders/Orders";
+import Feed from "../../components/Feed/Feed";
+import Orders from "../../components/Orders/Orders";
 
 export function OrderFeedPage() {
   return (

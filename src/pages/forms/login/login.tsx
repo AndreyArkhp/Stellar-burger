@@ -5,13 +5,13 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "../../services/types/hooks";
+import {useDispatch, useSelector} from "../../../services/types/hooks";
 
 import styles from "./registrationForms.module.css";
-import Form from "../../components/Form/Form";
-import {checkEmail} from "../../utils/functions";
-import {login} from "../../services/actions/authorization";
-import { TLocationState } from "../../types";
+import Form from "../../../components/Form/Form";
+import {checkEmail} from "../../../utils/functions";
+import {login} from "../../../services/actions/authorization";
+import { TLocationState } from "../../../types";
 
   const Login:FC = () => {
   const [valueEmail, setValueEmail] = useState<string>("");

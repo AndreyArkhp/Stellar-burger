@@ -1,9 +1,9 @@
 import {useEffect} from "react";
-import {useDispatch, useSelector} from "../services/types/hooks";
-import {OrderCard} from "../components/OrderCard/OrderCard";
-import {ensure, findIngredientsById, getToken} from "../utils/functions";
-import {wsConnectFinish, wsConnectStart} from "../services/actions/wsOrders";
-import {wsUrl} from "../utils/constants";
+import {useDispatch, useSelector} from "../../services/types/hooks";
+import {OrderCard} from "../../components/OrderCard/OrderCard";
+import {ensure, findIngredientsById, getToken} from "../../utils/functions";
+import {wsConnectFinish, wsConnectStart} from "../../services/actions/wsOrders";
+import {wsUrl} from "../../utils/constants";
 
 import styles from "./historyOrders.module.css";
 

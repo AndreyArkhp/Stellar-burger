@@ -1,11 +1,11 @@
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormEvent, SyntheticEvent, useEffect, useRef, useState} from "react";
-import {useDispatch, useSelector} from "../../services/types/hooks";
+import {useDispatch, useSelector} from "../../../services/types/hooks";
 
 import styles from "./registrationForms.module.css";
-import {setUserInfo} from "../../services/actions/authorization";
-import {checkEmail} from "../../utils/functions";
-import Form from "../../components/Form/Form";
+import {setUserInfo} from "../../../services/actions/authorization";
+import {checkEmail} from "../../../utils/functions";
+import Form from "../../../components/Form/Form";
 
 export default function ProfileForm() {
   const {user} = useSelector((state) => state.dataUser);

@@ -1,12 +1,12 @@
 import {useState, useRef, useEffect, FormEvent} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useSelector} from "../../services/types/hooks";
+import {useSelector} from "../../../services/types/hooks";
 
 import styles from "./registrationForms.module.css";
-import Form from "../../components/Form/Form";
-import {baseUrl} from "../../utils/constants";
-import {checkResponse} from "../../utils/functions";
+import Form from "../../../components/Form/Form";
+import {baseUrl} from "../../../utils/constants";
+import {checkResponse} from "../../../utils/functions";
 
 export default function ResetPassword() {
   const [valuePassword, setValuePassword] = useState("");

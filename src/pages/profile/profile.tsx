@@ -4,12 +4,12 @@ import {Routes, Route} from "react-router-dom";
 import styles from "./profile.module.css";
 
 import {useDispatch} from "react-redux";
-import {logout} from "../services/actions/authorization";
-import ProfileForm from "./forms/profileForm";
-import HistoryOrdersPage from "./historyOrders";
-import Order from "../components/Order/Order";
-import Modal from "../components/Modal/Modal";
-import { TLocationState } from "../types";
+import {logout} from "../../services/actions/authorization";
+import ProfileForm from "../forms/profileForm/profileForm";
+import HistoryOrdersPage from "../historyOrders/historyOrders";
+import Order from "../../components/Order/Order";
+import Modal from "../../components/Modal/Modal";
+import { TLocationState } from "../../types";
 
 function MenuProfile() {
   const dispatch = useDispatch();

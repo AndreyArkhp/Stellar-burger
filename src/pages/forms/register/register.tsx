@@ -1,5 +1,5 @@
 import {FormEvent, useEffect, useState} from "react";
-import {useDispatch, useSelector} from "../../services/types/hooks";
+import {useDispatch, useSelector} from "../../../services/types/hooks";
 import {Link, useNavigate} from "react-router-dom";
 import {
   Button,
@@ -9,9 +9,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./registrationForms.module.css";
-import Form from "../../components/Form/Form";
-import {registration} from "../../services/actions/authorization";
-import {checkEmail} from "../../utils/functions";
+import Form from "../../../components/Form/Form";
+import {registration} from "../../../services/actions/authorization";
+import {checkEmail} from "../../../utils/functions";
 
 export default function Registration() {
   const [valueName, setValueName] = useState("");

@@ -4,16 +4,15 @@ import {baseUrl} from "./constants";
 
 /**
  * Проверка email
- * @param {string} value - Значение инпута email
- * @returns {boolean} - boolean
+ * @param  value - Значение инпута email
  */
-export function checkEmail(value:string):boolean {
+export function checkEmail(value:string){
   return value && /^\w+@[a-z]+\.[a-z]+$/.test(value) ? true : false;
 }
 
 /**
  * Функция получения токена
- * @returns - cookie с именем token или ошибка в консоли
+ * @returns - cookie с именем token или undefined
  */
 export function getToken() {
   const cookies = document.cookie.split(";");
@@ -27,18 +26,18 @@ export function getToken() {
 
 /**
  * Установка куки
- * @param {string} token - токен
- * @param {string|number} age - срок действия в секундах
+ * @param  token - токен
+ * @param  age - срок действия в секундах
  */
-export function setToken(token:string, age:string|number):void {
+export function setToken(token:string, age:string|number) {
   document.cookie = `token=${encodeURIComponent(token)}; max-age=${String(age || 0)}`;
 }
 
-export function removeToken(token:string):void {
+export function removeToken(token:string){
   document.cookie = `token=${encodeURIComponent(token)}; max-age=${String(-1)}`;
 }
 
-export async function refreshToken():Promise<void> {
+export async function refreshToken() {
   try {
     const res = await fetch(`${baseUrl}auth/token`, {
       method: "POST",
@@ -67,8 +66,8 @@ export async function refreshToken():Promise<void> {
 
 /**
  * Функция проверяет наличие токена, если его нет то обновляет, затем делает запрос с существующим или обновленным токеном.
- * @param {string} url - Адресс запроса
- * @param {object} options - дополнительные параметры запроса
+ * @param url - Адресс запроса
+ * @param  options - дополнительные параметры запроса
  * @returns Возвращает fetch с токеном или перенаправляет на /login
  */
 export async function fetchWithAuth(url:string, options:MyRequestInit) {
@@ -109,7 +108,7 @@ export function checkResponse(res:Response) {
   }
 }
 
-export const getRandomId = (id:string):string => {
+export const getRandomId = (id:string) => {
   
   let randomNumb = Math.round(Math.random() * 10000);
   if (randomNumb < 1000) {
@@ -122,10 +121,10 @@ export const getRandomId = (id:string):string => {
 
 /**
  * Функция посчета стоимости ингридиетов
- * @param {Array} ingredients - массив ингридиентов
+ * @param ingredients - массив ингридиентов
  * @returns - итоговая стоимось
  */
-export const getPrice = (ingredients:IIngredient[]):number =>
+export const getPrice = (ingredients:IIngredient[]) =>
   ingredients.reduce((total, ingredient) => {
     return total + ingredient.price;
   }, 0);
@@ -148,7 +147,7 @@ export const findIngredientsById = (listIngredients:IIngredient[], id:string[]) 
   }
 };
 
-export const getOrderDate = (date: string): string => {
+export const getOrderDate = (date: string) => {
   
   const time = new Date(date);
   const timeNow = new Date();
