@@ -1,20 +1,24 @@
 import {useSelector} from "../../services/types/hooks";
+import {IOrdersParams} from "../../types";
 import styles from "./Orders.module.css";
 
-function ListNumbers({orders, status}) {
-  status = status.split(",");
+function ListNumbers({orders, status}: IOrdersParams) {
+  const statusArr = status.split(",");
+
   return orders.length ? (
-    orders.map((order, index) => {
-      const styleNumber = order.status === "done" ? styles.numberDone : styles.number;
-      return (
-        (Object.is(order.status, status[0]) || Object.is(order.status, status[1])) &&
-        index < 20 && (
-          <li className={`${styleNumber} text text_type_digits-default mb-2`} key={order._id}>
-            {order.number}
-          </li>
-        )
-      );
-    })
+    <>
+      {orders.map((order, index) => {
+        const styleNumber = order.status === "done" ? styles.numberDone : styles.number;
+        return (
+          (Object.is(order.status, statusArr[0]) || Object.is(order.status, statusArr[1])) &&
+          index < 20 && (
+            <li className={`${styleNumber} text text_type_digits-default mb-2`} key={order._id}>
+              {order.number}
+            </li>
+          )
+        );
+      })}
+    </>
   ) : (
     <h2 className="text text_type_main-medium">Загрузка...</h2>
   );

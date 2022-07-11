@@ -114,3 +114,10 @@ export interface IOrderDetailsParams {
   dataOrder: IOrderResponse;
   isLoaded: boolean;
 }
+
+//Orders
+
+export interface IOrdersParams {
+  orders: IOrder[];
+  status: string;
+}

@@ -12,14 +12,14 @@ interface IModalState {
   isLoaded: boolean;
   error: boolean;
   modalOpen: boolean;
-  modalOrderData: IOrderResponse|object;
+  modalOrderData: IOrderResponse;
 }
 
 const initialState:IModalState = {
   isLoaded: false,
   error: false,
   modalOpen: false,
-  modalOrderData: {},
+  modalOrderData: {} as IOrderResponse,
 };
 
 export const modalReducer = (state = initialState, action:TModalActions):IModalState => {

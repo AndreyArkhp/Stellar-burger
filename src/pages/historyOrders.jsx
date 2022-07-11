@@ -21,10 +21,14 @@ export default function HistoryOrdersPage() {
   }, [wsConnection, dispatch]);
   return orders?.length && ingredientsList?.length ? (
     <section className={`${styles.section} pr-2`}>
-      {orders.map((order) => {
-        const ingredients = findIngredientsById(ingredientsList, order.ingredients);
-        return <OrderCard order={order} ingredients={ingredients} status={true} key={order._id} />;
-      })}
+      {orders
+        .map((order) => {
+          const ingredients = findIngredientsById(ingredientsList, order.ingredients);
+          return (
+            <OrderCard order={order} ingredients={ingredients} status={true} key={order._id} />
+          );
+        })
+        .reverse()}
     </section>
   ) : (
     <h2 className="text text_type_main-large mt-10 ml-10">{orderStatus}</h2>

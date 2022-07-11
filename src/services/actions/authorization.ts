@@ -1,5 +1,5 @@
 import {baseUrl} from "../../utils/constants";
-import { fetchWithAuth, getToken, removeToken, setToken, checkResponse } from "../../utils/functions";
+import { fetchWithAuth, getToken, removeToken, setToken, checkResponse, ensure } from "../../utils/functions";
 import { TAppDispatch } from "../types/types";
 
 export const REGISTRATION_REQUEST:"REGISTRATION_REQUEST" = "REGISTRATION_REQUEST";
@@ -266,7 +266,7 @@ export const logout = () => async (dispatch:TAppDispatch) => {
     await checkResponse(res);
     dispatch(logoutSuccess());
     localStorage.removeItem("refreshToken");
-    removeToken(getToken());
+    removeToken(ensure(getToken()));
   } catch (error) {
     console.log(error);
     dispatch(logoutFiled());

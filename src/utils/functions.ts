@@ -73,7 +73,7 @@ export async function refreshToken():Promise<void> {
  */
 export async function fetchWithAuth(url:string, options:MyRequestInit) {
   const loginUrl = "/login";
-  let tokenData = null;
+  let tokenData:string|null|undefined = null;
   const curentToken = getToken();
 
   if (curentToken) {
@@ -89,15 +89,14 @@ export async function fetchWithAuth(url:string, options:MyRequestInit) {
       await refreshToken();
       tokenData = getToken();
     } catch (error) {
-      return window.location.replace(loginUrl);
+       window.location.replace(loginUrl);
     }
   }
 
   if (tokenData) {
     options.headers.Authorization = `Bearer ${tokenData}`;
-
-    return fetch(url, options);
   }
+  return fetch(url, options);
 }
 
 export function checkResponse(res:Response) { 
