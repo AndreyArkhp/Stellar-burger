@@ -9,6 +9,7 @@ import ProfileForm from "./forms/profileForm";
 import HistoryOrdersPage from "./historyOrders";
 import Order from "../components/Order/Order";
 import Modal from "../components/Modal/Modal";
+import { TLocationState } from "../types";
 
 function MenuProfile() {
   const dispatch = useDispatch();
@@ -57,8 +58,8 @@ function MenuProfile() {
   );
 }
 
-export default function Profile({setActiveModal}) {
-  const location = useLocation();
+export default function Profile({setActiveModal}:{setActiveModal:(bool:boolean)=>void}) {
+  const location = useLocation() as TLocationState;
   const background = location.state?.background;
   return (
     <main className={`${styles.main} pl-10`}>

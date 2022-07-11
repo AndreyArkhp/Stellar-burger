@@ -20,12 +20,9 @@ import {OrderFeedPage} from "../../pages/orderFeed";
 import Order from "../Order/Order";
 import {getIngridients} from "../../services/actions/ingredients";
 import { closeIngredientModal } from "../../services/actions/modal";
+import { TLocationState } from "../../types";
 
-type TLocationState = {
-  state: {
-    background?: Location;
-  }
-}
+
 
 const App:FC = () => {
   const {modalOpen} = useSelector((store) => store.modal);

@@ -1,3 +1,9 @@
+export type TLocationState = {
+  state: {
+    background?: Location;
+  }
+}
+
 export interface IIngredient {
   _id: string;
   name: string;
