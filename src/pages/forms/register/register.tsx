@@ -8,7 +8,7 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./registrationForms.module.css";
+import styles from "../registrationForms.module.css";
 import Form from "../../../components/Form/Form";
 import {registration} from "../../../services/actions/authorization";
 import {checkEmail} from "../../../utils/functions";

@@ -7,7 +7,7 @@ import {
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "../../../services/types/hooks";
 
-import styles from "./registrationForms.module.css";
+import styles from "../registrationForms.module.css";
 import Form from "../../../components/Form/Form";
 import {checkEmail} from "../../../utils/functions";
 import {login} from "../../../services/actions/authorization";

@@ -2,7 +2,7 @@ import {useState, useRef, useEffect, FormEvent} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
 
-import styles from "./registrationForms.module.css";
+import styles from "../registrationForms.module.css";
 import Form from "../../../components/Form/Form";
 import {baseUrl} from "../../../utils/constants";
 import {checkEmail, checkResponse} from "../../../utils/functions";
