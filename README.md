@@ -30,5 +30,6 @@
 - React Router
 - HTTPS
 - WebSocket
+- TypeScript
 
 [Stellar Burgers](https://andreyarkhp.github.io/Stellar-burger/)
